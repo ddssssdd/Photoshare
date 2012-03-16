@@ -69,6 +69,11 @@ var UserProfileView=function(user,tabName){
 
 	self.add(view);
 	
+	view.addEventListener("click",function(e){
+		if (toolBar){
+			toolBar.labels[0]= "XX Collection";
+		}
+	})
 	
 	
 	var followersCount = Ti.UI.createLabel({

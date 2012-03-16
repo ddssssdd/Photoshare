@@ -319,6 +319,7 @@ var AppMainWindow=function(){
 		tabFollowing.open(win);
 		*/
 		tabGroup.setActiveTab(0);
+		customTabGroup.setActivityTab(0);
 		//Ti.App.fireEvent("app:tabgroup",{visible:true});
 	});	
 	

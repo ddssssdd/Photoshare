@@ -15,7 +15,7 @@ var TopBarView = function(){
 			left : 10,
 			height : 28,
 			width : 64,
-			backgroundImage : "images/back.png"
+			backgroundImage : settings.getImageFile("back.png")
 		});
 		self.add(backBtn);
 		backBtn.addEventListener("click", function(e) {

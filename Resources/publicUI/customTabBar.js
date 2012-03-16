@@ -11,6 +11,10 @@ CustomTabBar = function(settings) {
 						
 		}
 	};
+	var setActivityTab=function(index){		
+		resetTabs();
+		tabBarItems[index].image = settings.imagePath + settings.items[index].selected;
+	}
 
 	var assignClick = function(tabItem) {
 		tabItem.addEventListener('click', function(e) {
@@ -85,6 +89,9 @@ CustomTabBar = function(settings) {
 	
 
 	return {
+		setActivityTab:function(index){
+			customTabBar.setActivityTab(index);
+		},
 		hide: function() {
 			
 			if (customTabBar.bottom==-50){

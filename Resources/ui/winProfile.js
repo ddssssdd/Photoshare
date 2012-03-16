@@ -26,6 +26,8 @@ var winProfile=function(){
 				//logout;
 				var userService = require("/services/UserService");
 				userService.logout();
+				hasDone=false;
+				isLogin = false;
 			}
 		});
 
@@ -42,6 +44,7 @@ var winProfile=function(){
 		Ti.App.fireEvent("app:openWindow",{tab:"winProfile",url:"editProfile"});
 	});
 	*/
+	var isLogin = true;
 	var hasDone = false;
 	var createProfileView = function(u){
 		if ((self.children) && (self.children.length>0)){
@@ -53,11 +56,20 @@ var winProfile=function(){
 		hasDone = true;
 	}
 		
-	
+	Ti.App.addEventListener("app:loginSuccess",function(e){
+		isLogin=true;
+	});	
 	self.addEventListener("focus",function(e){
+		if (isLogin==false){
+			return;
+		}
 		if (!hasDone){
 			var userService = require("services/UserService");
-			userService.getProfile(userService.user.id,createProfileView);	
+			var user = userService.user;
+			if ((user) && (user.id)){
+				userService.getProfile(user.id,createProfileView);	
+			}
+				
 		}
 		
 		Ti.App.fireEvent("app:tabgroup",{visible:true});

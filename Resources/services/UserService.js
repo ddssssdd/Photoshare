@@ -81,7 +81,8 @@ exports.getProfile=function(uid,callBackFunction){
 	xhr.send();
 }
 exports.logout=function(){
-	user.login=false;
+	exports.user.login=false;
+	exports.user = {};
 	Ti.App.Properties.setString("User",JSON.stringify({}));
 	Ti.App.fireEvent("app:logout");
 }

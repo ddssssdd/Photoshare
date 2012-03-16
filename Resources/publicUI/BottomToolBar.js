@@ -102,11 +102,14 @@ var BottomToolBar=function(topValue){
 			if(e.index == 0) {
 				var winComments = require("ui/winComments");
 				var w = new winComments(self.image.photo);
+				tabGroup.activeTab.open(w);
+				/*
 				if (self.tab){
 					self.tab.open(w);	
 				}else{
 					self.parent.tab.open(w);
-				}				
+				}
+				*/				
 			}
 			if (e.index==1){
 				

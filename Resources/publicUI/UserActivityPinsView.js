@@ -23,7 +23,7 @@ var UserActivityPinsView = function(activity){
 	});
 	var avatar = activity.board.smallAvatar;
 	var imageUser = Ti.UI.createImageView({
-		image:avatar?avatar:"http://beta.pinspire.com.hk/images/avatar-default.jpg",
+		image:avatar,
 		top:5,
 		left:5,
 		width:40,

@@ -10,12 +10,17 @@ var winExplore=function(){
 		left:0,
 		top:0,
 		width:320,
-		height:45,
-		barColor:'#d1d1d1',
-		text : "search",
-		showCancel:true
+		height:45,		
+		text : "search"		
 	});
 	self.add(searchTag);
+	searchTag.addEventListener("focus",function(e){
+		searchTag.showCancel = true;
+	});
+	searchTag.addEventListener("blur",function(e){
+		searchTag.showCancel = false;
+	});
+	
 	searchTag.addEventListener("return",function(e){
 		searchTag.blur();
 		//alert(searchTag.value);
@@ -38,6 +43,11 @@ var winExplore=function(){
 	var processData=function(datas){
 		
 		var tbl_data = [];
+		var row = Ti.UI.createTableViewRow();
+		row.title = "What's Hot";
+		row.category = {id:0,title:"What's Hot"}
+		row.hasChild = true;
+		tbl_data.push(row);
 		for(var i = 0; i < datas.length; i++) {
 			var tag = datas[i];
 			var row = Ti.UI.createTableViewRow();

@@ -35,7 +35,7 @@ var winCreateBoard=function(e){
 	var data = [];
 	data[0] = Ti.UI.createTableViewSection({headerTitle:'Collection title'});
 	var titleText = Titanium.UI.createTextField({
-		hintText : 'Collection title',
+		hintText : 'New collection name',  //old value: Collection title
 		height : 32,
 		left: 0,		
 		paddingLeft : 10,		

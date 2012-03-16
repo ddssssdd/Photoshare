@@ -6,13 +6,17 @@ var PictureFullScreenView=function(photoid,list,tab){
 		tabBarHidden:true,
 		navBarHidden:true
 	});
+	self.addEventListener("close",function(e){
+		Ti.API.info("i am closed!");
+		//clearInterval(intervalId);
+	})
 	Ti.App.fireEvent("app:tabgroup",{visible:false});
 	
 	this.photoid = photoid;
 	self.photo=null;
 	this.pictureUrl = "";
 	var image = null;
-	var inProcess = false;
+	var inProcess = true;
 	
 	var imageBg = Ti.UI.createView({
 		width : 0,
@@ -85,6 +89,7 @@ var PictureFullScreenView=function(photoid,list,tab){
 	});
 	var categoryService = require("services/CategoryService");
 	categoryService.getPin(this.photoid,fillContent);
+	
 	var index=-1;
 	for(var i=0;i<list.length;i++){
 		if (this.photoid==list[i].id){
@@ -92,6 +97,38 @@ var PictureFullScreenView=function(photoid,list,tab){
 			break;
 		}
 	}
+	var cacheLoad=function(newIndex){			
+		if((newIndex < list.length) && (newIndex > -1)) {
+			if(!list[newIndex].isLoading) {
+				categoryService.getPin(list[newIndex].id, function(e, isGet) {
+					if(!isGet) {
+						return;
+					}
+					for(var i = 0; i < list.length; i++) {
+						if(list[i].id == e.photo.id) {
+							if(!list[i].photoObj) {
+								list[i].photoObj = e;
+							}
+						}
+					}
+				});
+				;
+				list[newIndex].isLoading = true;
+			}
+		}
+	}
+	/*
+	var intervalId=setInterval(function(){
+		if (!inProcess){
+			//Ti.API.info(" we can load something.")			
+			cacheLoad(index+1);
+			cacheLoad(index+2);
+			cacheLoad(index-1);
+			cacheLoad(index-2);
+		
+		}
+	},1000);
+	*/
 	var isLeft=false;
 	function disapearImage(pisLeft){
 		isLeft = pisLeft;
@@ -123,8 +160,13 @@ var PictureFullScreenView=function(photoid,list,tab){
 				//show next;
 				b.visible = false;
 				t.visible = false;
-				categoryService.getPin(list[index].id,fillContent);
-				disapearImage(true);
+				
+				if (list[index].photoObj){
+					fillContent(list[index].photoObj);	
+				}else{
+					categoryService.getPin(list[index].id,fillContent);
+				}
+				disapearImage(true);			
 				inProcess = true;
 					
 			}else{
@@ -137,8 +179,13 @@ var PictureFullScreenView=function(photoid,list,tab){
 				//show proior
 				b.visible = false;
 				t.visible = false;
-				categoryService.getPin(list[index].id,fillContent);
-				disapearImage(false);
+				
+				if (list[index].photoObj){
+					fillContent(list[index].photoObj);	
+				}else{
+					categoryService.getPin(list[index].id,fillContent);
+				}
+				disapearImage(true);
 				inProcess = true;
 			}else{
 				index = 0;

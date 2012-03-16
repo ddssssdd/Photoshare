@@ -130,11 +130,15 @@ var PicturePartView = function(f,photo,index){
 	var baseTop =b.top + 47;
 	var hasRepin=false;
 	var hasLike=false;
-	//If repincount>0 then add the Repin info.
-	if(photo.repinCount > 0) {
+	
+	var iconRepin=null,lblRepin=null;
+	
+	var createRepin=function(){
 		
-		hasRepin=true;
-		var iconRepin = Ti.UI.createImageView({
+		if (iconRepin) {
+			return;
+		}
+		iconRepin = Ti.UI.createImageView({
 			top : baseTop + 10,
 			left : 10,
 			width : 15,
@@ -142,7 +146,11 @@ var PicturePartView = function(f,photo,index){
 			image : "images/pin_icon.png"
 		});
 		contentView.add(iconRepin);
-		var lblRepin = Ti.UI.createLabel({
+		
+		if (lblRepin){
+			return;
+		}
+		lblRepin = Ti.UI.createLabel({
 			top : baseTop + 10,
 			left : 35,
 			height : 'auto',
@@ -155,14 +163,22 @@ var PicturePartView = function(f,photo,index){
 		
 		contentView.add(lblRepin);
 	}
-
-	//if likecount>0 then add the like info.
-	if(photo.likeCount > 0) {
+	
+	//If repincount>0 then add the Repin info.
+	if(photo.repinCount > 0) {
 		
-		
+		hasRepin=true;
+		createRepin();
+	}
+	
+	var iconLike=null,lblLike=null;
+	
+	var createLike=function() {
 		var _top = (hasRepin) ? baseTop + 35 : baseTop + 10;
-		hasLike=true;
-		var iconLike = Ti.UI.createImageView({
+		if (iconLike) {
+			return;
+		}
+		iconLike = Ti.UI.createImageView({
 			top:_top,
 			//top : b.top + 47 + 35,
 			left : 10,
@@ -171,7 +187,10 @@ var PicturePartView = function(f,photo,index){
 			image : "images/like_icon.png"
 		});
 		contentView.add(iconLike);
-		var lblLike = Ti.UI.createLabel({
+		if (lblLike) {
+			return;
+		}
+		lblLike = Ti.UI.createLabel({
 			top:_top-1,
 			//top : b.top + 41 + 40,
 			left : 35,
@@ -184,16 +203,68 @@ var PicturePartView = function(f,photo,index){
 		});
 		
 		contentView.add(lblLike);
+	}
 
+	//if likecount>0 then add the like info.
+	if(photo.likeCount > 0) {
+		hasLike=true;
+		createLike();
 	}
 
 	Ti.App.addEventListener("app:refresh.pin",function(e){
-		if (e.pin.pin.id!=photo.id){
-			return;
-		}
+		
 		if (e.pin.status=="success"){
-			lblRepin.text = e.pin.repinCount+(e.pin.repinCount>1?" Repins":" Repin")
-			lblLike.text = e.pin.likeCount + (e.pin.likeCount>1?' Likes':' Like'),
+			if (e.pin.pin.id!=photo.id){
+				return;
+			}
+			/************ update repin and like count **********************/
+			var repinStatus=null,likeStatus=null;
+			var status={none:0,hidden:1,create:2,update:3};
+			
+			//according to the return data.
+		
+			repinStatus = (hasRepin) ? ((e.pin.repinCount > 0) ? status.update : status.hidden) : ((e.pin.repinCount > 0) ? status.create : status.none);
+			likeStatus = (hasLike) ? ((e.pin.likeCount > 0) ? status.update : status.hidden) : ((e.pin.likeCount > 0) ? status.create : status.none);
+		
+			switch(repinStatus) {
+				case status.hidden:
+				 	iconRepin.top=baseTop;
+				 	lblRepin.top=baseTop;
+					iconRepin.visible = false;
+					lblRepin.visible = false;
+					hasRepin = false;
+					break;
+				case status.create:
+					createRepin();
+					hasRepin = true;
+					break;
+				case status.update:
+					lblRepin.text = e.pin.repinCount + " Repins" ;
+					hasRepin = true;
+					break;
+				case status.none:
+					break;
+			}
+
+			switch(likeStatus) {
+				case status.hidden:
+					iconLike.top=baseTop;
+					lblLike.top=baseTop;
+					iconLike.visible = false;
+					lblLike.visible = false;
+					hasLike = false;
+					break;
+				case status.create:
+					createLike();
+					hasLike = true;
+					break;
+				case status.update:
+					lblLike.text = e.pin.likeCount + ' Likes';
+					//update count
+					hasLike = true;
+					break;
+			}
+				
 			//infoLabelright.text = e.pin.likeCount+" likes "+e.pin.repinCount+" repins";
 			createComments(e.pin.commentsList);	
 		}

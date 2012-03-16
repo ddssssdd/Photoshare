@@ -1,8 +1,12 @@
 var settings={showAnimation:true,
-	serverUrl:"http://beta.pinspire.com/ios/",
+	serverUrl:"http://www.pinspire.com/ios/",
 	defaultImageColor:'#eee',
 	timeOut:20000,
-	noneInternet:'Cannot connect to Internet'}
+	noneInternet:L('no_access'),
+	lanuageCode:Ti.Locale.currentLanguage,
+	getImageFile:function(filename){
+		return "images/"+Ti.Locale.currentLanguage+"/"+filename;
+	}}
 
 var AppMainWindow=require("ui/AppMainWindow");
 var tabGroup = new AppMainWindow();
