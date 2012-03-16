@@ -56,13 +56,77 @@ var winExplore=function(){
 			
 		});
 
-	
+		tableView.addEventListener('scroll',scrollProcess);	
 	};
 	var categoryService = require("services/CategoryService");
 	categoryService.getList(processData);
 	self.addEventListener("focus",function(e){
 		Ti.App.fireEvent("app:tabgroup",{visible:true});
 	});
+	
+	
+	
+	var lastDistance = 0;
+	var isGoDown=false;
+	var isShow = true;
+	var scrollProcess= function(e) {
+		var offset = e.contentOffset.y;
+		var height = e.size.height;
+		var total = offset + height;
+		var theEnd = e.contentSize.height;
+		var distance = theEnd - total;
+
+
+		if (settings.showAnimation){
+			
+			//Ti.API.info('distance='+distance+"     lastDistance="+lastDistance+" offset.y="+e.contentOffset.y);
+			if(distance < lastDistance) {
+				isGoDown = true;
+			} else {
+				isGoDown = false;
+			}
+			if(e.contentOffset.y < 100) {
+				isGoDown = false;
+			}
+			if(!isGoDown) {
+				if(lastDistance <= 0) {
+					isGoDown = true;
+				}
+			}
+			//Ti.API.info(isGoDown?"down":"up");
+			if(isGoDown) {
+				if (isShow){
+					/*						
+					Ti.App.fireEvent("app:tabgroup", {
+						visible : false
+					});*/
+					self.hideNavBar();
+					customTabGroup.hide();
+					isShow = false;
+				}
+				
+				
+			} else {
+				if (!isShow){					
+					/*
+					Ti.App.fireEvent("app:tabgroup", {
+						visible : true
+					});
+					*/
+					self.showNavBar();
+					customTabGroup.show();
+					isShow = true;
+	
+				}
+				
+			}
+	
+		}
+		
+		lastDistance = distance;
+	}
+	//tableView.addEventListener('scroll',scrollProcess);
+	
 	return self;
 };
 module.exports = winExplore;

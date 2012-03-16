@@ -82,6 +82,12 @@ var PicturePartView = function(f,photo,index){
 		defaultImage:'images/clear.png',
 		photo:photo
 	});
+	//add the image click event. the same as Board
+	image.addEventListener('click',function(e){
+		var user={avatar:f.avatar,firstName:f.firstname,lastName:f.lastname,id:f.userId};
+		Ti.App.fireEvent("app:openInTab",{id:f.boardId,userInfo:user,tab:"tabFollowing"});
+	});
+	
 	contentView.add(image);
 	
 	var labelCreate = Ti.UI.createLabel({
@@ -121,39 +127,66 @@ var PicturePartView = function(f,photo,index){
 	b.fireEvent("bottom:update.photo",{photoUserId:f.userId,photoId:f.photo.id,rowIndex:rowindex});
 	contentView.add(b);
 	
-	var iconRepin = Ti.UI.createImageView({
-		top: b.top+47+10,
-		left:10,
-		width:15,
-		height:15,
-		image:"images/pin_icon.png"
-	});
-	contentView.add(iconRepin);
-	var lblRepin = Ti.UI.createLabel({
-		top:b.top+46+10,
-		left:35,
-		height:'auto',
-		text : photo.repinCount+(photo.repinCount>1?" Repins":" Repin"),
-		font:{fontSize:12,fontWeight:'bold'}
-	});
-	contentView.add(lblRepin);
-	var iconLike = Ti.UI.createImageView({
-		top: b.top+47+35,
-		left:10,	
-		width:15,
-		height:15,	
-		image:"images/like_icon.png"
-	});
-	contentView.add(iconLike);
-	var lblLike = Ti.UI.createLabel({
-		top:b.top+41+40,
-		left:35,
-		height:"auto",
-		text : photo.likeCount + (photo.likeCount>1?' Likes':' Like'),
-		font:{fontSize:12,fontWeight:'bold'}
-	});
-	contentView.add(lblLike);
-	
+	var baseTop =b.top + 47;
+	var hasRepin=false;
+	var hasLike=false;
+	//If repincount>0 then add the Repin info.
+	if(photo.repinCount > 0) {
+		
+		hasRepin=true;
+		var iconRepin = Ti.UI.createImageView({
+			top : baseTop + 10,
+			left : 10,
+			width : 15,
+			height : 15,
+			image : "images/pin_icon.png"
+		});
+		contentView.add(iconRepin);
+		var lblRepin = Ti.UI.createLabel({
+			top : baseTop + 10,
+			left : 35,
+			height : 'auto',
+			text : photo.repinCount + (photo.repinCount > 1 ? " Repins" : " Repin"),
+			font : {
+				fontSize : 12,
+				fontWeight : 'bold'
+			}
+		});
+		
+		contentView.add(lblRepin);
+	}
+
+	//if likecount>0 then add the like info.
+	if(photo.likeCount > 0) {
+		
+		
+		var _top = (hasRepin) ? baseTop + 35 : baseTop + 10;
+		hasLike=true;
+		var iconLike = Ti.UI.createImageView({
+			top:_top,
+			//top : b.top + 47 + 35,
+			left : 10,
+			width : 15,
+			height : 15,
+			image : "images/like_icon.png"
+		});
+		contentView.add(iconLike);
+		var lblLike = Ti.UI.createLabel({
+			top:_top-1,
+			//top : b.top + 41 + 40,
+			left : 35,
+			height : "auto",
+			text : photo.likeCount + (photo.likeCount > 1 ? ' Likes' : ' Like'),
+			font : {
+				fontSize : 12,
+				fontWeight : 'bold'
+			}
+		});
+		
+		contentView.add(lblLike);
+
+	}
+
 	Ti.App.addEventListener("app:refresh.pin",function(e){
 		if (e.pin.pin.id!=photo.id){
 			return;
@@ -170,21 +203,27 @@ var PicturePartView = function(f,photo,index){
 	
 	var childView =null;
 	var createComments=function(datas){
+		
+	   
+		var _top = (hasRepin) ? ((hasLike) ? baseTop + 60 : baseTop + 35 ) : baseTop + 10;
+
 		var imageComments = Ti.UI.createImageView({
 			image:"images/comment_icon.png",
 			width:15,
 			height:15,
-			top: b.top+47+60,
+			//top: b.top+47+60,
+			top: _top,
 			left: 10
 		});
 		contentView.add(imageComments);				
-		var top1 =b.top+45+60;
+		//var top1 =b.top+45+60;
 		if (childView){
 			contentView.remove(childView);
 			childView = null;
 		}
 		childView = Ti.UI.createView({
-			top:top1,
+			//top:top1,
+			top:_top-2,
 			left:35,
 			width:260,
 			height:'auto'

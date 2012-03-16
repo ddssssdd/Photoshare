@@ -27,7 +27,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 	tableHeader.add(border);
 
 	var arrow = Ti.UI.createView({
-		backgroundImage : "images/whiteArrow.png",
+		backgroundImage : "images/blueArrow.png",
 		width : 23,
 		height : 60,
 		bottom : 10,
@@ -78,11 +78,13 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 		height : 30
 	});
 
+	// add sub controls
 	tableHeader.add(arrow);
 	tableHeader.add(statusLabel);
 	tableHeader.add(lastUpdatedLabel);
 	tableHeader.add(actInd);
 
+	// set tableview headerPullView
 	tableView.headerPullView = tableHeader;
 
 	var pulling = false;
@@ -113,7 +115,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 		arrow.show();
 	}
 
-
+	//listen tableview scroll event
 	tableView.addEventListener('scroll', function(e) {
 		var offset = e.contentOffset.y;
 		if(offset <= -65.0 && !pulling) {

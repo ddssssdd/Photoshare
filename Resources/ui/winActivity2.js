@@ -14,6 +14,8 @@ var winActivity2=function(){
 	self.add(tableView);
 	
 	var processData = function(datas){
+		//Remove tableview scroll event when unloaded the data 
+		tableView.removeEventListener('scroll',scrollProcess);
 		var tbl_data= [];
 		for(var i=0;i<datas.length;i++){
 			var f = datas[i];
@@ -24,7 +26,8 @@ var winActivity2=function(){
 			tbl_data.push(row);
 		}
 		tableView.data = tbl_data;
-		isloading = true;	
+		isloading = true;
+		tableView.addEventListener('scroll',scrollProcess);	
 	};
 	var isloading=false;
 	
@@ -44,8 +47,7 @@ var winActivity2=function(){
 	var lastDistance = 0;
 	
 	var isGoDown=false;
-
-	tableView.addEventListener('scroll', function(e) {
+	var scrollProcess=function(e) {
 		var offset = e.contentOffset.y;
 		var height = e.size.height;
 		var total = offset + height;
@@ -92,7 +94,9 @@ var winActivity2=function(){
 		}
 		
 		lastDistance = distance;
-	});
+	}
+	
+	//tableView.addEventListener('scroll', scrollProcess);
 	return self;
 };
 module.exports = winActivity2;

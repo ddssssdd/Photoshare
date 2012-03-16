@@ -133,9 +133,9 @@ var PictureListView=function(isLogin){
 		*/
 	}
 
-	if (settings.showAnimation){
+	/*if (settings.showAnimation){
 		scrollView.addEventListener("scroll",scrollProcess);
-	}
+	}*/
 	
 	
 	self.bottomGet=function(e){		

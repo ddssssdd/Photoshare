@@ -2,15 +2,13 @@ var settings={showAnimation:true,
 	serverUrl:"http://beta.pinspire.com/ios/",
 	defaultImageColor:'#eee',
 	timeOut:20000,
-	noneInternet:Ti.Locale.getString('no_access')}
+	noneInternet:'Cannot connect to Internet'}
 
 var AppMainWindow=require("ui/AppMainWindow");
 var tabGroup = new AppMainWindow();
 tabGroup.open();
 
-Ti.API.info(Ti.Locale.currentCountry);
-Ti.API.info(Ti.Locale.currentLanguage);
-Ti.API.info(Ti.Locale.currentLocale);
+
 
 Ti.include("publicUI/customTabBar.js");
 

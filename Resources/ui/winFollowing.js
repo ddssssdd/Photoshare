@@ -27,6 +27,17 @@ var winFollowing=function(){
 	var tableView = Ti.UI.createTableView({		
 		//allowsSelection:false
 	})
+	
+	var isRefresh=false;
+	/***********pull refresh component*******************/
+	var tableHeader=require('publicUI/TableViewPullRefresh');
+	new tableHeader(tableView,function(e){
+		Ti.API.info('pull refresh load data');
+		isRefresh=true; //flag
+		loadData();
+	});
+	
+	
 	self.add(tableView);
 	
 	var pageIndex=0;
@@ -61,7 +72,9 @@ var winFollowing=function(){
 		if(!userService.isLogin()) {
 			return;
 		}
-
+		if(isRefresh){
+			pageIndex=0;
+		}
 		if (pageIndex<=pageCount){
 			isLoading = true;
 			var categoryService = require("services/CategoryService");
@@ -161,7 +174,7 @@ var winFollowing=function(){
 		
 		lastDistance = distance;
 	}
-	tableView.addEventListener('scroll',scrollProcess);
+	//tableView.addEventListener('scroll',scrollProcess);
 	
 	return self;
 };

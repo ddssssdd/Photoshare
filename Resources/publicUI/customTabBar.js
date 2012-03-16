@@ -100,7 +100,7 @@ CustomTabBar = function(settings) {
 			customTabBar.bottom = 0;
 			customTabBar.animate({
 				bottom : -50,
-				duration : 500
+				duration : 200
 			}, function() {
 				customTabBar.bottom = -50;
 				customTabBar.inAnimation = false;
@@ -124,7 +124,7 @@ CustomTabBar = function(settings) {
 			customTabBar.bottom = -50;
 			customTabBar.animate({
 				bottom : 0,
-				duration : 500
+				duration : 200
 			}, function() {
 				customTabBar.bottom = 0;
 				customTabBar.inAnimation = false;

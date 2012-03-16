@@ -255,6 +255,47 @@ exports.getActivityList=function(callBackFunciton){
 	xhr.send();
 }
 
+
+exports.getActivityList2=function(callBackFunciton){
+	var UserService = require("services/UserService");
+	var user = UserService.user;
+	
+	var url = serverUrl2 +"getActivityList2?userId="+user.id
+	var xhr = Ti.Network.createHTTPClient({
+		onload : function() {		
+			
+				
+			var datas = [];			
+			var items=JSON.parse(this.responseText);
+			//callBackFunciton.call(this,items);
+			
+			if (items.status=="success"){
+				callBackFunciton.call(this, items.list);
+				/*
+				var Activity = require("model/Activity");
+
+				for(var i = 0; i < items.list.length; i++) {
+					var item = items.list[i];
+					var a = new Activity(item.avater, item.firstName, item.lastName, item.operate, item.target,item.userId,item);
+					datas.push(a);
+				}
+				*/
+
+	
+			}
+			
+		},
+		onerror : function(e) {
+			Ti.App.fireEvent("app:message",{text:settings.noneInternet});
+		}
+	});
+	xhr.timeout = settings.timeOut;
+	xhr.open("GET", url);
+	xhr.send();
+}
+
+
+
 exports.getPin=function(pinId,callBackFunciton){
 	var UserService = require("services/UserService");
 	var user = UserService.user;
