@@ -66,12 +66,12 @@ var BottomToolBar=function(topValue){
 						pin : e
 					});
 					Ti.App.fireEvent("app:message", {
-						text : "Like success!"
+						text : L('like_success')
 					});
 					likeBtn.backgroundImage = "images/" + e.text + "_button.png";
 				} else {
 					Ti.App.fireEvent("app:message", {
-						text : "like failure:" + e.memo
+						text : L('like_failure') + e.memo
 					});
 				}
 
@@ -93,7 +93,7 @@ var BottomToolBar=function(topValue){
 	moreBtn.addEventListener("click",function(e){
 
 		var moreOption = Ti.UI.createOptionDialog({
-			options : ['Comment', 'Email pin', 'Save to Camera Roll', 'Cancel'],
+			options : [L('comment'), L('email_pin'), L('save_to_camera'), L('cancel')],
 			cancel : 3,
 			destructive:3
 		});
@@ -116,22 +116,22 @@ var BottomToolBar=function(topValue){
 				var emailDialog = Titanium.UI.createEmailDialog();
 				if(!emailDialog.isSupported()) {
 					Ti.UI.createAlertDialog({
-						title : 'Error',
-						message : 'Email not available'
+						title : L('error'),
+						message : L('email_not_available')
 					}).show();
 					return;
 				}
-				emailDialog.setSubject('From Pinspire');
+				emailDialog.setSubject(L('from_pinspire'));
 				emailDialog.setToRecipients(['']);
 				emailDialog.setCcRecipients(['']);
 				//emailDialog.setBccRecipients(['']);
 
 				if(Ti.Platform.name == 'iPhone OS') {
-					emailDialog.setMessageBody('<b>Pin From Pinspire!</b>');
+					emailDialog.setMessageBody('<b>'+L('pin_from_pinspire')+'</b>');
 					emailDialog.setHtml(true);
 					emailDialog.setBarColor('#336699');
 				} else {
-					emailDialog.setMessageBody('Pin From Pinspire!');
+					emailDialog.setMessageBody(L('pin_from_pinspire'));
 				}
 
 				// attach a blob
@@ -142,11 +142,11 @@ var BottomToolBar=function(topValue){
 				emailDialog.addEventListener('complete', function(e) {
 					if(e.result == emailDialog.SENT) {
 						if(Ti.Platform.osname != 'android') {
-							Ti.App.fireEvent("app:message",{text:"Message was sent"});
+							Ti.App.fireEvent("app:message",{text:L('message_was_sent')});
 							
 						}
 					} else {
-						Ti.App.fireEvent("app:message",{text:"Message was not sent."});
+						Ti.App.fireEvent("app:message",{text:L('message_was_not_sent')});
 						
 					}
 				});
@@ -157,7 +157,7 @@ var BottomToolBar=function(topValue){
 			if(e.index == 2) {
 				Titanium.Media.saveToPhotoGallery(self.image.toBlob());
 				Ti.App.fireEvent("app:message", {
-					text : "Save image to Photo Gallery."
+					text : L('save_image_to_photo_gallery')
 				});
 			}
 		});

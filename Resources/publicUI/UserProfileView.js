@@ -31,6 +31,13 @@ var UserProfileView=function(user,tabName){
 	});
 	bgView.add(self);
 	
+	
+	self.addEventListener("singletap",function(e){
+		Ti.API.info(e);
+	});
+	self.addEventListener("touchend",function(e){
+		Ti.API.info(e);
+	});
 	var view = Ti.UI.createView({
 		top : 0,
 		width : 320,
@@ -95,7 +102,7 @@ var UserProfileView=function(user,tabName){
 		height:30,
 		font:{fontSize:14},
 		//backgroundImage:"images/follow_bg_left.png",
-		text:(user.followed_count>1? " Followers":" Follower")
+		text:(user.followed_count>1? L('followers') : L('follower') )
 	});
 	self.add(followersLabel);
 	
@@ -116,7 +123,7 @@ var UserProfileView=function(user,tabName){
 		height:30,
 		font:{fontSize:14},
 		//backgroundImage:"images/follow_bg_left.png",
-		text:(user.folowing_count>1? " Followings":" Following")
+		text:(user.folowing_count>1? L('followings') : L('following') )
 	});
 	self.add(followingsLabel);
 	
@@ -143,7 +150,7 @@ var UserProfileView=function(user,tabName){
 			left:0
 		});
 		if (toolBar){
-			toolBar.labels[0]= datas.length+(datas.length>1?" Collections":" Collection");
+			toolBar.labels[0]= datas.length+(datas.length>1? L('collections') : L('collection') );
 		}
 		bottomView.add(tableView);
 		var tbl_data = [];
@@ -159,7 +166,7 @@ var UserProfileView=function(user,tabName){
 			});
 			row.board = item;
 			row.add(label);
-			var info =item.pins+(item.pins>1?" Pins":" Pin")+" "+item.followers+(item.followers>1?" Followers":" Follower");
+			var info =item.pins+(item.pins>1? L('pins') : L('pin') )+" "+item.followers+(item.followers>1? L('followers') : L('follower') );
 			var label2 = Ti.UI.createLabel({
 				text:info,
 				top:15,
@@ -180,13 +187,13 @@ var UserProfileView=function(user,tabName){
 	
 	var loadPins=function(datas){
 		if (toolBar){
-			toolBar.labels[1]= datas.length+ (datas.length>1?" Pins":" Pin");
+			toolBar.labels[1]= datas.length+ (datas.length>1? L('pins') : L('pin') );
 		}
 		new ScrollViewFill(datas,bottomView,tabName);
 	}
 	var loadLikes=function(datas){
 		if (toolBar){
-			toolBar.labels[2]= datas.length+(datas.length>1?" Likes":" Like");
+			toolBar.labels[2]= datas.length+(datas.length>1? L('likes') : L('like') );
 		}
 		new ScrollViewFill(datas,bottomView,tabName);
 	}
@@ -208,9 +215,9 @@ var UserProfileView=function(user,tabName){
 			left : 10,
 			width : 300,
 			height : 25,
-			labels : [ user.board_count+ (user.board_count>1?' Collections':' Collection'),
-					 user.pin_count+(user.pin_count>1?' Pins':' Pin'), 
-					 user.like_count+(user.like_count>1?' Likes':' Like')],
+			labels : [ user.board_count+ (user.board_count>1? L('collections') : L('collection') ),
+					 user.pin_count+(user.pin_count>1? L('pins') : L('pin') ), 
+					 user.like_count+(user.like_count>1? L('likes') : L('like'))],
 			backgroundColor : "#cfcfcf",// 'maroon',
 			style : Titanium.UI.iPhone.SystemButtonStyle.BAR,
 			index : 1,			

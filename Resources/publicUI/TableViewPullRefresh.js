@@ -3,9 +3,9 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 		var date = new Date();
 		var datestr = date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear();
 		if(date.getHours() >= 12) {
-			datestr += ' ' + (date.getHours() == 12 ? date.getHours() : date.getHours() - 12) + ':' + date.getMinutes() + ' PM';
+			datestr += ' ' + (date.getHours() == 12 ? date.getHours() : date.getHours() - 12) + ':' + date.getMinutes() + L('pm');
 		} else {
-			datestr += ' ' + date.getHours() + ':' + date.getMinutes() + ' AM';
+			datestr += ' ' + date.getHours() + ':' + date.getMinutes() + L('am');
 		}
 		return datestr;
 	}
@@ -35,7 +35,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 	});
 
 	var statusLabel = Ti.UI.createLabel({
-		text : "Pull to reload",
+		text : L('pull_to_reload'),
 		left : 55,
 		width : 200,
 		bottom : 30,
@@ -54,7 +54,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 	});
 
 	var lastUpdatedLabel = Ti.UI.createLabel({
-		text : "Last Updated: " + formatDate(),
+		text : L('last_update') + formatDate(),
 		left : 55,
 		width : 200,
 		bottom : 15,
@@ -92,7 +92,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 
 	function beginReloading() {
 		// just mock out the reload
-		setTimeout(endReloading, 2000);
+		setTimeout(endReloading, 500);
 	}
 
 	function endReloading() {
@@ -109,8 +109,8 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 			animated : true
 		});
 		reloading = false;
-		lastUpdatedLabel.text = "Last Updated: " + formatDate();
-		statusLabel.text = "Pull down to refresh...";
+		lastUpdatedLabel.text = L('last_update') + formatDate();
+		statusLabel.text = L('pull_down_to_refresh');
 		actInd.hide();
 		arrow.show();
 	}
@@ -126,7 +126,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 				transform : t,
 				duration : 180
 			});
-			statusLabel.text = "Release to refresh...";
+			statusLabel.text = L('release_to_refresh');
 		} else if(pulling && offset > -65.0 && offset < 0) {
 			pulling = false;
 			var t = Ti.UI.create2DMatrix();
@@ -134,7 +134,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 				transform : t,
 				duration : 180
 			});
-			statusLabel.text = "Pull down to refresh...";
+			statusLabel.text = L('pull_down_to_refresh');
 		}
 	});
 
@@ -145,7 +145,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 			pulling = false;
 			arrow.hide();
 			actInd.show();
-			statusLabel.text = "Reloading...";
+			statusLabel.text = L('reloading');
 			tableView.setContentInsets({
 				top : 60
 			}, {

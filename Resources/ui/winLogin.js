@@ -71,7 +71,7 @@ var winLogin= function(){
 	});
 	
 	var emailText = Titanium.UI.createTextField({
-		hintText : 'Your email address',
+		hintText : L('your_email_address'),
 		height : 50,
 		paddingLeft : 10,
 		top:210,
@@ -86,7 +86,7 @@ var winLogin= function(){
 	});
 	contentView.add(emailText);
 	var passwordText = Titanium.UI.createTextField({
-		hintText : 'Password',
+		hintText : L('password'),
 		height : 50,
 		top:260,
 		

@@ -11,7 +11,7 @@ var winExplore=function(){
 		top:0,
 		width:320,
 		height:45,		
-		text : "search"		
+		text : L('search')		
 	});
 	self.add(searchTag);
 	searchTag.addEventListener("focus",function(e){
@@ -24,7 +24,7 @@ var winExplore=function(){
 	searchTag.addEventListener("return",function(e){
 		searchTag.blur();
 		//alert(searchTag.value);
-		Ti.App.fireEvent("app:openWindow",{category:{id:0},key:searchTag.value});
+		Ti.App.fireEvent("app:openWindow",{category:{id:-1},key:searchTag.value});
 	});
 	searchTag.addEventListener("cancel",function(e){
 		searchTag.blur();
@@ -35,7 +35,7 @@ var winExplore=function(){
 		top:45,
 		left:0,
 		width:320,
-		data:["Loading data..."]
+		data:[L('loading_data')]
 		//search:searchTag	
 	});
 	self.add(tableView);
@@ -44,8 +44,8 @@ var winExplore=function(){
 		
 		var tbl_data = [];
 		var row = Ti.UI.createTableViewRow();
-		row.title = "What's Hot";
-		row.category = {id:0,title:"What's Hot"}
+		row.title = L('what_is_hot');
+		row.category = {id:0,title:L('what_is_hot')}
 		row.hasChild = true;
 		tbl_data.push(row);
 		for(var i = 0; i < datas.length; i++) {

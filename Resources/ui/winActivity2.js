@@ -7,16 +7,23 @@ var winActivity2=function(){
 		fullscreen:false
 	});
 	Ti.App.fireEvent("app:tabgroup",{visible:true});
-	var tableView = Ti.UI.createTableView({
-		data:["Loading..."],
-		top:0
-		//allowsSelection:false
-	})
+	var CustomTableView = require("publicUI/CustomTableView");
+	var tableView = new CustomTableView(self);
 	self.add(tableView);
 	
+	
+	/***********pull refresh component*******************/
+	var tableHeader=require('publicUI/TableViewPullRefresh');
+	new tableHeader(tableView,function(e){
+		Ti.API.info('pull refresh load data');
+		
+		tableView.data=[];
+		self.loadData_refresh();
+	});
 	var processData = function(datas){
 		//Remove tableview scroll event when unloaded the data 
-		tableView.removeEventListener('scroll',scrollProcess);
+		//tableView.removeEventListener('scroll',scrollProcess);
+		tableView.removeScrollListener();
 		var tbl_data= [];
 		for(var i=0;i<datas.length;i++){
 			var f = datas[i];
@@ -28,14 +35,22 @@ var winActivity2=function(){
 		}
 		tableView.data = tbl_data;
 		isloading = true;
-		tableView.addEventListener('scroll',scrollProcess);	
+		tableView.addScrollListener();
+		//tableView.addEventListener('scroll',scrollProcess);	
 	};
 	var isloading=false;
 	
+	self.loadData_refresh=function(){
+		var categoryService = require("services/CategoryService");
+		categoryService.getActivityList(processData);	
+	}
 	self.addEventListener("focus",function(e){
 		if (!isloading){
-			var categoryService = require("services/CategoryService");
-			categoryService.getActivityList(processData);			
+			self.loadData_refresh();		
+		}else{
+			if (tableView.data.length=[]){
+				self.loadData_refresh();
+			}
 		}		
 		
 	});	
@@ -45,87 +60,6 @@ var winActivity2=function(){
 		isloading = false;
 	});
 	
-	
-	var lastDistance = 0;
-	
-	var isGoDown=false;
-	var isShow = true;
-	var scrollProcess=function(e) {
-		return;
-		var offset = e.contentOffset.y;
-		var height = e.size.height;
-		var total = offset + height;
-		var theEnd = e.contentSize.height;
-		var distance = theEnd - total;
-
-		if(distance < lastDistance) {
-			var nearEnd = theEnd * .75;
-			/*
-			if(!updating && (total >= nearEnd)) {
-				beginUpdate();
-			}
-			*/
-		}
-		if (settings.showAnimation){
-			
-			Ti.API.info('distance='+distance+"     lastDistance="+lastDistance+" offset.y="+e.contentOffset.y);
-			if(distance < lastDistance) {
-				isGoDown = true;
-			} else {
-				isGoDown = false;
-			}
-			if(e.contentOffset.y < 100) {
-				isGoDown = false;
-			}
-			if(!isGoDown) {
-				if(lastDistance <= 0) {
-					isGoDown = true;
-				}
-			}
-			//Ti.API.info(isGoDown?"down":"up");
-			if(isGoDown) {
-				if (isShow==false){
-					return;
-				}
-				self.hideNavBar();
-				customTabGroup.hide();
-				isShow = false;
-			} else {
-				if (isShow==true){
-					return;
-				}
-				self.showNavBar();
-				customTabGroup.show();
-				isShow = true;
-			}
-
-		}
-		
-		lastDistance = distance;
-	}
-	
-	//tableView.addEventListener('scroll', scrollProcess);
-	/*
-	var eView = Ti.UI.createView({
-		top:0,
-		left:0,
-		width:self.width,
-		height:self.height,
-		transparent:true
-	});
-	self.add(eView);
-	var yStart=0;
-	var yEnd =0;
-	eView.addEventListener("touchstart",function(e){
-		Ti.API.info(e);
-		yStart=e.y;
-	});
-	eView.addEventListener("touchend",function(e){
-		yEnd = e.y;
-		var newTop = tableView.top-(yEnd-yStart);
-		tableView.scrollToTop(newTop);
-	});
-	*/
 	return self;
 };
 module.exports = winActivity2;

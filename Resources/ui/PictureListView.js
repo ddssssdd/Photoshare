@@ -57,6 +57,7 @@ var PictureListView=function(isLogin){
 	var sequY=[0,0,0,0];
 	var index =0;
 	var scrollProcess = function(e) {
+		//Ti.API.info(String.format("e.y=%d,e.size.height=%d",e.y,e.source.size.height));
 		if (e.y<0){
 			return;
 		}
@@ -100,42 +101,10 @@ var PictureListView=function(isLogin){
 			}
 		}
 		
-		/*
-		var direction = e.y - lasty;
-		Ti.API.info("direction="+direction+" lastDir="+lastDir);
 		
-		Ti.API.info(e);
-		lastDir = direction;
-		if(direction > 0) {
-			if(e.y > 0) {
-				if(isShow) {
-					self.hideNavBar();
-					Ti.App.fireEvent("app:tabgroup", {
-						visible : false
-					});
-					isShow = false;
-				}
-
-			}
-		} else {
-			if(!isShow) {
-				if(isLogin) {
-					self.showNavBar();
-				}
-				Ti.App.fireEvent("app:tabgroup", {
-					visible : true
-				});
-				isShow = true;
-			}
-
-		}
-		lasty = e.y;
-		*/
 	}
 
-	/*if (settings.showAnimation){
-		scrollView.addEventListener("scroll",scrollProcess);
-	}*/
+	
 	
 	
 	self.bottomGet=function(e){		
@@ -147,6 +116,8 @@ var PictureListView=function(isLogin){
 			}
 		}
 	}
+	var starty=0;
+	var endy=0;
 	self.showData=function(category,searchKey){
 		if (category){				
 			categoryId = category.id;
@@ -201,6 +172,7 @@ var PictureListView=function(isLogin){
 					}
 					
 				});
+				
 			}
 			
 			var max = ypos[0];
@@ -219,7 +191,7 @@ var PictureListView=function(isLogin){
 			scrollView.addEventListener("scroll",scrollProcess);
 		};
 		var offset = page*27+1;
-		if (categoryId>0){
+		if (categoryId>-1){
 			categoryService.getCategory(categoryId,offset,processData);	
 		}else{
 			categoryService.searchByKey(key,offset,processData);

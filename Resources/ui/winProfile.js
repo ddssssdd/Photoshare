@@ -16,7 +16,7 @@ var winProfile=function(){
 	buttonLeft.addEventListener("click",function(e){
 		
 		var logoutOption = Ti.UI.createOptionDialog({
-			options : ['Logout', 'Cancel'],
+			options : [L('logout'), L('cancel')],
 			cancel : 1,
 			destructive:1
 		});

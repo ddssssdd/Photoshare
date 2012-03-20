@@ -8,7 +8,9 @@ var PictureFullScreenView=function(photoid,list,tab){
 	});
 	self.addEventListener("close",function(e){
 		Ti.API.info("i am closed!");
-		//clearInterval(intervalId);
+		clearInterval(intervalId);
+		
+		
 	})
 	Ti.App.fireEvent("app:tabgroup",{visible:false});
 	
@@ -32,10 +34,25 @@ var PictureFullScreenView=function(photoid,list,tab){
 		inProcess = false;
 		if (!isGet){
 			return;
+		}else{
+			
+			for(var i = 0; i < list.length; i++) {
+				if(list[i].id == f.photo.id) {
+					if(!list[i].photoObj) {
+						list[i].photoObj = f;
+
+						break;
+					}
+				}
+			}
+
 		}
 		self.photo =f.photo;
 		this.photoid = f.photo.id;
-		
+		if (image){
+			imageBg.remove(image);
+			image=null;
+		}
 		
 		var h = (f.photo.height?f.photo.height:100) * 320 / (f.photo.width?f.photo.width:100);
 		var t = (h >= 480) ? 0 : (480 - h) / 2;
@@ -56,19 +73,11 @@ var PictureFullScreenView=function(photoid,list,tab){
 		
 		imageBg.add(imageComing);
 		imageComing.addEventListener("load",function(e){
-			
+			Ti.API.info("Image target :"+isLeft?320:-320);
 			imageComing.animate({left:0,duration:500},function(){
 				imageComing.left = 0;
 			})
-			//imageBg.animate({view:imageComing,transition:Ti.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT});
 			
-			/*
-			if (image){
-				imageBg.animate({view:imageComing,transition:Ti.UI.iPhone.AnimationStyle.CURL_DOWN});	
-				imageBg.remove(image);
-				image = null;
-			}
-			*/
 			image = imageComing;
 			b.image = image;
 			
@@ -97,17 +106,32 @@ var PictureFullScreenView=function(photoid,list,tab){
 			break;
 		}
 	}
-	var cacheLoad=function(newIndex){			
+	var loadingList=[];
+	var cacheLoad=function(newIndex){	
+				
 		if((newIndex < list.length) && (newIndex > -1)) {
+			var obj=list[newIndex];
+			if (loadingList.indexOf(obj.id)>-1){
+				return;
+			}
 			if(!list[newIndex].isLoading) {
+				Ti.API.info("loading...+",list[index].id);
+				loadingList.push(list[newIndex]);
 				categoryService.getPin(list[newIndex].id, function(e, isGet) {
 					if(!isGet) {
 						return;
+					}
+					Ti.API.info("Success loading: "+e.photo.id);
+					var photoIndex =loadingList.indexOf(e.photo.id);
+					if (photoIndex>-1){
+						loadingList[photoIndex]=null;
 					}
 					for(var i = 0; i < list.length; i++) {
 						if(list[i].id == e.photo.id) {
 							if(!list[i].photoObj) {
 								list[i].photoObj = e;
+								
+								break;
 							}
 						}
 					}
@@ -117,10 +141,10 @@ var PictureFullScreenView=function(photoid,list,tab){
 			}
 		}
 	}
-	/*
+	
 	var intervalId=setInterval(function(){
 		if (!inProcess){
-			//Ti.API.info(" we can load something.")			
+			Ti.API.info(" we can load something.")			
 			cacheLoad(index+1);
 			cacheLoad(index+2);
 			cacheLoad(index-1);
@@ -128,18 +152,11 @@ var PictureFullScreenView=function(photoid,list,tab){
 		
 		}
 	},1000);
-	*/
+	
 	var isLeft=false;
-	function disapearImage(pisLeft){
-		isLeft = pisLeft;
+	function disapearImage(){
+	
 		if(image) {
-			/*
-			imageBg.animate({
-				view : image,
-				transition : Ti.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT
-			});
-			*/
-			
 			image.animate({left:(isLeft?-1:1)*320,duration:500},function(){
 				imageBg.remove(image);
 				image = null;	
@@ -148,6 +165,25 @@ var PictureFullScreenView=function(photoid,list,tab){
 		}
 		
 	}
+	function processNewImage(){		
+		b.visible = false;
+		t.visible = false;
+
+		if(list[index].photoObj) {
+			fillContent(list[index].photoObj, true);
+		} else {
+			if (list[index].isLoading){
+				
+			}else{
+				disapearImage();
+				loadingList.push(list[index].id);
+				list[index].isLoading = true;
+				categoryService.getPin(list[index].id, fillContent);
+				inProcess = true;
+			}
+			
+		}
+	}
 	
 	self.addEventListener("swipe",function(e){
 		if (inProcess)
@@ -155,41 +191,26 @@ var PictureFullScreenView=function(photoid,list,tab){
 		
 		if (e.direction=="left"){
 			//next
+			isLeft=true;
 			index =index +1;
 			if ((index<list.length) && (index>-1)){
 				//show next;
-				b.visible = false;
-				t.visible = false;
-				
-				if (list[index].photoObj){
-					fillContent(list[index].photoObj);	
-				}else{
-					categoryService.getPin(list[index].id,fillContent);
-				}
-				disapearImage(true);			
-				inProcess = true;
+				processNewImage();
 					
 			}else{
 				index = list.length-1;
-				Ti.App.fireEvent("app:message",{text:'No more pictures'});
+				Ti.App.fireEvent("app:message",{text:L('no_more_pictures')});
 			}
 		}else if (e.direction=="right"){
+			isLeft=false;
 			index = index - 1;
 			if ((index<list.length) && (index>-1)){
 				//show proior
-				b.visible = false;
-				t.visible = false;
+				processNewImage();
 				
-				if (list[index].photoObj){
-					fillContent(list[index].photoObj);	
-				}else{
-					categoryService.getPin(list[index].id,fillContent);
-				}
-				disapearImage(true);
-				inProcess = true;
 			}else{
 				index = 0;
-				Ti.App.fireEvent("app:message",{text:'No more pictures'});
+				Ti.App.fireEvent("app:message",{text:L('no_more_pictures')});
 			}
 		}
 	})
@@ -212,6 +233,7 @@ var PictureFullScreenView=function(photoid,list,tab){
 	t.addBackButton(function(e){
 		isClose = true;
 		self.close();
+		clearInterval(intervalId);
 		customTabGroup.show();
 	});
 	t.visible = false;
@@ -256,7 +278,7 @@ var PictureFullScreenView=function(photoid,list,tab){
 		//alert(e);
 		if (e.pin.status=="success"){
 			
-			infoLabelright.text = e.pin.likeCount+" likes "+e.pin.repinCount+" repins";	
+			infoLabelright.text = e.pin.likeCount+L('likes')+ " "+e.pin.repinCount+L('repins');	
 		}
 		
 	});

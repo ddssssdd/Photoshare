@@ -40,7 +40,7 @@ var winUserBoard = function(){
 	self.add(tableview);
 	
 	var data=[];
-	data[0] = Ti.UI.createTableViewSection({headerTitle:"Select Collection"})   //old value: Board List
+	data[0] = Ti.UI.createTableViewSection({headerTitle:L('select_collection')})   //old value: Board List
 	
 	var processData=function(datas){
 		

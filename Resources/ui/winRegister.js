@@ -60,7 +60,7 @@ var winRegister = function(param){
 	
 	
 	var emailText = Titanium.UI.createTextField({
-		hintText : 'Your email address',
+		hintText : L('your_email_address'),
 		height : 50,
 		top : 195,		
 		paddingLeft : 10,
@@ -75,7 +75,7 @@ var winRegister = function(param){
 	});
 	contentView.add(emailText);
 	var firstnameText = Titanium.UI.createTextField({
-		hintText : 'First Name',
+		hintText : L('first_name'),
 		height : 50,
 		top : 245,
 		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
@@ -90,7 +90,7 @@ var winRegister = function(param){
 	});
 	contentView.add(firstnameText);	
 	var lastnameText = Titanium.UI.createTextField({
-		hintText : 'Last Name',
+		hintText : L('last_name'),
 		height : 50,
 		top : 245,
 		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
@@ -105,7 +105,7 @@ var winRegister = function(param){
 	});
 	contentView.add(lastnameText);
 	var passwordText = Titanium.UI.createTextField({
-		hintText : 'Password',
+		hintText : L('password'),
 		height : 50,
 		top : 292,
 		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
@@ -147,23 +147,23 @@ var winRegister = function(param){
 			password:passwordText.value})
 		*/
 		if (!emailText.value){
-			Ti.App.fireEvent("app:message",{text:"Email can not be empty."});
+			Ti.App.fireEvent("app:message",{text:L('email_cannot_be_empty')});
 			emailText.focus();
 			return;
 		}
 		if (!firstnameText.value){
-			Ti.App.fireEvent("app:message",{text:"Firstname can not be empty."});
+			Ti.App.fireEvent("app:message",{text:L('firstname_cannot_be_empty')});
 			firstnameText.focus();
 			return;
 		}
 		
 		if (!lastnameText.value){
-			Ti.App.fireEvent("app:message",{text:"Lastname can not be empty."});
+			Ti.App.fireEvent("app:message",{text:L('lastname_cannot_be_empty')});
 			lastnameText.focus();
 			return;
 		}
 		if (!passwordText.value){
-			Ti.App.fireEvent("app:message",{text:"Password can not be empty."});
+			Ti.App.fireEvent("app:message",{text:L('password_cannot_be_empty')});
 			passwordText.focus();
 			return;
 		}

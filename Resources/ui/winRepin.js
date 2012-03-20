@@ -25,7 +25,7 @@ var winRepin = function(photo){
 				//alert(e);
 				if(e.status == 'success') {
 					Ti.App.fireEvent("app:message", {
-						text : "Repin success!"
+						text : L("repin_success")
 					});
 				}
 				Ti.App.fireEvent("app:refresh.pin",{pin:e});
@@ -46,7 +46,7 @@ var winRepin = function(photo){
 	});
 	
 	var data = [];
-	data[0] = Ti.UI.createTableViewSection({headerTitle:photo?'Repin':'Create pin'});
+	data[0] = Ti.UI.createTableViewSection({headerTitle:photo?L('repin'):L('create_pin')});
 	
 	var userService = require("services/UserService");
 	var list = userService.user.boardList;
@@ -57,7 +57,7 @@ var winRepin = function(photo){
 		rowBoard.cid = list[0].id;
 		rowBoard.hasChild = true;
 	}else{
-		rowBoard.title = "Select Board...";
+		rowBoard.title = L('select_board');
 		rowBoard.cid = 0;
 		rowBoard.hasChild = true;	
 	}
@@ -67,7 +67,7 @@ var winRepin = function(photo){
 	
 	var textDescription = Ti.UI.createTextArea({
 		editable : true,
-		value : photo?photo.description:"description",
+		value : photo?photo.description:L('description'),
 		height : 120,
 		width : 300,
 		top : 0,

@@ -19,7 +19,7 @@ var LoginView = function(){
 	self.add(contentView);
 	
 	var labelInfo = Ti.UI.createLabel({
-		text : 'You must have an existing Pinspire account to log in',
+		text : L('must_have_an_account'),
 		top : 10,
 		left :50,
 		width : 150,
@@ -36,7 +36,7 @@ var LoginView = function(){
 	Ti.Facebook.permissions = ['publish_stream'];
 	Ti.Facebook.addEventListener('login',function(e){
 		if (e.success){
-			alert("logged in facebook");
+			alert(L('logged_in_facebook'));
 			/*
 			e.data	[object Object]	
 	
@@ -72,7 +72,7 @@ var LoginView = function(){
 	var rowUserName = Ti.UI.createTableViewRow();
 	
 	var emailText = Titanium.UI.createTextField({
-		hintText : 'Your email address',
+		hintText : L('your_email_address'),
 		height : 32,
 		
 		backgroundImage : 'images/inputfield.png',
@@ -110,7 +110,7 @@ var LoginView = function(){
 	
 	var rowPassword = Ti.UI.createTableViewRow();
 	var passwordText = Titanium.UI.createTextField({
-		hintText : 'Password',
+		hintText : L('password'),
 		height : 32,
 		
 		backgroundImage : 'images/inputfield.png',

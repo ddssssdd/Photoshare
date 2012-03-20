@@ -71,7 +71,7 @@ var winCamera=function(){
 	function initShow(){
 		
 		var moreOption = Ti.UI.createOptionDialog({
-			options : ['Open Camera', 'Open Photo Gallery', 'Cancel'],
+			options : [L('open_camera'), L('open_photo_gallery'), L('cancel')],
 			cancel : 2,
 			destructive:2
 		});
@@ -133,9 +133,9 @@ var winCamera=function(){
 		} else {
 			//alert("got the wrong type back =" + event.mediaType);
 			Ti.App.fireEvent("app:message", {
-				text : "got the wrong type back =" + event.mediaType
+				text : L('got_the_wrong_type_back')+ event.mediaType
 			});
-		}
+		} 
 	}
 	var cancelCall = function(error){
 		imageView = null;

@@ -24,7 +24,7 @@ var winCreateBoard=function(e){
 	});
 	
 	var tableview = Ti.UI.createTableView({
-		data:["Loading..."],
+		data:[L('loading')],
 		style: Titanium.UI.iPhone.TableViewStyle.GROUPED,
 		backgroundColor:'#fff'
 	});
@@ -33,9 +33,9 @@ var winCreateBoard=function(e){
 	var list = userService.user.categoryList;
 	
 	var data = [];
-	data[0] = Ti.UI.createTableViewSection({headerTitle:'Collection title'});
+	data[0] = Ti.UI.createTableViewSection({headerTitle:L('collection_title')});
 	var titleText = Titanium.UI.createTextField({
-		hintText : 'New collection name',  //old value: Collection title
+		hintText : L('new_collection_name'),  //old value: Collection title
 		height : 32,
 		left: 0,		
 		paddingLeft : 10,		
@@ -56,7 +56,7 @@ var winCreateBoard=function(e){
 	data[0].add(row2);
 	
 	
-	data[1] = Ti.UI.createTableViewSection({headerTitle:"Select category"});
+	data[1] = Ti.UI.createTableViewSection({headerTitle:L('select_category')});
 	for(var i=0;i<list.length;i++){
 		var row = Ti.UI.createTableViewRow();
 		row.title = list[i].title;
