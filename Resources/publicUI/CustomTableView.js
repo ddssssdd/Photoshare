@@ -1,7 +1,7 @@
 var CustomTableView=function(parent,table_settings){
 	var self = Titanium.UI.createTableView(table_settings);
 	parent.add(self);
-	var showDebug=false;
+	var showDebug=true;
 	var lastDistance = 0;
 	var isShow = true;
 	var lastY=0;
@@ -29,8 +29,20 @@ var CustomTableView=function(parent,table_settings){
 			}
 	
 		}
+		if (height==0){
+			return;
+		}
+		var result = height+distance-theEnd;
+		if (result==0){
+			return;
+		}
+		if (showDebug){
+			Ti.API.info(String.format("Line Data:  offsetY=%d,lastOffsetY=%d,sizeHeight=%d,contentSizeHeight=%d,distance=%d    -- result=%d",
+													offset,lastY,height,theEnd,distance,result));
+		}
 		if (settings.showAnimation){
-			if (distance<=0){
+			
+			if ((distance<=0) && (result<0)){
 				//bottom
 				if (isShow){
 					parent.hideNavBar();
@@ -42,14 +54,14 @@ var CustomTableView=function(parent,table_settings){
 				lastY= offset;
 				return;
 			}
-			if (offset<=0){
+			if ((offset<=0) && (result>0)){
 				//top
 				if (!isShow){
 					parent.showNavBar();
 					customTabGroup.show();
 					isShow=true;
 					if (showDebug)
-						Ti.API.info(String.format("Up_top:offsetY=%d,lastOffsetY=%d,sizeHeight=%d,contentSizeHeight=%d,distance=%d",offset,lastY,height,theEnd,distance));
+						Ti.API.info(String.format("Up_top:  offsetY=%d,lastOffsetY=%d,sizeHeight=%d,contentSizeHeight=%d,distance=%d",offset,lastY,height,theEnd,distance));
 				}
 				lastY= offset;
 				return;

@@ -31,8 +31,9 @@ var PictureFullScreenView=function(photoid,list,tab){
 
 
 	var fillContent=function(f,isGet){
-		inProcess = false;
+		
 		if (!isGet){
+			inProcess = false;
 			return;
 		}else{
 			
@@ -53,6 +54,13 @@ var PictureFullScreenView=function(photoid,list,tab){
 			imageBg.remove(image);
 			image=null;
 		}
+		/*
+		if (imageBg.children){
+			for(var i=imageBg.children.length-1;i>-1;i--){
+				imageBg.remove(imageBg.children[i]);				
+			}
+		}
+		*/
 		
 		var h = (f.photo.height?f.photo.height:100) * 320 / (f.photo.width?f.photo.width:100);
 		var t = (h >= 480) ? 0 : (480 - h) / 2;
@@ -73,6 +81,7 @@ var PictureFullScreenView=function(photoid,list,tab){
 		
 		imageBg.add(imageComing);
 		imageComing.addEventListener("load",function(e){
+			inProcess = false;
 			Ti.API.info("Image target :"+isLeft?320:-320);
 			imageComing.animate({left:0,duration:500},function(){
 				imageComing.left = 0;
@@ -170,6 +179,7 @@ var PictureFullScreenView=function(photoid,list,tab){
 		t.visible = false;
 
 		if(list[index].photoObj) {
+			inProcess = true;
 			fillContent(list[index].photoObj, true);
 		} else {
 			if (list[index].isLoading){
