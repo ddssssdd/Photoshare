@@ -74,7 +74,7 @@ var winFollowing=function(){
 	
 	Ti.App.addEventListener("app:deletePin",function(e){
 		if (e.rowindex){
-			tableview.deleterow(e.rowindex);
+			tableView.deleteRow(e.rowindex);
 		}
 	});
 	var isFirstOpen=true;

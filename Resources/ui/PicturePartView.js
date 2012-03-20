@@ -210,7 +210,7 @@ var hasRepin=false,hasLike=false,hasComment=false;
 		createLike();
 	}
 
-	var updatePostion=function(){
+	var updatePosition=function(){
 		if (hasRepin) {
 			lblRepin.top=baseTop+10;
 			iconRepin.top=baseTop+10;
@@ -240,10 +240,13 @@ var hasRepin=false,hasLike=false,hasComment=false;
 	}
 
 	Ti.App.addEventListener("app:refresh.pin",function(e){
-		if (e.pin.pin.id!=photo.id){
-			return;
-		}
+		
 		if (e.pin.status=="success"){
+		
+			if(e.pin.pin.id != photo.id) {
+				return;
+			}
+
 			/************ update repin and like count **********************/
 			var repinStatus=null,likeStatus=null;
 			var status={none:0,hidden:1,create:2,update:3};
@@ -252,6 +255,8 @@ var hasRepin=false,hasLike=false,hasComment=false;
 		
 			repinStatus = (hasRepin) ? ((e.pin.repinCount > 0) ? status.update : status.hidden) : ((e.pin.repinCount > 0) ? status.create : status.none);
 			likeStatus = (hasLike) ? ((e.pin.likeCount > 0) ? status.update : status.hidden) : ((e.pin.likeCount > 0) ? status.create : status.none);
+			
+			//likeStatus=2;
 			
 			//infoLabelright.text = e.pin.likeCount+" likes "+e.pin.repinCount+" repins";
 			if (e.pin.commentsList.length>0) {
@@ -267,7 +272,7 @@ var hasRepin=false,hasLike=false,hasComment=false;
 				case status.create:
 					createRepin();
 					hasRepin = true;
-					updatePostion();
+					updatePosition();
 					break;
 				case status.update:
 					lblRepin.text = e.pin.repinCount + L('repins');
@@ -284,7 +289,7 @@ var hasRepin=false,hasLike=false,hasComment=false;
 				case status.create:
 					createLike();
 					hasLike = true;  //first set the true.
-					updatePositon();		
+					updatePosition();
 					break;
 				case status.update:
 					lblLike.text = e.pin.likeCount + L('likes');

@@ -1,4 +1,4 @@
-var settings={showAnimation:true,
+var settings={showAnimation:false,
 	serverUrl:"http://www.pinspire.com/ios/",
 	defaultImageColor:'#eee',
 	timeOut:20000,

@@ -57,6 +57,9 @@ var PictureListView=function(isLogin){
 	var sequY=[0,0,0,0];
 	var index =0;
 	var scrollProcess = function(e) {
+		if (!settings.showAnimation){
+			return;
+		}
 		//Ti.API.info(String.format("e.y=%d,e.size.height=%d",e.y,e.source.size.height));
 		if (e.y<0){
 			return;
