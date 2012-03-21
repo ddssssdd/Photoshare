@@ -16,7 +16,7 @@
 	<string name="create_pin_success">create pin success</string>
 	<string name="comment">Comment</string>
 	<string name="loading">Loading...</string>
-	<string name="collection_title">Collection title</string>
+	<string name="collection_title">Collection name</string>
 	<string name="new_collection_name">New collection name</string>
 	<string name="select_category">Select category</string>
 	<string name="edit_profile">Edit Profile</string>
@@ -64,5 +64,6 @@
 	<string name="following"> Following</string>
 	<string name="collections"> Collections</string>
 	<string name="collection"> Collection</string>
-	
+	<string name="pin"> Pin</string>
+	<string name="pins"> Pins</string>
 </resources>
