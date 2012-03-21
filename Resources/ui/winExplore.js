@@ -12,7 +12,7 @@ var winExplore=function(){
 		width:320,
 		height:45,		
 		barColor:'#d1d1d1',
-		borderColor:'#aaa',
+		//borderColor:'#aaa',
 		text : L('search')
 	});
 	self.add(searchTag);

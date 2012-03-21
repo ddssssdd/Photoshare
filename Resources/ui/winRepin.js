@@ -73,7 +73,7 @@ var winRepin = function(photo){
 		top : 0,
 		left:0,
 		font : {
-			fontSize : 18
+			fontSize : 16
 			
 		},
 		color : '#888',

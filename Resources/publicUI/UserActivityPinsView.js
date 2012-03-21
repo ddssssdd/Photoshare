@@ -97,14 +97,14 @@ var UserActivityPinsView = function(activity){
 				top:t,
 				left:[10,71,132,193,254][i],
 				width: 56,
-				height:h,
+				height: 56,//h,
 				backgroundColor:settings.defaultImageColor
 			});
 			var image = Ti.UI.createImageView({
 				top:t,
 				left:[10,71,132,193,254][i],
 				width: 56,
-				height:h,
+				height:56,//h,
 				image:p.imgUrl,
 				photoObj:{id:p.id,pin:p.imgUrl,width:p.imgWidth,height:p.imgHeight},
 				defaultImage:'images/clear.png'

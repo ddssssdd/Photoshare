@@ -39,6 +39,7 @@
 	<string name="description">description</string>
 	<string name="select_collection">Select Collection</string>
 	<string name="like_success">Like success!</string>
+	<string name="unlike_success">Unlike success!</string>
 	<string name="like_failure">like failure:</string>
 	<string name="email_pin">Email pin</string>
 	<string name="save_to_camera">Save to Camera Roll</string>

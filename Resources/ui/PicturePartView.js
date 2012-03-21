@@ -127,18 +127,19 @@ var PicturePartView = function(f,photo,index){
 	b.fireEvent("bottom:update.photo",{photoUserId:f.userId,photoId:f.photo.id,rowIndex:rowindex});
 	contentView.add(b);
 	
-	var baseTop =b.top + 47;
-var hasRepin=false,hasLike=false,hasComment=false;
+	/*var baseTop =b.top + 47;
+	var hasRepin=false,hasLike=false,hasComment=false;*/
 	
 	var iconRepin=null,lblRepin=null;
 	
 	var createRepin=function(){
 		
-		if (iconRepin) {
+		/*if (iconRepin) {
 			return;
-		}
+		}*/
 		iconRepin = Ti.UI.createImageView({
-			top : baseTop + 10,
+			top: b.top+47 +10,
+			//top : baseTop + 10,
 			left : 10,
 			width : 15,
 			height : 15,
@@ -146,11 +147,12 @@ var hasRepin=false,hasLike=false,hasComment=false;
 		});
 		contentView.add(iconRepin);
 		
-		if (lblRepin){
+		/*if (lblRepin){
 			return;
-		}
+		}*/
 		lblRepin = Ti.UI.createLabel({
-			top : baseTop + 10,
+			top:b.top+47+10,
+			//top : baseTop + 10,
 			left : 35,
 			height : 'auto',
 			text : photo.repinCount + (photo.repinCount > 1 ? L('repins') : L('repin')),
@@ -164,34 +166,35 @@ var hasRepin=false,hasLike=false,hasComment=false;
 	}
 	
 	//If repincount>0 then add the Repin info.
-	if(photo.repinCount > 0) {
+	/*if(photo.repinCount > 0) {
 		
 		hasRepin=true;
 		createRepin();
-	}
+	}*/
+	createRepin();
 	
 	var iconLike=null,lblLike=null;
 	
 	var createLike=function() {
-		var _top = (hasRepin) ? baseTop + 35 : baseTop + 10;
+		/*var _top = (hasRepin) ? baseTop + 35 : baseTop + 10;
 		if (iconLike) {
 			return;
-		}
+		}*/
 		iconLike = Ti.UI.createImageView({
-			top:_top,
-			//top : b.top + 47 + 35,
+			//top:_top,
+			top : b.top + 47 + 35,
 			left : 10,
 			width : 15,
 			height : 15,
 			image : "images/like_icon.png"
 		});
 		contentView.add(iconLike);
-		if (lblLike) {
+		/*if (lblLike) {
 			return;
-		}
+		}*/
 		lblLike = Ti.UI.createLabel({
-			top:_top-1,
-			//top : b.top + 41 + 40,
+			//top:_top-1,
+			top : b.top + 41 + 40,
 			left : 35,
 			height : "auto",
 			text : photo.likeCount + (photo.likeCount > 1 ? L('likes') : L('like')),
@@ -205,11 +208,12 @@ var hasRepin=false,hasLike=false,hasComment=false;
 	}
 
 	//if likecount>0 then add the like info.
-	if(photo.likeCount > 0) {
-		hasLike=true;
+	/*if(photo.likeCount > 0) {
+		//hasLike=true;
 		createLike();
-	}
-
+	}*/
+	createLike();
+	
 	var updatePosition=function(){
 		if (hasRepin) {
 			lblRepin.top=baseTop+10;
@@ -246,9 +250,14 @@ var hasRepin=false,hasLike=false,hasComment=false;
 			if(e.pin.pin.id != photo.id) {
 				return;
 			}
-
+			
+			lblRepin.text = e.pin.repinCount+(e.pin.repinCount>1?" Repins":" Repin")
+			lblLike.text = e.pin.likeCount + (e.pin.likeCount>1?' Likes':' Like'),
+			
+			createComments(e.pin.commentsList);	
+			
 			/************ update repin and like count **********************/
-			var repinStatus=null,likeStatus=null;
+			/*var repinStatus=null,likeStatus=null;
 			var status={none:0,hidden:1,create:2,update:3};
 			
 			//according to the return data.
@@ -296,7 +305,9 @@ var hasRepin=false,hasLike=false,hasComment=false;
 					break;
 				case status.none:
 					break;
-			}
+			}*/
+			
+			
 				
 			
 		}
@@ -309,25 +320,25 @@ var hasRepin=false,hasLike=false,hasComment=false;
 	var createComments=function(datas){
 		
 	   
-		var _top = (hasRepin) ? ((hasLike) ? baseTop + 60 : baseTop + 35 ) : baseTop + 10;
+		//var _top = (hasRepin) ? ((hasLike) ? baseTop + 60 : baseTop + 35 ) : baseTop + 10;
 
 		imageComments = Ti.UI.createImageView({
 			image:"images/comment_icon.png",
 			width:15,
 			height:15,
-			//top: b.top+47+60,
-			top: _top,
+			top: b.top+47+60,
+			//top: _top,
 			left: 10
 		});
 		contentView.add(imageComments);				
-		//var top1 =b.top+45+60;
+		var top1 =b.top+45+60;
 		if (childView){
 			contentView.remove(childView);
 			childView = null;
 		}
 		childView = Ti.UI.createView({
-			//top:top1,
-			top:_top-2,
+			top:top1,
+			//top:_top-2,
 			left:35,
 			width:260,
 			height:'auto'

@@ -11,8 +11,9 @@ var winFollowing=function(){
 	
 	var CustomTableView = require("publicUI/CustomTableView");
 	var tableView = new CustomTableView(self);
+	//tableView.allowsSelection=false;
+	tableView.selectionStyle=Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 	self.add(tableView);
-	
 	var isRefresh=false;
 	/***********pull refresh component*******************/
 	var tableHeader=require('publicUI/TableViewPullRefresh');

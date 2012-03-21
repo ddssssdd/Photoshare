@@ -53,6 +53,7 @@ var BottomToolBar=function(topValue){
 		
 	});
 	likeBtn.addEventListener("click",function(e){
+		var isUnlike=e.source.backgroundImage.indexOf('unlike_button.png')!=-1; //according to the image src to judge
 		var userService = require("services/UserService");
 		if (likeBtn.action=="delete"){
 			userService.deletePin(self.image.photo.id, function(e) {
@@ -66,7 +67,7 @@ var BottomToolBar=function(topValue){
 						pin : e
 					});
 					Ti.App.fireEvent("app:message", {
-						text : L('like_success')
+						text : (isUnlike)? L('unlike_success') : L('like_success')
 					});
 					likeBtn.backgroundImage = "images/" + e.text + "_button.png";
 				} else {

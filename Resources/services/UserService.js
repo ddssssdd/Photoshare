@@ -179,7 +179,8 @@ exports.getBoardPins=function(bid,callBackFunction){
 exports.getLikes=function(userId,offset,callBackFunction){
 	
 	//var url =serverUrl +"/forIOS/getLikesByUserId4IOS?userId="+userId;
-	var url =serverUrl2 +"getUserLikes?userId="+userId+"&max=10&offset="+(offset?offset:1);
+	//var url =serverUrl2 +"getUserLikes?userId="+userId+"&max=10&offset="+(offset?offset:1);
+	var url =serverUrl2 +"getUserLikes?userId="+userId;
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var datas=[];

@@ -140,7 +140,8 @@ var UserProfileView=function(user,tabName){
 			top : 120,
 			left : 0,
 			width : 320,
-			height:800
+			height:'auto'
+			//height:800
 		})
 		self.add(bottomView);	
 	}

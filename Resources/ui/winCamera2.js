@@ -17,7 +17,7 @@ var winCamera2=function(imageobj){
 	})
 	
 	var rightButton = Ti.UI.createButton({		
-		width: 69,
+		width: 62, //old: 68
 		height:28,
 		backgroundImage:'images/pinit.png'
 	});
@@ -35,8 +35,16 @@ var winCamera2=function(imageobj){
 			self.close();				
 		});	
 	});
+	
+	var contentHeight=480-44-48-20; //remove statusbar, navbar, tabbar height
+	var h = (imageobj.height?imageobj.height:100) * 320 / (imageobj.width?imageobj.width:100); //get proportionate height
+	var t = (h >= contentHeight) ? 0 : (contentHeight - h) / 2;
+		 
 	var imageView = Ti.UI.createImageView({
-		image:imageobj
+		image:imageobj,
+		height:h,
+		width:320,
+		top:t
 	});
 	self.add(imageView);
 	return self;

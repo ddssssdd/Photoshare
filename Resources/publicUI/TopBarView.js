@@ -22,7 +22,10 @@ var TopBarView = function(){
 			callBackFunction.call(this, e);
 		});
 	}
-	self.showTop=function(v){
+	self.showTop=function(v,isHot){
+		if (isHot) {
+			return;
+		}
 		if (self.inAnimation){
 			return;
 		}

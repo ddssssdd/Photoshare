@@ -22,7 +22,7 @@ var winCamera=function(){
 	})
 	var imageView=null;
 	var rightButton = Ti.UI.createButton({		
-		width: 69,
+		width: 62,
 		height:28,
 		backgroundImage:'images/pinit.png'
 	});

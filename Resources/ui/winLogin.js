@@ -21,6 +21,7 @@ var winLogin= function(){
 		}
 	});
 	var tableview = Titanium.UI.createTableView();
+	tableview.scrollable=false;
 	self.add(tableview);
 	var row = Titanium.UI.createTableViewRow({height:480});
 	
@@ -63,14 +64,17 @@ var winLogin= function(){
 	});
 	contentView.add(loginButton);
 	loginButton.addEventListener('click',function(e){
-		
+		self.fireEvent('app:login');
+	});
+	
+	self.addEventListener('app:login',function(e){
 		var userService = require("services/UserService");
 		userService.login(emailText.value,passwordText.value);
 		self.close();
-		
-	});
+	})
 	
 	var emailText = Titanium.UI.createTextField({
+		id:'txtEmail',
 		hintText : L('your_email_address'),
 		height : 50,
 		paddingLeft : 10,
@@ -82,10 +86,47 @@ var winLogin= function(){
 		},
 		color : '#777',
 		clearOnEdit : true,
-		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE
+		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
+		keyboardType:Ti.UI.KEYBOARD_EMAIL,
+		returnKeyType:Ti.UI.RETURNKEY_NEXT
 	});
+	var isFirst=false;
+	
+	
+	var showUp=function(arg) {
+		contentView.animate({top:-150,duration:500},function(e){
+				contentView.top=-150;
+				if (arg.id=='txtEmail') {
+					emailText.focus();
+				}else {
+					passwordText.focus();
+				}
+			});
+	}
+	var showDown=function() {
+		contentView.animate({top:40,duration:500},function(e){
+			contentView.top=40;
+			passwordText.blur();
+		});
+	}
+
+	emailText.addEventListener('focus',function(e){
+		if (contentView.top==-150) {
+			return;
+		}
+		showUp({id:emailText.id});
+	});
+	emailText.addEventListener('return',function(e){
+		passwordText.focus();
+	})
+	
+	self.addEventListener('focus',function(e){
+		showUp({id:'txtEmail'});
+	});
+
 	contentView.add(emailText);
 	var passwordText = Titanium.UI.createTextField({
+		id:'txtPwd',
 		hintText : L('password'),
 		height : 50,
 		top:260,
@@ -99,8 +140,21 @@ var winLogin= function(){
 		color : '#777',
 		clearOnEdit : true,
 		passwordMask:true,
-		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE
+		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
+		returnKeyType:Ti.UI.RETURNKEY_DONE
 	});
+	
+	passwordText.addEventListener('focus',function(e){
+		if (contentView.top==-150) {
+			return;
+		}
+		showUp({id:passwordText.id});
+	});
+	passwordText.addEventListener('return',function(e){
+		showDown();
+		self.fireEvent('app:login'); //response login event
+	})
+	
 	contentView.add(passwordText);
 	return self;
 }
