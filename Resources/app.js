@@ -1,5 +1,5 @@
 var settings={showAnimation:false,
-	serverUrl:"http://www.pinspire.com/ios/",
+	serverUrl:"http://beta.pinspire.com/ios/",
 	defaultImageColor:'#eee',
 	timeOut:20000,
 	noneInternet:L('no_access'),

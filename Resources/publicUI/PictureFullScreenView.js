@@ -181,8 +181,7 @@ var PictureFullScreenView=function(photoid,list,tab){
 		
 	}
 	function processNewImage(){		
-		b.visible = false;
-		t.visible = false;
+		
 
 		if(list[index].photoObj) {
 			inProcess = true;
@@ -200,11 +199,14 @@ var PictureFullScreenView=function(photoid,list,tab){
 			
 		}
 	}
-	
+	var isSwipe = false;
 	self.addEventListener("swipe",function(e){
-		if (inProcess)
+		if (inProcess){
 			return;
+		}
+		isSwipe = true;
 		
+		Ti.API.info("swipe happened...............");
 		if (e.direction=="left"){
 			//next
 			isLeft=true;
@@ -327,14 +329,19 @@ var PictureFullScreenView=function(photoid,list,tab){
 	
 	self.add(flatLayer);
 	self.addEventListener("click",function(e){
+		Ti.API.info("click happened...............");
 		setTimeout(function(e){
-			
+			if (isSwipe){
+				isSwipe = false;
+				return;
+			}
 			if(isClose) {
 				return;
 			}
 			if (inProcess){
 				return;
 			}
+			Ti.API.info("click handled ...............");
 			self.showLayer = !self.showLayer;
 			if(self.showLayer) {
 				flatLayer.show();
