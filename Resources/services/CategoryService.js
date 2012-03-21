@@ -4,7 +4,7 @@ var userid = userService.user.id;
 
 exports.getList=function(callBackFunction){
 	var Category = require("model/Category");
-	//var url = serverUrl +"/forIOS/getCategories4IOS";
+	
 	var url = serverUrl2 + "categoryList"
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {

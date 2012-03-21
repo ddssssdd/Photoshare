@@ -11,13 +11,13 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 	}
 	var lastRow = 4;
 	var border = Ti.UI.createView({
-		backgroundColor : "#576c89",
-		height : 2,
+		backgroundColor : "#ccc",
+		height : 1,
 		bottom : 0
 	});
 
 	var tableHeader = Ti.UI.createView({
-		backgroundColor : "#e2e7ed",
+		backgroundColor : "#fff",
 		width : 320,
 		height : 60
 	});
@@ -27,7 +27,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 	tableHeader.add(border);
 
 	var arrow = Ti.UI.createView({
-		backgroundImage : "images/blueArrow.png",
+		backgroundImage : "images/blackArrow.png",
 		width : 23,
 		height : 60,
 		bottom : 10,
@@ -40,7 +40,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 		width : 200,
 		bottom : 30,
 		height : "auto",
-		color : "#576c89",
+		color : "#000",
 		textAlign : "center",
 		font : {
 			fontSize : 13,
@@ -59,7 +59,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 		width : 200,
 		bottom : 15,
 		height : "auto",
-		color : "#576c89",
+		color : "#878787",
 		textAlign : "center",
 		font : {
 			fontSize : 12

@@ -1,7 +1,7 @@
 var CustomTableView=function(parent,table_settings){
 	var self = Titanium.UI.createTableView(table_settings);
 	parent.add(self);
-	var showDebug=true;
+	var showDebug=false;
 	var lastDistance = 0;
 	var isShow = true;
 	var lastY=0;

@@ -11,7 +11,9 @@ var winExplore=function(){
 		top:0,
 		width:320,
 		height:45,		
-		text : L('search')		
+		barColor:'#d1d1d1',
+		borderColor:'#aaa',
+		text : L('search')
 	});
 	self.add(searchTag);
 	searchTag.addEventListener("focus",function(e){

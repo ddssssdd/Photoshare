@@ -78,7 +78,7 @@ var UserProfileView=function(user,tabName){
 	
 	view.addEventListener("click",function(e){
 		if (toolBar){
-			toolBar.labels[0]= "XX Collection";
+			toolBar.labels[0]= "3 Collections";
 		}
 	})
 	

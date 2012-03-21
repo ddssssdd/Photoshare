@@ -78,19 +78,25 @@ var PictureFullScreenView=function(photoid,list,tab){
 		imageBg.width = 320,
 		imageBg.height = h;			
 		imageBg.zIndex = 0;
+		imageBg.photoid= f.photo.id;
 		
 		imageBg.add(imageComing);
 		imageComing.addEventListener("load",function(e){
+			if (imageComing.photo.id==imageBg.photoid){
+				//Ti.API.info("Image target :"+isLeft?320:-320);
+				imageComing.animate({left:0,duration:500},function(){
+					imageComing.left = 0;
+				});
 			
-			Ti.API.info("Image target :"+isLeft?320:-320);
-			imageComing.animate({left:0,duration:500},function(){
-				imageComing.left = 0;
-			})
+				image = imageComing;
+				b.image = image;
+				b.fireEvent("bottom:update.photo",{photoUserId:f.userId,photoId:f.photo.id});	
+			}else{
+				imageComming=null;
+			}
 			
-			image = imageComing;
-			b.image = image;
 			
-			b.fireEvent("bottom:update.photo",{photoUserId:f.userId,photoId:f.photo.id});
+			
 		});
 		
 		infoLabel2.text = f.firstname+" "+f.lastname;

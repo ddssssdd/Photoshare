@@ -73,9 +73,8 @@ var winRepin = function(photo){
 		top : 0,
 		left:0,
 		font : {
-			fontSize : 18,
-			fontFamily : 'Marker Felt',
-			fontWeight : 'bold'
+			fontSize : 18
+			
 		},
 		color : '#888',
 		textAlign : 'left',

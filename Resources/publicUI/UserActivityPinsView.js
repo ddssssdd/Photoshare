@@ -15,19 +15,19 @@ var UserActivityPinsView = function(activity){
 	});
 	self.add(viewTop);
 	var imageUserBg = Ti.UI.createView({
-		top:5,
-		left:5,
-		width:40,
-		height:40,
+		top:10,
+		left:10,
+		width:35,
+		height:35,
 		backgroundColor:settings.defaultImageColor
 	});
 	var avatar = activity.board.smallAvatar;
 	var imageUser = Ti.UI.createImageView({
 		image:avatar,
-		top:5,
-		left:5,
-		width:40,
-		height:40,
+		top:10,
+		left:10,
+		width:35,
+		height:35,
 		defaultImage:'images/clear.png'
 	});
 	viewTop.add(imageUserBg);
@@ -37,7 +37,7 @@ var UserActivityPinsView = function(activity){
 	});
 	
 	var labelTop = Ti.UI.createLabel({
-		top:0,
+		top:5,
 		left: 55,
 		height: 30,
 		text: activity.board.firstName+" "+activity.board.lastName,
@@ -64,45 +64,46 @@ var UserActivityPinsView = function(activity){
 	*/
 	
 	var labelMemo = Ti.UI.createLabel({
-		top: 20,
+		top: 28,
 		left: 55,
-		height: 30,
+		height: 20,
+		width:255,
 		text: activity.memo,
 		color:'#888',
 		font:{fontFamily:'Arial',fontSize:12,fontWeight:"bold"}
 	})
 	viewTop.add(labelMemo);
-	/*
+	
 	var listView = Ti.UI.createView({
-		top:50,
+		top:55,
 		left:0,
 		width:320,
-		height:105		
+		height:66		
 	});
 	self.add(listView)
 	var addPictures=function(datas){
-		for(var i=0;i<datas.length && i<3;i++){
+		for(var i=0;i<datas.length && i<5;i++){
 			var p = datas[i];
 			if (!p.imgWidth){
-				p.imgWidth=100;
+				p.imgWidth=56;
 			}
 			if (!p.imgHeight){
-				p.imgHeight=100;
+				p.imgHeight=56;
 			}
-			var h2 =p.imgHeight * (100 / p.imgWidth);
-			var h = (h2>100)?100:h2;
-			var t= (h>=100)?0:(100-h) / 2;
+			var h2 =p.imgHeight * (56 / p.imgWidth);
+			var h = (h2>56)?56:h2;
+			var t= (h>=56)?0:(56-h) / 2;
 			var imageBg = Ti.UI.createView({
 				top:t,
-				left:[5,110,215][i],
-				width: 100,
+				left:[10,71,132,193,254][i],
+				width: 56,
 				height:h,
 				backgroundColor:settings.defaultImageColor
 			});
 			var image = Ti.UI.createImageView({
 				top:t,
-				left:[5,110,215][i],
-				width: 100,
+				left:[10,71,132,193,254][i],
+				width: 56,
 				height:h,
 				image:p.imgUrl,
 				photoObj:{id:p.id,pin:p.imgUrl,width:p.imgWidth,height:p.imgHeight},
@@ -116,7 +117,7 @@ var UserActivityPinsView = function(activity){
 		}
 	}
 	addPictures(activity.pinsList)
-	*/
+	
 	return self;
 }
 module.exports = UserActivityPinsView;

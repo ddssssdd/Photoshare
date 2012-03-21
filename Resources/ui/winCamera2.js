@@ -7,7 +7,7 @@ var winCamera2=function(imageobj){
 		fullscreen:false
 	});
 	var homeButton = Ti.UI.createButton({
-		backgroundImage:'images/back.png',
+		backgroundImage:settings.getImageFile('back.png'),
 		width:67,
 		height:28
 	});
