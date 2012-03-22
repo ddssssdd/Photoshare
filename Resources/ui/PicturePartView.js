@@ -251,10 +251,12 @@ var PicturePartView = function(f,photo,index){
 				return;
 			}
 			
-			lblRepin.text = e.pin.repinCount+(e.pin.repinCount>1?" Repins":" Repin")
-			lblLike.text = e.pin.likeCount + (e.pin.likeCount>1?' Likes':' Like'),
+			lblRepin.text = e.pin.repinCount+(e.pin.repinCount>1?" Repins":" Repin");
+			lblLike.text = e.pin.likeCount + (e.pin.likeCount>1?' Likes':' Like');
 			
-			createComments(e.pin.commentsList);	
+			if (e.pin.commentsList.length>0) {
+				createComments(e.pin.commentsList,true);
+			}	
 			
 			/************ update repin and like count **********************/
 			/*var repinStatus=null,likeStatus=null;
@@ -317,7 +319,7 @@ var PicturePartView = function(f,photo,index){
 	
 	var childView =null;
 	var imageComments=null;
-	var createComments=function(datas){
+	var createComments=function(datas,isUpdate){
 		
 	   
 		//var _top = (hasRepin) ? ((hasLike) ? baseTop + 60 : baseTop + 35 ) : baseTop + 10;
@@ -344,6 +346,7 @@ var PicturePartView = function(f,photo,index){
 			height:'auto'
 		});
 		var t1 = 0;
+		var h=0; //statistic each comment height 
 		for(var i=0;i<datas.length;i++){
 			var item = datas[i];
 			
@@ -374,10 +377,15 @@ var PicturePartView = function(f,photo,index){
 			commentsView.add(label);
 			labelName.top = label.top;
 			t1 = t1 + commentsView.height;
+			h += commentsView.height; //accumlation
 			childView.add(commentsView);
 		};
 		contentView.add(childView);
 		
+		/*************send reload tableViewRow message to parent page***************/
+		if (isUpdate){
+			Ti.App.fireEvent('app:changeCellHeight',{rowIndex:index,height:contentView.height+h+10});
+		}
 		//contentView.height = 280+h+datas.length*60;		
 	};
 	if (photo.commentCount>0){

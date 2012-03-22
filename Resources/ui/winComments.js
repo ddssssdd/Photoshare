@@ -44,7 +44,9 @@ var winComments = function(photo){
 		width : 285,		
 		font : {
 			fontSize : 14,
-		},		
+		},
+		top : 0,
+		left:0,	
 		textAlign : 'left',		
 		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE		
 	})

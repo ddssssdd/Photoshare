@@ -25,6 +25,7 @@ var winRegister = function(param){
 		}
 	});
 	var tableview = Titanium.UI.createTableView();
+	tableview.scrollable=false;
 	self.add(tableview);
 	var row = Titanium.UI.createTableViewRow({height:480});
 	
@@ -58,8 +59,42 @@ var winRegister = function(param){
 	});
 	contentView.add(twitterButton);
 	
+	var showUp=function(arg) {
+		contentView.animate({top:-110,duration:500},function(e){
+				contentView.top=-110;
+				switch(arg.id){
+					case 'txtEmail':
+						emailText.focus();
+					break;
+					case 'txtFirstName':
+						firstnameText.focus();
+					break;
+					case 'txtLastName':
+						lastnameText.focus();
+					break;
+					case 'txtPwd':
+						passwordText.focus();
+					break;
+				}
+			});
+	}
+	var showDown=function() {
+		contentView.animate({top:40,duration:500},function(e){
+			contentView.top=40;
+			passwordText.blur();
+		});
+	}
+	var setFocus=function(e) {
+		if (contentView.top==-110) {
+			return;
+		}
+		showUp({id:e.source.id});
+	};
+	
+	
 	
 	var emailText = Titanium.UI.createTextField({
+		id:'txtEmail',
 		hintText : L('your_email_address'),
 		height : 50,
 		top : 195,		
@@ -71,10 +106,19 @@ var winRegister = function(param){
 		},
 		color : '#777',
 		clearOnEdit : true,
-		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE
+		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
+		keyboardType:Ti.UI.KEYBOARD_EMAIL,
+		returnKeyType:Ti.UI.RETURNKEY_NEXT
+	});
+	emailText.addEventListener('return',function(e){
+		firstnameText.focus();
+	});
+	emailText.addEventListener('focus',function(e){
+		setFocus(e);
 	});
 	contentView.add(emailText);
 	var firstnameText = Titanium.UI.createTextField({
+		id:'txtFirstName',
 		hintText : L('first_name'),
 		height : 50,
 		top : 245,
@@ -86,10 +130,18 @@ var winRegister = function(param){
 			fontSize : 18
 		},
 		color : '#777',
-		clearOnEdit : true
+		clearOnEdit : true,
+		returnKeyType:Ti.UI.RETURNKEY_NEXT
 	});
+	firstnameText.addEventListener('return',function(e){
+		lastnameText.focus();
+	});
+	firstnameText.addEventListener('focus',function(e){
+		setFocus(e);
+	})
 	contentView.add(firstnameText);	
 	var lastnameText = Titanium.UI.createTextField({
+		id:'txtLastName',
 		hintText : L('last_name'),
 		height : 50,
 		top : 245,
@@ -101,10 +153,18 @@ var winRegister = function(param){
 			fontSize : 18
 		},
 		color : '#777',
-		clearOnEdit : true
+		clearOnEdit : true,
+		returnKeyType:Ti.UI.RETURNKEY_NEXT
+	});
+	lastnameText.addEventListener('return',function(e){
+		passwordText.focus();
+	});
+	lastnameText.addEventListener('focus',function(e){
+		setFocus(e);
 	});
 	contentView.add(lastnameText);
 	var passwordText = Titanium.UI.createTextField({
+		id:'txtPwd',
 		hintText : L('password'),
 		height : 50,
 		top : 292,
@@ -117,12 +177,16 @@ var winRegister = function(param){
 		},
 		color : '#777',
 		clearOnEdit : true,
-		passwordMask:true
+		passwordMask:true,
+		returnKeyType:Ti.UI.RETURNKEY_DONE
 	});
 	contentView.add(passwordText);
-	
-	passwordText.addEventListener("blur",function(e){
-			
+	passwordText.addEventListener('focus',function(e){
+		setFocus(e);
+	});
+	passwordText.addEventListener("return",function(e){
+		 showDown();
+		 passwordText.blur();
 	});
 	
 	if (param){

@@ -1,5 +1,5 @@
 var settings={showAnimation:false,
-	serverUrl:"http://beta.pinspire.com/ios/",
+	serverUrl:"http://www.pinspire.com/ios/",
 	defaultImageColor:'#eee',
 	timeOut:20000,
 	noneInternet:L('no_access'),
@@ -56,3 +56,4 @@ btn1.addEventListener('click', function() {
 	}
 });
 */
+

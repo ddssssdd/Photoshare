@@ -20,7 +20,7 @@ var UserProfileView=function(user,tabName){
 	var bgView = Ti.UI.createScrollView({
 		top:0,
 		left:0,
-		width:320,		
+		width:320,
 		contentHeight:'auto'
 	});
 	var self = Ti.UI.createView({
@@ -140,8 +140,8 @@ var UserProfileView=function(user,tabName){
 			top : 120,
 			left : 0,
 			width : 320,
-			height:'auto'
-			//height:800
+			//height:'auto'
+			height:800
 		})
 		self.add(bottomView);	
 	}
@@ -155,12 +155,13 @@ var UserProfileView=function(user,tabName){
 		}
 		bottomView.add(tableView);
 		var tbl_data = [];
+		var h=0;
 		for(var i=0;i<datas.length;i++){
 			
 			var item = datas[i];
 			var row = Ti.UI.createTableViewRow({hasChild:true});
 			var label = Ti.UI.createLabel({
-				text:item.title,
+				text:item.title.length>30 ? item.title.length.substring(0,30)+"..." :item.title , // if the title length more than 30 then substring
 				top:-10,
 				left:10,
 				font:{fontSize:13,fontWeight:"bold"}
@@ -175,6 +176,7 @@ var UserProfileView=function(user,tabName){
 				font:{fontSize:10}
 			});
 			row.add(label2);
+			h += row.height;
 			tbl_data.push(row);
 		}
 		tableView.data = tbl_data;
@@ -182,21 +184,36 @@ var UserProfileView=function(user,tabName){
 		
 			Ti.App.fireEvent("app:openInTab",{id:e.rowData.board.id,userInfo:user,tab:tabName});
 			//win.open();
-		});		
+		});
+		
+		bgView.contentHeight=view.height+25+h+48; //h is the tableview all rows height
 	}
 	var ScrollViewFill = require("publicUI/ScrollPictureView");
+	
+	/**********reset the scrollview height**********/
+	var loadDataAndChangeScrollHeight=function(datas) {
+		var sv= new ScrollViewFill(datas,bottomView,tabName);
+		bgView.contentHeight=view.height+25+sv.max+48;  //top(90) + toolbar(25) + bottom (dynamic height) + tabbar
+	}
 	
 	var loadPins=function(datas){
 		if (toolBar){
 			toolBar.labels[1]= datas.length+ (datas.length>1? L('pins') : L('pin') );
 		}
-		new ScrollViewFill(datas,bottomView,tabName);
+		loadDataAndChangeScrollHeight(datas);
+		/*var sv= new ScrollViewFill(datas,bottomView,tabName);
+		  bgView.contentHeight=view.height+25+sv.max+48;  //top(90) + toolbar(25) + bottom (dynamic height) + tabbar
+		*/
 	}
 	var loadLikes=function(datas){
 		if (toolBar){
 			toolBar.labels[2]= datas.length+(datas.length>1? L('likes') : L('like') );
 		}
-		new ScrollViewFill(datas,bottomView,tabName);
+		
+		loadDataAndChangeScrollHeight(datas);
+		/*var sv=new ScrollViewFill(datas,bottomView,tabName);
+		bgView.contentHeight=view.height+25+sv.max+48;  //top(90) + toolbar(25) + bottom (dynamic height) + tabbar
+		*/
 	}
 	var userService= require("services/UserService");
 	

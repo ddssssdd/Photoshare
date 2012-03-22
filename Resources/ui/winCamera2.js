@@ -8,7 +8,7 @@ var winCamera2=function(imageobj){
 	});
 	var homeButton = Ti.UI.createButton({
 		backgroundImage:settings.getImageFile('back.png'),
-		width:67,
+		width:62,
 		height:28
 	});
 	self.leftNavButton = homeButton;

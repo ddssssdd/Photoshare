@@ -116,13 +116,14 @@ var winLogin= function(){
 		}
 		showUp({id:emailText.id});
 	});
+	
 	emailText.addEventListener('return',function(e){
 		passwordText.focus();
 	})
 	
-	self.addEventListener('focus',function(e){
+	/*self.addEventListener('focus',function(e){
 		showUp({id:'txtEmail'});
-	});
+	});*/
 
 	contentView.add(emailText);
 	var passwordText = Titanium.UI.createTextField({

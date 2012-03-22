@@ -1,5 +1,6 @@
 var ScrollPictureView=function(datas,parent,tabName){
 	this.tabName = tabName;
+	this.max=0;
 	var ypos=[10,10,10];
 	
 	var xpos = [5, 110, 215];
@@ -42,7 +43,7 @@ var ScrollPictureView=function(datas,parent,tabName){
 			max = item;
 	}
 	parent.height = max;
-
+	this.max=max;
 
 }
 

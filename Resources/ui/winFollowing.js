@@ -91,6 +91,13 @@ var winFollowing=function(){
 		isFirstOpen = true;
 	});
 	
+	/**************receive the reload tableViewRow message*****************/
+	Ti.App.addEventListener('app:changeCellHeight',function(e){
+		var row = tableView.data[0].rows[e.rowIndex]; //get current row according to the rowIndex
+		row.height=e.height;
+		tableView.updateRow(e.rowIndex,row,{animated:true}); //updateRow
+		Ti.API.info('update tableViewRow height success');
+	});
 	
 	return self;
 };
