@@ -155,15 +155,17 @@ var UserProfileView=function(user,tabName){
 		}
 		bottomView.add(tableView);
 		var tbl_data = [];
-		var h=0;
+		
 		for(var i=0;i<datas.length;i++){
 			
 			var item = datas[i];
 			var row = Ti.UI.createTableViewRow({hasChild:true});
 			var label = Ti.UI.createLabel({
-				text:item.title.length>30 ? item.title.length.substring(0,30)+"..." :item.title , // if the title length more than 30 then substring
-				top:-10,
+				text:item.title,//.length>30 ? item.title.length.substring(0,30)+"..." :item.title , // if the title length more than 30 then substring
+				top:0,
 				left:10,
+				width:280,
+				height:25,
 				font:{fontSize:13,fontWeight:"bold"}
 			});
 			row.board = item;
@@ -176,7 +178,7 @@ var UserProfileView=function(user,tabName){
 				font:{fontSize:10}
 			});
 			row.add(label2);
-			h += row.height;
+			
 			tbl_data.push(row);
 		}
 		tableView.data = tbl_data;
@@ -186,7 +188,7 @@ var UserProfileView=function(user,tabName){
 			//win.open();
 		});
 		
-		bgView.contentHeight=view.height+25+h+48; //h is the tableview all rows height
+		bgView.contentHeight=115+tbl_data.length*50; //h is the tableview all rows height
 	}
 	var ScrollViewFill = require("publicUI/ScrollPictureView");
 	

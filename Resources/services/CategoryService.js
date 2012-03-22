@@ -132,7 +132,7 @@ exports.getFollowingLatest=function(offset,callBackFunciton){
 					var item = items.list[i];
 					var p = new Photo(item.id, item.pin, item.imgWidth, item.imgHeight, item.boardId, item.boardName, item.pinTitle, 
 						item.fromUrl, item.dateCreated, item.repinCount,item.likeCount,item.commentCount,item.commentsList);
-					var following = new Following(item.avater, item.firstName, item.lastName, p,item.userId,item.boardId,item);
+					var following = new Following(item.avatar, item.firstName, item.lastName, p,item.userId,item.boardId,item);
 					datas.push(following);
 				}
 				//callBackFunciton(datas);

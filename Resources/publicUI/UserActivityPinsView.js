@@ -94,14 +94,14 @@ var UserActivityPinsView = function(activity){
 			var h = (h2>56)?56:h2;
 			var t= (h>=56)?0:(56-h) / 2;
 			var imageBg = Ti.UI.createView({
-				top:t,
+				top:0,//t,
 				left:[10,71,132,193,254][i],
 				width: 56,
 				height: 56,//h,
 				backgroundColor:settings.defaultImageColor
 			});
 			var image = Ti.UI.createImageView({
-				top:t,
+				top:0,//t,
 				left:[10,71,132,193,254][i],
 				width: 56,
 				height:56,//h,

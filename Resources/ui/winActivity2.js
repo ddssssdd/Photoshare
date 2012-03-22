@@ -33,6 +33,7 @@ var winActivity2=function(){
 			row.add(pview);
 			tbl_data.push(row);
 		}
+		tbl_data.push(Ti.UI.createTableViewRow({height:45}));
 		tableView.data = tbl_data;
 		isloading = true;
 		tableView.addScrollListener();
