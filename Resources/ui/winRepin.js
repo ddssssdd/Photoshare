@@ -1,4 +1,4 @@
-var winRepin = function(photo){
+var winRepin = function(photo,imageObj){
 	this.photo = photo
 	var self = Ti.UI.createWindow({		
 		backgroundColor:'#fff',
@@ -8,16 +8,26 @@ var winRepin = function(photo){
 		tabBarHidden:true,
 		fullscreen:false
 	});
+	/*
 	var BackNavButton = require("publicUI/BackNavButton");
 	new BackNavButton(self);
-	
+	*/
+	var cancelButton=Titanium.UI.createButton({
+		width:62,
+		height:28,
+		backgroundImage:'images/cancel.png'
+	});
+	self.leftNavButton = cancelButton;
+	cancelButton.addEventListener("click",function(e){
+		self.close();
+	});
 	var saveButton = Titanium.UI.createButton({
-		backgroundImage:'images/save.png',
-		width : 59,
+		backgroundImage:'images/pinit.png',
+		width : 62,
 		height: 28
 	});
 	self.rightNavButton = saveButton;
-	saveButton.addEventListener("click",function(e){
+	var saveProcess=function(e){
 		var userService = require("services/UserService");
 		if (photo){
 			
@@ -33,17 +43,24 @@ var winRepin = function(photo){
 
 	
 		}else{
-			
+			/*
 			Ti.App.fireEvent("app:select.board", {
 				boardId : rowBoard.cid,
 				description : textDescription.value
 			});
-
+			*/
+			var userService= require("services/UserService");
+			userService.createPin(imageObj,rowBoard.cid,textDescription.value,function(e){
+			Ti.App.fireEvent("app:message",{text:L('create_pin_success')});			
+			self.close();				
+		});	
 
 		}
 		
 		self.close();
-	});
+	}
+	saveButton.addEventListener("click",saveProcess);
+	
 	
 	var data = [];
 	data[0] = Ti.UI.createTableViewSection({headerTitle:photo?L('repin'):L('create_pin')});
@@ -78,12 +95,16 @@ var winRepin = function(photo){
 		},
 		color : '#888',
 		textAlign : 'left',
-		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE	
+		clearOnEdit: true,
+		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
+		returnKeyType:Ti.UI.RETURNKEY_DONE
 	})
 
 	rowDescription.add(textDescription);
 	data[0].add(rowDescription);
-	
+	textDescription.addEventListener("return",function(e){
+		saveProcess();
+	})
 	/*
 	data[1] = Ti.UI.createTableViewSection({headerTitle:"Share"});
 	var rowUserName = Ti.UI.createTableViewRow({title:"share on facebook"});	

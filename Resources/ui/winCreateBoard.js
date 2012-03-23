@@ -14,15 +14,16 @@ var winCreateBoard=function(e){
 		height: 28
 	});
 	self.rightNavButton = saveButton;
-	saveButton.addEventListener("click",function(e){
+	
+	var createProcess=function(e){
 		//save
 		var userService = require("services/UserService");
 		userService.createBoard(titleText.value,row2.cid,function(e){			
 			self.close();
 			Ti.App.fireEvent("app:createBoard",{boardInfo:e});
 		})
-	});
-	
+	}
+	saveButton.addEventListener("click",createProcess);
 	var tableview = Ti.UI.createTableView({
 		data:[L('loading')],
 		style: Titanium.UI.iPhone.TableViewStyle.GROUPED,
@@ -45,8 +46,10 @@ var winCreateBoard=function(e){
 		},
 		color : '#777',
 		clearOnEdit : true,		
-		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE
+		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
+		returnKeyType:Ti.UI.RETURNKEY_DONE
 	});
+	titleText.addEventListener("return",createProcess);
 	var row1 = Ti.UI.createTableViewRow();
 	row1.add(titleText);
 	data[0].add(row1);
@@ -68,6 +71,7 @@ var winCreateBoard=function(e){
 		if (e.index>1){
 			row2.title = list[e.index-2].title;
 			row2.cid = list[e.index-2].id;	
+			tableview.scrollToTop(0);
 		}
 		
 	});

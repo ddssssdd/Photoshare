@@ -32,12 +32,7 @@ var UserProfileView=function(user,tabName){
 	bgView.add(self);
 	
 	
-	self.addEventListener("singletap",function(e){
-		Ti.API.info(e);
-	});
-	self.addEventListener("touchend",function(e){
-		Ti.API.info(e);
-	});
+	
 	var view = Ti.UI.createView({
 		top : 0,
 		width : 320,
@@ -188,7 +183,7 @@ var UserProfileView=function(user,tabName){
 			//win.open();
 		});
 		
-		bgView.contentHeight=115+tbl_data.length*50; //h is the tableview all rows height
+		bgView.contentHeight=135+tbl_data.length*50; //h is the tableview all rows height
 	}
 	var ScrollViewFill = require("publicUI/ScrollPictureView");
 	

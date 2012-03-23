@@ -182,22 +182,13 @@ var AppMainWindow=function(){
 		// called when media returned from the camera
 		Ti.API.debug('Our type was: ' + event.mediaType);
 		if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
+			
 			/*
-			if (imageView){
-				self.remove(imageView);
-				imageView = null;
-			}
-			imageView = Ti.UI.createImageView({
-				//width : self.width,
-				//height : self.height,
-				image : event.media
-			});
-			self.add(imageView);		
-			isGetPhoto= true;
-			*/
 			var winCamera2=require("ui/winCamera2");
 			var win = new winCamera2(event.media);
-		
+			*/
+			var winRepin = require("ui/winRepin");
+			var win = new winRepin(null,event.media);
 			if(currentIndex == 0) {
 				tabFollowing.open(win);
 			}

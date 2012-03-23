@@ -16,8 +16,8 @@ var UserBoardView = function(user,tabName,bid){
 	var view = Ti.UI.createView({
 		top : 0,
 		width : 320,
-		height : 50,
-		backgroundColor:'#eee'
+		height : 50
+		
 	});
 	var imageBg= Ti.UI.createView({
 		top:5,
@@ -48,13 +48,7 @@ var UserBoardView = function(user,tabName,bid){
 		height:'auto'
 	})
 	view.add(labelUser);
-	var borderLine= Ti.UI.createView({
-		top:51,
-		left:0,
-		width:320,
-		height:1,
-		backgroundColor:'#ccc'
-	});
+	
 	
 	/*
 	var lblInfo = Ti.UI.createLabel({
@@ -77,7 +71,7 @@ var UserBoardView = function(user,tabName,bid){
 	});
 	self.add(scrollView);
 	scrollView.add(view);
-	scrollView.add(borderLine);
+	//scrollView.add(borderLine);
 	var bottomView = Ti.UI.createView({
 			top : 50,
 			left : 0,

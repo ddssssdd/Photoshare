@@ -33,20 +33,20 @@ var winComments = function(photo){
 	var data=[];
 	data[0] = Ti.UI.createTableViewSection({headerTitle:L('comment')});
 	
-	var row = Titanium.UI.createTableViewRow({height:'140'});
+	var row = Titanium.UI.createTableViewRow({height:'150'});
 	
 	
 	
 	var textDescription = Ti.UI.createTextArea({
 		editable : true,
 		value : photo.description,
-		height : 130,
-		width : 285,		
+		height : 140,
+		width : 280,		
 		font : {
 			fontSize : 14,
 		},
 		top : 0,
-		left:0,	
+		left:5,	
 		textAlign : 'left',		
 		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE		
 	})

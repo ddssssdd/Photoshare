@@ -30,7 +30,7 @@ var PictureFullScreenView=function(photoid,list,tab){
 	self.add(imageBg);
 
 
-	var fillContent=function(f,isGet){
+	var fillContent=function(f,isGet,delayTime){
 		inProcess = false;
 		if (!isGet){
 			
@@ -50,18 +50,6 @@ var PictureFullScreenView=function(photoid,list,tab){
 		}
 		self.photo =f.photo;
 		this.photoid = f.photo.id;
-		if (image){
-			imageBg.remove(image);
-			image=null;
-		}
-		/*
-		if (imageBg.children){
-			for(var i=imageBg.children.length-1;i>-1;i--){
-				imageBg.remove(imageBg.children[i]);				
-			}
-		}
-		*/
-		
 		var h = (f.photo.height?f.photo.height:100) * 320 / (f.photo.width?f.photo.width:100);
 		var t = (h >= 480) ? 0 : (480 - h) / 2;
 		var imageComing = Ti.UI.createImageView({
@@ -79,25 +67,30 @@ var PictureFullScreenView=function(photoid,list,tab){
 		imageBg.height = h;			
 		imageBg.zIndex = 0;
 		imageBg.photoid= f.photo.id;
-		
+		b.image = imageComing;
+		b.fireEvent("bottom:update.photo",{photoUserId:f.userId,photoId:f.photo.id});
 		imageBg.add(imageComing);
-		imageComing.addEventListener("load",function(e){
+		imageComing.addEventListener("load",function(e){			
 			if (imageComing.photo.id==imageBg.photoid){
+				if (image){
+					imageBg.remove(image);
+					image=null;
+				}
+				
 				//Ti.API.info("Image target :"+isLeft?320:-320);
 				imageComing.animate({left:0,duration:500},function(){
 					imageComing.left = 0;
 				});
-			
-				image = imageComing;
-				b.image = image;
-				b.fireEvent("bottom:update.photo",{photoUserId:f.userId,photoId:f.photo.id});	
+				image = imageComing;			
 			}else{
 				imageComming=null;
 			}
-			
-			
-			
 		});
+		imageComing.addEventListener("error",function(e){			
+			Ti.UI.info("load image error");
+		})
+		
+		
 		
 		infoLabel2.text = f.firstname+" "+f.lastname;
 		infoLabel.text = f.photo.description;
@@ -169,12 +162,17 @@ var PictureFullScreenView=function(photoid,list,tab){
 	},1000);
 	
 	var isLeft=false;
-	function disapearImage(){
+	function disapearImage(callBackFunction){
 	
 		if(image) {
 			image.animate({left:(isLeft?-1:1)*320,duration:500},function(){
+				/*
 				imageBg.remove(image);
-				image = null;	
+				image = null;
+				*/	
+				if (callBackFunction){
+					callBackFunction.call(this);
+				}
 			});
 			
 		}
@@ -185,7 +183,10 @@ var PictureFullScreenView=function(photoid,list,tab){
 
 		if(list[index].photoObj) {
 			inProcess = true;
-			fillContent(list[index].photoObj, true);
+			disapearImage(function(){
+				fillContent(list[index].photoObj, true);	
+			});
+			
 		} else {
 			if (list[index].isLoading){
 				

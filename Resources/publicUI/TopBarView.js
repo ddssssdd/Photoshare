@@ -14,7 +14,7 @@ var TopBarView = function(){
 			top : 8,
 			left : 10,
 			height : 28,
-			width : 64,
+			width : 62,
 			backgroundImage : settings.getImageFile("back.png")
 		});
 		self.add(backBtn);
