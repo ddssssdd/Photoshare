@@ -16,11 +16,22 @@ var winCreateBoard=function(e){
 	self.rightNavButton = saveButton;
 	
 	var createProcess=function(e){
+		if (!titleText.value){
+			titleText.focus();
+			Ti.App.fireEvent("app:message",{text:"Collection name is required."});
+			return;
+		}
 		//save
 		var userService = require("services/UserService");
-		userService.createBoard(titleText.value,row2.cid,function(e){			
-			self.close();
-			Ti.App.fireEvent("app:createBoard",{boardInfo:e});
+		userService.createBoard(titleText.value,row2.cid,function(e){		
+			if (e.status=="success"){
+				self.close();
+				Ti.App.fireEvent("app:createBoard",{boardInfo:e});	
+			}else{
+				Ti.App.fireEvent("app:message",{text:e.memo});
+			}	
+			
+			
 		})
 	}
 	saveButton.addEventListener("click",createProcess);

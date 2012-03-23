@@ -189,7 +189,7 @@ var PictureFullScreenView=function(photoid,list,tab){
 			
 		} else {
 			if (list[index].isLoading){
-				
+				inProcess = true;
 			}else{
 				disapearImage();
 				loadingList.push(list[index].id);

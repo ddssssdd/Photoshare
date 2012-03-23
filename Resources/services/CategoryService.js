@@ -4,8 +4,9 @@ var userid = userService.user.id;
 
 exports.getList=function(callBackFunction){
 	var Category = require("model/Category");
-	
-	var url = serverUrl2 + "categoryList"
+	var UserService = require("services/UserService");
+	var user = UserService.user;
+	var url = serverUrl2 + "categoryList?currentLoginUserId="+user.id;
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var json = JSON.parse(this.responseText);
@@ -37,12 +38,13 @@ exports.getList=function(callBackFunction){
 
 exports.getCategory=function(cid,offset,callBackFunction){
 	//var url = serverUrl + "/forIOS/getPinsByCategory4IOS?categoryId=" +cid+  "&max=27&offset="+offset;
-	
+	var UserService = require("services/UserService");
+	var user = UserService.user;
 	var url = serverUrl2;
 	if (cid==0){
-		url = url + "getHotPins?max=27&offset="+offset;
+		url = url + "getHotPins?max=27&offset="+offset+"&currentLoginUserId="+(user.id?user.id:0);
 	}else{
-		url = url + "getPinsByCategoryId?categoryId=" +cid+  "&max=27&offset="+offset;
+		url = url + "getPinsByCategoryId?categoryId=" +cid+  "&max=27&offset="+offset+"&currentLoginUserId="+user.id;
 	}
 	
 	var xhr = Ti.Network.createHTTPClient({
@@ -78,8 +80,9 @@ exports.getCategory=function(cid,offset,callBackFunction){
 //http://beta.pinspire.com/ios/query?key=123
 exports.searchByKey=function(key,offset,callBackFunction){
 	//var url = serverUrl + "/forIOS/getPinsByCategory4IOS?categoryId=" +cid+  "&max=27&offset="+offset;
-	
-	var url =  serverUrl2 + "query?key=" +key+  "&max=27&offset="+offset;
+	var UserService = require("services/UserService");
+	var user = UserService.user;
+	var url =  serverUrl2 + "query?key=" +key+  "&max=27&offset="+offset+"&currentLoginUserId="+user.id;
 	
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {

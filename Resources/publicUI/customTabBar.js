@@ -11,7 +11,7 @@ CustomTabBar = function(settings) {
 						
 		}
 	};
-	var setActivityTab=function(index){		
+	var setHighlightBar=function(index){		
 		resetTabs();
 		tabBarItems[index].image = settings.imagePath + settings.items[index].selected;
 	}
@@ -89,8 +89,8 @@ CustomTabBar = function(settings) {
 	
 
 	return {
-		setActivityTab:function(index){
-			customTabBar.setActivityTab(index);
+		setHighlightBar:function(index){
+			customTabBar.setHighlightBar(index);
 		},
 		hide: function() {
 			
