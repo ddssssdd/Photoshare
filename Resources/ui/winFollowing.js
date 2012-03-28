@@ -8,12 +8,29 @@ var winFollowing=function(){
 	});
 	
 	
+	var isFirstOpen=true;
+	//initial load show customtabBar 2012.3.27
+	self.addEventListener('focus',function(e){
+		//show custom tabGroup
+		if (!customTabGroup) {
+			Ti.App.fireEvent("app:tabgroup",{visible:true});
+		}else {
+			customTabGroup.show();
+		}
+		
+		if (isFirstOpen){
+			self.loadData();
+			isFirstOpen= false;
+		}
+	});
 	
+
 	var CustomTableView = require("publicUI/CustomTableView");
 	var tableView = new CustomTableView(self);
 	//tableView.allowsSelection=false;
 	tableView.selectionStyle=Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 	self.add(tableView);
+	
 	var isRefresh=false;
 	/***********pull refresh component*******************/
 	var tableHeader=require('publicUI/TableViewPullRefresh');
@@ -78,18 +95,12 @@ var winFollowing=function(){
 			tableView.deleteRow(e.rowindex);
 		}
 	});
-	var isFirstOpen=true;
-	self.addEventListener("focus",function(e){
-		if (isFirstOpen){
-			self.loadData();
-			isFirstOpen= false;
-		}
-		
-	});
+	
 	Ti.App.addEventListener("app:logout",function(e){
 		tableView.data=[];
 		isFirstOpen = true;
 	});
+	
 	
 	/**************receive the reload tableViewRow message*****************/
 	Ti.App.addEventListener('app:changeCellHeight',function(e){

@@ -22,7 +22,7 @@ var UserPinsView = function(user){
 	});
 	viewTop.add(imageBg)
 	var imageUser = Ti.UI.createImageView({
-		image:user.avatar?user.avatar:"http://beta.pinspire.com.hk/images/avatar-default.jpg",
+		image:user.avatar,
 		top:5,
 		left:5,
 		width:44,

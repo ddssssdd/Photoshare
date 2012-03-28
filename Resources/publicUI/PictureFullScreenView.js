@@ -20,11 +20,12 @@ var PictureFullScreenView=function(photoid,list,tab){
 	var image = null;
 	var inProcess = true;
 	
-	var imageBg = Ti.UI.createView({
+	//change the view to scrollview 2012.3.27
+	var imageBg = Ti.UI.createScrollView({
 		width : 0,
 		top : 0,
 		left : 0,
-		height : 0,
+		contentHeight : 'auto',
 		backgroundColor : '#000'// settings.defaultImageColor
 	});
 	self.add(imageBg);
@@ -64,7 +65,7 @@ var PictureFullScreenView=function(photoid,list,tab){
 		imageBg.top = t;
 		imageBg.left = 0;
 		imageBg.width = 320,
-		imageBg.height = h;			
+		imageBg.contentHeight = h;			
 		imageBg.zIndex = 0;
 		imageBg.photoid= f.photo.id;
 		b.image = imageComing;
@@ -90,12 +91,29 @@ var PictureFullScreenView=function(photoid,list,tab){
 			Ti.UI.info("load image error");
 		})
 		
+		//picture zoomin or zoomout 2012.3.28
+		var lastScale=1.0;
+		var currentScale=1.0;
+		imageComing.maxScale=4.0;
+		imageComing.minScale=1.0;
+		imageComing.addEventListener('pinch',function(e){
+			currentScale=e.scale;
+			image.transform=Ti.UI.create2DMatrix()
+								.scale(lastScale*currentScale);
+			
+		});
+		
+		imageComing.addEventListener('pinchend',function(e){
+			lastScale=lastScale*currentScale;
+			currentScale=1.0;
+		});
 		
 		
 		infoLabel2.text = f.firstname+" "+f.lastname;
 		infoLabel.text = f.photo.description;
 		infoLabelright.text = f.photo.likeCount+(f.photo.likeCount>1?" Likes ":" Like ")+f.photo.repinCount+(f.photo.repinCount>1?" Repins":" Repin");
-		boardLabel.text = f.photo.board;
+		//boardLabel.text = f.photo.board;
+		boardLabel.text=f.photo.id; //show test information 2012.3.27
 		boardLabel.bid= f.photo.boardId;
 		//userInfo missing user.id
 		boardLabel.userInfo={avater:f.source.avatar,lastName:f.source.lastName,firstName:f.source.firstName};
@@ -280,6 +298,8 @@ var PictureFullScreenView=function(photoid,list,tab){
 		textAlign:"right"
 	});
 	t.add(boardLabel);
+	
+	
 	boardLabel.addEventListener("click",function(e){
 		if (!tab){
 			return;

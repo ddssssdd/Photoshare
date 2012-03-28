@@ -15,6 +15,25 @@ var PictureListView=function(isLogin){
 		var BottomLoginBar = require("publicUI/BottomLoginBar");
 		var b = new BottomLoginBar();
 		self.add(b);
+		
+		/***********add two button*************/
+		var leftButton=Ti.UI.createButton({
+			title:'Category',
+			width:90
+		});
+		v.addLeftNavButton(leftButton,function(e){
+			var winExplore=require('ui/winExplore');
+			new winExplore(false).open();
+		})
+		var rightButton=Ti.UI.createButton({
+			title:'Select Country',
+			width:110
+		});
+		v.addRightNavButton(rightButton,function(e){
+			//TODO
+		});
+		
+		
 	}else{
 		var BackNavButton = require("publicUI/BackNavButton");
 		new BackNavButton(self);

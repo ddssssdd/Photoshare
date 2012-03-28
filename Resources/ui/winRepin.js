@@ -37,6 +37,10 @@ var winRepin = function(photo,imageObj){
 					Ti.App.fireEvent("app:message", {
 						text : L("repin_success")
 					});
+					
+					//update profile pins count 2012.3.28
+					Ti.App.fireEvent('app:updateProfile',{pin:1}); //pin+1
+					
 				}
 				Ti.App.fireEvent("app:refresh.pin",{pin:e});
 			});
@@ -84,7 +88,8 @@ var winRepin = function(photo,imageObj){
 	
 	var textDescription = Ti.UI.createTextArea({
 		editable : true,
-		value : photo?photo.description:L('description'),
+		//value : photo?photo.description:L('description'),
+		value:'',
 		height : 120,
 		width : 300,
 		top : 0,

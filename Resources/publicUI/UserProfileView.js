@@ -159,7 +159,7 @@ var UserProfileView=function(user,tabName){
 				text:item.title,//.length>30 ? item.title.length.substring(0,30)+"..." :item.title , // if the title length more than 30 then substring
 				top:0,
 				left:10,
-				width:280,
+				width:280, //use the width property to constrain show length
 				height:25,
 				font:{fontSize:13,fontWeight:"bold"}
 			});
@@ -225,33 +225,61 @@ var UserProfileView=function(user,tabName){
 			backgroundImage:'images/bottom_bg.png'
 		});
 		self.add(toolView);
-		var toolBar = Titanium.UI.iOS.createTabbedBar({
-			top : 5,
-			left : 10,
-			width : 300,
-			height : 25,
-			labels : [ user.board_count+ (user.board_count>1? L('collections') : L('collection') ),
-					 user.pin_count+(user.pin_count>1? L('pins') : L('pin') ), 
-					 user.like_count+(user.like_count>1? L('likes') : L('like'))],
-			backgroundColor : "#cfcfcf",// 'maroon',
-			style : Titanium.UI.iPhone.SystemButtonStyle.BAR,
-			index : 1,			
-		});
+		var likeCount=user.like_count;
+		var pinCount=user.pin_count;
+		var toolBar=null;
+		
+		var CreateToolBar=function(likecount,pincount){
+			toolBar= Titanium.UI.iOS.createTabbedBar({
+				top : 5,
+				left : 10,
+				width : 300,
+				height : 25,
+				labels : [ user.board_count+ (user.board_count>1? L('collections') : L('collection') ),
+						 pincount+(pincount>1? L('pins') : L('pin') ), 
+						 likecount+(likecount>1? L('likes') : L('like'))],
+				backgroundColor : "#cfcfcf",// 'maroon',
+				style : Titanium.UI.iPhone.SystemButtonStyle.BAR,
+				index : 1,			
+			});
+			
+			toolBar.addEventListener("click", function(e) {
+				createContent();
+				if(e.index == 0) {
+					//boards;
+					userService.getBoards(userId, loadBoards);
+				} else if(e.index == 1) {
+					//pins
+					userService.getPins(userId, loadPins);
+				} else {
+					//likes;
+					userService.getLikes(userId, 1, loadLikes);
+				}
+			});
+		}
+		
+		CreateToolBar(likeCount,pinCount); //create toolbar
 		toolView.add(toolBar);
-		toolBar.addEventListener("click", function(e) {
-			createContent();
-			if(e.index == 0) {
-				//boards;
-				userService.getBoards(userId, loadBoards);
-			} else if(e.index == 1) {
-				//pins
-				userService.getPins(userId, loadPins);
-			} else {
-				//likes;
-				userService.getLikes(userId, 1, loadLikes);
-			}
-		});
+		
 
+		//change the likecount 2012.3.28
+		Ti.App.addEventListener('app:updateProfile',function(e){
+				if (toolBar){
+					toolView.remove(toolBar);		
+				}
+				likeCount+=(e.like ? e.like :0);
+				pinCount+=(e.pin ? e.pin : 0);
+				CreateToolBar(likeCount,pinCount); //
+				toolView.add(toolBar);
+				//if has pin then reload pin data.
+				if (e.pin) {
+					userService.getPins(userId,loadPins);
+				}else if (e.like) {
+					userService.getLikes(userId,loadLikes);
+				}
+				
+				
+		});
 
 		
 	}

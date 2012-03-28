@@ -1,4 +1,4 @@
-var BottomToolBar=function(topValue){
+var BottomToolBar=function(topValue,photo){
 	var self;
 	if (topValue){
 		self = Titanium.UI.createView({
@@ -31,6 +31,22 @@ var BottomToolBar=function(topValue){
 		width:77,
 		backgroundImage:"images/repin_button.png"
 	})
+	
+	
+	/*************show like or unlike *******************/
+	var userService = require("services/UserService");
+	userService.getLikes(userService.user.id,0,function(e){
+		var datas=e;
+		for (var i=0;i<datas.length;i++) {
+			if (datas[i].id==photo.id) {
+				Ti.API.info('they are the same');
+				likeBtn.backgroundImage="images/unlike_button.png";
+				//likeBtn.action='delete';
+				break;
+			}
+		}
+	});
+	
 	
 	var likeBtn = Ti.UI.createButton({
 		left:100,
@@ -66,6 +82,10 @@ var BottomToolBar=function(topValue){
 					Ti.App.fireEvent("app:refresh.pin", {
 						pin : e
 					});
+					
+					//send message to update profile likecount 2012.3.28
+					Ti.App.fireEvent('app:updateProfile',{like:((isUnlike) ? -1 :1) });
+					
 					Ti.App.fireEvent("app:message", {
 						text : (isUnlike)? L('unlike_success') : L('like_success')
 					});

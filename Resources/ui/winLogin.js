@@ -11,6 +11,10 @@ var winLogin= function(){
 	t.addBackButton(function(e){
 		self.close();
 	});
+	
+	//show topbarview 2012.3.27
+	t.showTop(true,true);
+		
 	Ti.Facebook.appid ="192953927448564";// "144454838961780";
 	Ti.Facebook.permissions = ['publish_stream'];
 	Ti.Facebook.addEventListener('login',function(e){

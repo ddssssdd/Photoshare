@@ -3,7 +3,7 @@ var winHot=function(){
 		backgroundColor:'#336699',
 		barImage:"images/top_logo.png"
 	});
-	
+		
 	var registerButton = Ti.UI.createButton({
 		title : L('register'),
 		top : 10,

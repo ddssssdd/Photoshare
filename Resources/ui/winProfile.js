@@ -63,6 +63,7 @@ var winProfile=function(){
 		if (isLogin==false){
 			return;
 		}
+		//hasDone=false;
 		if (!hasDone){
 			var userService = require("services/UserService");
 			var user = userService.user;

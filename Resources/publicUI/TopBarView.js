@@ -8,7 +8,24 @@ var TopBarView = function(){
 		zIndex:10,
 		isShowing:true,
 		inAnimation:false
-	});		
+	});	
+	
+	self.addLeftNavButton=function(btn,callBackFunction) {
+		btn.top=8, btn.left=10, btn.height=28;
+		self.add(btn);
+		btn.addEventListener('click',function(e){
+			callBackFunction.call(this,e);
+		});
+	};
+	
+	self.addRightNavButton=function(btn,callBackFunction) {
+		btn.top=8, btn.right=10, btn.height=28;
+		self.add(btn);
+		btn.addEventListener('click',function(e){
+			callBackFunction.call(this,e);
+		})
+	}
+		
 	self.addBackButton = function(callBackFunction) {
 		var backBtn = Ti.UI.createButton({
 			top : 8,
@@ -24,6 +41,9 @@ var TopBarView = function(){
 	}
 	self.showTop=function(v,isHot){
 		if (isHot) {
+			self.inAnimation = true;
+			self.visible = true;
+			self.top=0;
 			return;
 		}
 		if (self.inAnimation){

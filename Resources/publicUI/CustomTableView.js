@@ -7,7 +7,7 @@ var CustomTableView=function(parent,table_settings){
 	var lastY=0;
 	self.updating=false;
 	var scrollProcess=function(e) {
-		
+	
 		var offset = e.contentOffset.y;
 		var height = e.size.height;
 		var total = offset + height;

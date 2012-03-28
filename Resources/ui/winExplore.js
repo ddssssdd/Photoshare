@@ -1,4 +1,5 @@
-var winExplore=function(){
+var winExplore=function(isLogin){
+	var isLogin=isLogin;
 	var self = Ti.UI.createWindow({
 		backgroundColor:'#fff',
 		barImage:"images/top_logo.png",	
@@ -6,6 +7,72 @@ var winExplore=function(){
 		navBarHidden:false,
 		fullscreen:false		
 	});
+	
+	
+	if (!isLogin){
+		var TopBarView = require("publicUI/TopBarView");
+		var v = new TopBarView();
+		self.add(v);
+		v.addBackButton(function(e){
+			self.close();
+		});
+		var BottomLoginBar = require("publicUI/BottomLoginBar");
+		var b = new BottomLoginBar();
+		self.add(b);
+		//self.showNavBar();
+	}
+	
+	
+	var coverView=null,toolView=null,toolbar=null;
+	var createCoverView=function() {
+	
+		coverView=Ti.UI.createView({
+			left:0,
+			top:40,
+			backgroundColor:'#000',
+			width:320,
+			height:'440',
+			opacity:0
+		});
+	}
+	
+	var createToolBar=function() {
+		
+		toolView = Ti.UI.createView({
+			top:40,
+			left:0,
+			width:320,
+			height:35,
+			backgroundImage:'images/bottom_bg.png'
+		});
+		
+		toolbar = Titanium.UI.iOS.createTabbedBar({
+				top : 5,
+				left : 10,
+				width : 300,
+				height : 25,
+				labels : ['Pins','Boards','People'],
+				backgroundColor : "#cfcfcf",// 'maroon',
+				style : Titanium.UI.iPhone.SystemButtonStyle.BAR,
+				index : 0
+			});
+			//toolbar.
+			toolView.add(toolbar);
+			
+			toolbar.addEventListener('click',function(e){
+				switch(e.index){
+					case 0:
+					break;
+					case 1:
+					break;
+					case 2:
+					break;
+				}
+			});
+			
+	}
+	
+	
 	var searchTag = Ti.UI.createSearchBar({
 		left:0,
 		top:0,
@@ -18,9 +85,37 @@ var winExplore=function(){
 	self.add(searchTag);
 	searchTag.addEventListener("focus",function(e){
 		searchTag.showCancel = true;
+		//hide navbar and tabbar
+		self.hideNavBar();
+		customTabGroup.hide();
+		
+		//show cover view
+		if (coverView) {
+			self.remove(coverView);
+			coverView=null;
+		}
+		createCoverView();
+		self.add(coverView);
+		coverView.animate({duration:300,opacity:0.5});
+		
+		//show toolbar
+		if (toolView) {
+			self.remove(toolView);
+			toolView=null,toolbar=null;
+		}
+		createToolBar();
+		self.add(toolView);
+		//toolbar.show();
 	});
 	searchTag.addEventListener("blur",function(e){
 		searchTag.showCancel = false;
+		
+		//show navbar, tabbar
+		self.showNavBar();
+		customTabGroup.show();
+		coverView.animate({duration:300,opacity:0});
+		
+		toolbar.hide();
 	});
 	
 	searchTag.addEventListener("return",function(e){
@@ -31,8 +126,12 @@ var winExplore=function(){
 	searchTag.addEventListener("cancel",function(e){
 		searchTag.blur();
 		searchTag.value="";
+		if (toolView) {
+			self.remove(toolView);
+		}
 	});
-
+	
+	
 	var tableView = Ti.UI.createTableView({
 		top:45,
 		left:0,

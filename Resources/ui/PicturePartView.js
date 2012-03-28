@@ -119,7 +119,7 @@ var PicturePartView = function(f,photo,index){
 	contentView.add(labelUpdate);
 	
 	var BottomToolBar = require("publicUI/BottomToolBar");
-	var b = new BottomToolBar(labelUpdate.top+labelUpdate.height + 5);
+	var b = new BottomToolBar(labelUpdate.top+labelUpdate.height + 5,photo);
 	b.image = image;
 	b.tabName = "tabFollowing";
 	b.tab = null;
@@ -319,6 +319,7 @@ var PicturePartView = function(f,photo,index){
 	
 	var childView =null;
 	var imageComments=null;
+	var firstLoadHeight=0;
 	var createComments=function(datas,isUpdate){
 		
 	   
@@ -378,13 +379,20 @@ var PicturePartView = function(f,photo,index){
 			labelName.top = label.top;
 			t1 = t1 + commentsView.height;
 			h += commentsView.height; //accumlation
+			if (!isUpdate) {
+				firstLoadHeight += commentsView.height; //first load comments height
+			}
 			childView.add(commentsView);
 		};
 		contentView.add(childView);
 		
 		/*************send reload tableViewRow message to parent page***************/
 		if (isUpdate){
-			Ti.App.fireEvent('app:changeCellHeight',{rowIndex:index,height:contentView.height+h+10});
+			
+			Ti.App.fireEvent('app:changeCellHeight', {
+				rowIndex : index,
+				height : contentView.height - ((firstLoadHeight>0) ? firstLoadHeight : -10) + h 
+			});
 		}
 		//contentView.height = 280+h+datas.length*60;		
 	};

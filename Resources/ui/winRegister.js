@@ -13,6 +13,10 @@ var winRegister = function(param){
 	t.addBackButton(function(e){
 		self.close();
 	});
+	
+	//show topbarview 2012.3.27
+	t.showTop(true,true);
+	
 	Ti.Facebook.appid ="192953927448564";// "144454838961780";
 	Ti.Facebook.permissions = ['publish_stream'];
 	Ti.Facebook.addEventListener('login',function(e){
@@ -187,6 +191,7 @@ var winRegister = function(param){
 	passwordText.addEventListener("return",function(e){
 		 showDown();
 		 passwordText.blur();
+		 register();
 	});
 	
 	if (param){
@@ -202,7 +207,8 @@ var winRegister = function(param){
 		backgroundImage:'images/register_signup.png'
 	});
 	contentView.add(registerButton);
-	registerButton.addEventListener("click",function(e){
+	
+	var register=function(){
 		/*
 		self.close();
 		Ti.App.fireEvent("app:register.newUser",{email:emailText.value,
@@ -241,6 +247,10 @@ var winRegister = function(param){
 				self.close();
 			}
 		});
+	};
+	
+	registerButton.addEventListener("click",function(e){
+		register();
 	});
 	
 	

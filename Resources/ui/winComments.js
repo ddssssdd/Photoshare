@@ -39,7 +39,7 @@ var winComments = function(photo){
 	
 	var textDescription = Ti.UI.createTextArea({
 		editable : true,
-		value : photo.description,
+		value : '',
 		height : 140,
 		width : 280,		
 		font : {
