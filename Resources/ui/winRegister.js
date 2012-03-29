@@ -244,6 +244,11 @@ var winRegister = function(param){
 				//alert(r.memo);
 				Ti.App.fireEvent("app:message",{text:r.memo});
 			}else{
+				
+				//show + 2012.3.29
+				if (r.thisOperPoint) {
+					Ti.App.fireEvent('app:pinInfo',{text:r.thisOperPoint});	
+				}
 				self.close();
 			}
 		});

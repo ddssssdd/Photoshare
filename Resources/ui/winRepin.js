@@ -30,7 +30,10 @@ var winRepin = function(photo,imageObj){
 	var saveProcess=function(e){
 		var userService = require("services/UserService");
 		if (photo){
-			
+			if (rowBoard.cid==0) {
+				Ti.App.fireEvent('app:message',{text:'board cannot be empty!'});
+				return;
+			}
 			userService.repin(rowBoard.cid, textDescription.value, photo.id, function(e) {
 				//alert(e);
 				if(e.status == 'success') {
@@ -40,9 +43,8 @@ var winRepin = function(photo,imageObj){
 					
 					//update profile pins count 2012.3.28
 					Ti.App.fireEvent('app:updateProfile',{pin:1}); //pin+1
-					
 				}
-				Ti.App.fireEvent("app:refresh.pin",{pin:e});
+				Ti.App.fireEvent("app:refresh.pin",{pin:e}); //include show + operate 
 			});
 
 	
@@ -55,8 +57,11 @@ var winRepin = function(photo,imageObj){
 			*/
 			var userService= require("services/UserService");
 			userService.createPin(imageObj,rowBoard.cid,textDescription.value,function(e){
-			Ti.App.fireEvent("app:message",{text:L('create_pin_success')});			
-			self.close();				
+			Ti.App.fireEvent("app:message",{text:L('create_pin_success')});	
+			self.close();	
+			
+			//show + 2012.3.29
+			Ti.App.fireEvent('app:pinInfo',{text:e.thisOperPoint});	
 		});	
 
 		}

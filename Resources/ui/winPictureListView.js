@@ -1,45 +1,24 @@
-var PictureListView=function(isLogin){
-	var isLogin=isLogin;
+/***************************************************
+ Description : according to the category show the picturelist
+ Date:2012.3.28
+ 
+***************************************************/
+var winPictureListView=function(){
+	isLogin=false;
 	var self = Ti.UI.createWindow({		
 		backgroundColor : '#fff',		
 		barImage:"images/top_logo.png",
 		tabBarHidden:true,
-		navBarHidden:isLogin?false:true,
 		fullscreen:false
 	});
 	
-	if (!isLogin){
-		var TopBarView = require("publicUI/TopBarView");
-		var v = new TopBarView();
-		self.add(v);
-		var BottomLoginBar = require("publicUI/BottomLoginBar");
-		var b = new BottomLoginBar();
-		self.add(b);
-		
-		/***********add two button*************/
-		var leftButton=Ti.UI.createButton({
-			title:'Category',
-			width:90
-		});
-		v.addLeftNavButton(leftButton,function(e){
-			var winCategory=require('ui/winCategory');
-			new winCategory().open();
-		})
-		var rightButton=Ti.UI.createButton({
-			title:'Select Country',
-			width:110
-		});
-		v.addRightNavButton(rightButton,function(e){
-			//TODO
-			var winCountry=require('ui/winCountry');
-			new winCountry().open();
-		});
-		
-		
-	}else{
-		var BackNavButton = require("publicUI/BackNavButton");
-		new BackNavButton(self);
-	}
+	//create topbar 
+	var topbarView=require('publicUI/TopBarView');
+	var t =new topbarView();
+	self.add(t);
+	//add back button
+	t.addBackButton(function(e){self.close();});
+	
 	
 	Ti.App.addEventListener("app:loginSuccess", function(e) {	
 		self.close();
@@ -57,7 +36,7 @@ var PictureListView=function(isLogin){
 	var scrollView = Ti.UI.createScrollView({
 		contentWidth:'auto',
 		contentHeight:'auto',		
-		top:isLogin?0:44,
+		top:44,
 		showVerticalScrollIndicator:true,
 		verticalBounce :true
 	});
@@ -223,6 +202,12 @@ var PictureListView=function(isLogin){
 				
 	};
 	
+	//when received the closewindow App listener then close  2012.3.29 
+	Ti.App.addEventListener('app:closeWindow',function(e){
+		self.close();
+		//Ti.App.removeEventListener('app:closeWindow'); //remove App listener
+	});
+	
 	return self;
 };
-module.exports = PictureListView;
+module.exports = winPictureListView;

@@ -225,17 +225,20 @@ var UserProfileView=function(user,tabName){
 			backgroundImage:'images/bottom_bg.png'
 		});
 		self.add(toolView);
+		
+		
 		var likeCount=user.like_count;
 		var pinCount=user.pin_count;
+		var collectionCount=user.board_count;
 		var toolBar=null;
 		
-		var CreateToolBar=function(likecount,pincount){
+		var CreateToolBar=function(likecount,pincount,collectioncount){
 			toolBar= Titanium.UI.iOS.createTabbedBar({
 				top : 5,
 				left : 10,
 				width : 300,
 				height : 25,
-				labels : [ user.board_count+ (user.board_count>1? L('collections') : L('collection') ),
+				labels : [collectioncount+ (collectioncount>1? L('collections') : L('collection') ),
 						 pincount+(pincount>1? L('pins') : L('pin') ), 
 						 likecount+(likecount>1? L('likes') : L('like'))],
 				backgroundColor : "#cfcfcf",// 'maroon',
@@ -258,24 +261,27 @@ var UserProfileView=function(user,tabName){
 			});
 		}
 		
-		CreateToolBar(likeCount,pinCount); //create toolbar
+		CreateToolBar(likeCount,pinCount,collectionCount); //create toolbar
 		toolView.add(toolBar);
 		
 
-		//change the likecount 2012.3.28
+		//change the likecount, pincount and collectioncount 2012.3.28
 		Ti.App.addEventListener('app:updateProfile',function(e){
 				if (toolBar){
 					toolView.remove(toolBar);		
 				}
 				likeCount+=(e.like ? e.like :0);
 				pinCount+=(e.pin ? e.pin : 0);
-				CreateToolBar(likeCount,pinCount); //
+				collectionCount+=(e.collection ? e.collection : 0 );
+				CreateToolBar(likeCount,pinCount,collectionCount); //
 				toolView.add(toolBar);
 				//if has pin then reload pin data.
 				if (e.pin) {
 					userService.getPins(userId,loadPins);
 				}else if (e.like) {
 					userService.getLikes(userId,loadLikes);
+				}else if (e.collection) {
+					userService.getBoards(userId, loadBoards);
 				}
 				
 				

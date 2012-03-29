@@ -41,6 +41,8 @@ Ti.App.addEventListener("app:tabgroup",function(e){
 		customTabGroup.hide();
 	}
 });
+
+
 /*
 var isHide = false;
 

@@ -14,6 +14,7 @@ CustomTabBar = function(settings) {
 	var setHighlightBar=function(index){		
 		resetTabs();
 		tabBarItems[index].image = settings.imagePath + settings.items[index].selected;
+		//tabItem.fireEvent('click',{});
 	}
 
 	var assignClick = function(tabItem) {
@@ -90,7 +91,7 @@ CustomTabBar = function(settings) {
 
 	return {
 		setHighlightBar:function(index){
-			customTabBar.setHighlightBar(index);
+			setHighlightBar(index);
 		},
 		hide: function() {
 			

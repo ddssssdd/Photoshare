@@ -123,7 +123,7 @@ var UserPinsView = function(user){
 		}
 	}
 	var userService = require("services/UserService");
-	userService.getPins(user.id,addPictures);
+	userService.getPins(user.id,0,addPictures);
 	
 	contentView.add(listView);
 		

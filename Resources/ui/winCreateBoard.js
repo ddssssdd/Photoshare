@@ -27,6 +27,13 @@ var winCreateBoard=function(e){
 			if (e.status=="success"){
 				self.close();
 				Ti.App.fireEvent("app:createBoard",{boardInfo:e});	
+				
+				//update profile collections count 2012.3.28
+				Ti.App.fireEvent('app:updateProfile',{collection:1});
+				
+				//show + 2012.3.29
+				Ti.App.fireEvent('app:pinInfo',{text:e.thisOperPoint});
+				
 			}else{
 				Ti.App.fireEvent("app:message",{text:e.memo});
 			}	

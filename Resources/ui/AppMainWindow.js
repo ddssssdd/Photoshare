@@ -32,7 +32,8 @@ var AppMainWindow=function(){
 	var winCamera = require("ui/winCamera");
 	var tabCamera = Titanium.UI.createTab({
 		icon : 'images/spot.png',
-		window : new winCamera()
+		//window : new winCamera()
+		window:Ti.UI.createWindow({})
 	});
 	
 	var winActivity = require("ui/winActivity2");
@@ -360,7 +361,54 @@ var AppMainWindow=function(){
 	messageWin.add(messageLabel);
 
 
-	
+	/****************pininfo window  2012.3.29********************************/
+	Ti.App.addEventListener("app:pinInfo",function(e){
+		
+		infoLabel.text = "+"+e.text;
+		if (customTabGroup){
+			infoWin.bottom=47;
+		}
+		infoWin.open();
+		setTimeout(function() {
+			infoWin.close({
+				opacity : 0,
+				duration : 500
+			});
+		}, 1500);
+	});
+	var infoWin = Titanium.UI.createWindow({
+		height : 47,
+		width : 64,
+		bottom : 0, //center 480/2
+		touchEnabled : false,
+
+		orientationModes : [Titanium.UI.PORTRAIT, Titanium.UI.UPSIDE_PORTRAIT, Titanium.UI.LANDSCAPE_LEFT, Titanium.UI.LANDSCAPE_RIGHT]
+	});
+	var infoView = Titanium.UI.createImageView({
+		id : 'infoview',
+		image:'images/pinpoints_bk.png',
+		height : 47,
+		width : 64,
+		//opacity : 0.7,
+		touchEnabled : false
+	});
+
+	var infoLabel = Titanium.UI.createLabel({
+		id : 'infolabel',
+		text : '',
+		color : '#fff',
+		width : 64,
+		height : 'auto',
+		font : {
+			fontFamily : 'Helvetica Neue',
+			fontSize : 15,
+			fontWeight:'bold'
+		},
+		textAlign : 'center'
+	});
+	infoWin.add(infoView);
+	infoWin.add(infoLabel);
+
 	
 	return tabGroup;
 

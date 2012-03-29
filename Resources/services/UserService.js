@@ -35,6 +35,10 @@ exports.login=function(userName,password){
 				Ti.App.fireEvent("app:loginSuccess", {
 					user : user
 				});
+				
+				//show + 2012.3.29
+				Ti.App.fireEvent('app:pinInfo',{text:json.thisOperPoint});
+				
 			}else{
 				Ti.App.fireEvent("app:message",{text:json.memo});
 			}
@@ -122,10 +126,11 @@ exports.getBoards=function(userId,callBackFunction){
 	
 }
 
-exports.getPins=function(userId,callBackFunction){
+exports.getPins=function(userId,offset,callBackFunction){
 	
 	//var url =serverUrl +"/forIOS/getPinsByUserId4IOS?userId="+userId;
-	var url =serverUrl2 +"getUserPins?userId="+userId;
+	//var url =serverUrl2 +"getUserPins?userId="+userId
+	var url =serverUrl2 +"getUserPins?userId="+userId+"&max=27&offset="+(offset?offset:1);
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var datas=[];
@@ -179,8 +184,8 @@ exports.getBoardPins=function(bid,callBackFunction){
 exports.getLikes=function(userId,offset,callBackFunction){
 	
 	//var url =serverUrl +"/forIOS/getLikesByUserId4IOS?userId="+userId;
-	//var url =serverUrl2 +"getUserLikes?userId="+userId+"&max=10&offset="+(offset?offset:1);
-	var url =serverUrl2 +"getUserLikes?userId="+userId;
+	var url =serverUrl2 +"getUserLikes?userId="+userId+"&max=27&offset="+(offset?offset:1);
+	//var url =serverUrl2 +"getUserLikes?userId="+userId;
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var datas=[];

@@ -1,5 +1,4 @@
-var winExplore=function(isLogin){
-	var isLogin=isLogin;
+var winExplore=function(){
 	var self = Ti.UI.createWindow({
 		backgroundColor:'#fff',
 		barImage:"images/top_logo.png",	
@@ -7,22 +6,7 @@ var winExplore=function(isLogin){
 		navBarHidden:false,
 		fullscreen:false		
 	});
-	
-	
-	if (!isLogin){
-		var TopBarView = require("publicUI/TopBarView");
-		var v = new TopBarView();
-		self.add(v);
-		v.addBackButton(function(e){
-			self.close();
-		});
-		var BottomLoginBar = require("publicUI/BottomLoginBar");
-		var b = new BottomLoginBar();
-		self.add(b);
-		//self.showNavBar();
-	}
-	
-	
+
 	var coverView=null,toolView=null,toolbar=null;
 	var createCoverView=function() {
 	

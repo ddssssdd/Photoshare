@@ -68,15 +68,20 @@ var winLogin= function(){
 	});
 	contentView.add(loginButton);
 	loginButton.addEventListener('click',function(e){
-		self.fireEvent('app:login');
+		//self.fireEvent('app:login');
+		login();
 	});
 	
-	self.addEventListener('app:login',function(e){
+	var login=function(){
 		var userService = require("services/UserService");
 		userService.login(emailText.value,passwordText.value);
 		self.close();
-	})
-	
+		
+		//send the message to tell other window close 2012.3.29
+		Ti.App.fireEvent('app:closeWindow',{});
+		
+	}
+		
 	var emailText = Titanium.UI.createTextField({
 		id:'txtEmail',
 		hintText : L('your_email_address'),
@@ -157,7 +162,8 @@ var winLogin= function(){
 	});
 	passwordText.addEventListener('return',function(e){
 		showDown();
-		self.fireEvent('app:login'); //response login event
+		login();
+		//customTabGroup.setHighlightBar(4);
 	})
 	
 	contentView.add(passwordText);

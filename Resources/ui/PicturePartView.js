@@ -251,6 +251,11 @@ var PicturePartView = function(f,photo,index){
 				return;
 			}
 			
+			//if have operPoint then show it.2012.3.29
+			if (e.pin.thisOperPoint) {
+				Ti.App.fireEvent("app:pinInfo",{text:e.pin.thisOperPoint});
+			}
+			
 			lblRepin.text = e.pin.repinCount+(e.pin.repinCount>1?" Repins":" Repin");
 			lblLike.text = e.pin.likeCount + (e.pin.likeCount>1?' Likes':' Like');
 			

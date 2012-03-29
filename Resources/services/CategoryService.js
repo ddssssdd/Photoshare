@@ -7,6 +7,12 @@ exports.getList=function(callBackFunction){
 	var UserService = require("services/UserService");
 	var user = UserService.user;
 	var url = serverUrl2 + "categoryList?currentLoginUserId="+user.id;
+	if (UserService.isLogin()) {
+		url += '&countryId='+user.source.country.id;
+	}
+	else if (Ti.App.Properties.getInt("countryId")) {
+		url+='&countryId='+Ti.App.Properties.getInt("countryId");
+	}
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var json = JSON.parse(this.responseText);
@@ -46,6 +52,13 @@ exports.getCategory=function(cid,offset,callBackFunction){
 	}else{
 		url = url + "getPinsByCategoryId?categoryId=" +cid+  "&max=27&offset="+offset+"&currentLoginUserId="+user.id;
 	}
+	
+	if (UserService.isLogin()){
+		url += '&countryId='+user.source.country.id;
+	}else if (Ti.App.Properties.getInt('countryId')) {
+		url += '&countryId='+Ti.App.Properties.getInt('countryId');
+	}
+	
 	
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
@@ -357,3 +370,23 @@ exports.getComments=function(pinId,callBackFunciton){
 	xhr.open("GET", url);
 	xhr.send();
 }
+
+exports.getCountryList=function(callBackFunction){
+	var url=serverUrl2+'getCountryList';
+	var xhr=Ti.Network.createHTTPClient({
+		onload:function(){
+			var item=JSON.parse(this.responseText);
+			if (item.status=='success') {
+				callBackFunction.call(this,item.list);
+			}
+		},
+		onerror:function(e){
+			Ti.App.fireEvent('app:message',{text:settings.noneInternet});
+		}
+
+	}); //end xhr
+	
+	xhr.timeout = settings.timeOut;
+	xhr.open("GET", url);
+	xhr.send();
+};

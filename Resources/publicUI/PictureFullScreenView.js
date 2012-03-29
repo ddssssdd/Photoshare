@@ -94,8 +94,8 @@ var PictureFullScreenView=function(photoid,list,tab){
 		//picture zoomin or zoomout 2012.3.28
 		var lastScale=1.0;
 		var currentScale=1.0;
-		imageComing.maxScale=4.0;
-		imageComing.minScale=1.0;
+		//imageComing.maxZoomScale=3.0;
+		//imageComing.minZoomScale=1.0;
 		imageComing.addEventListener('pinch',function(e){
 			currentScale=e.scale;
 			image.transform=Ti.UI.create2DMatrix()
@@ -112,8 +112,8 @@ var PictureFullScreenView=function(photoid,list,tab){
 		infoLabel2.text = f.firstname+" "+f.lastname;
 		infoLabel.text = f.photo.description;
 		infoLabelright.text = f.photo.likeCount+(f.photo.likeCount>1?" Likes ":" Like ")+f.photo.repinCount+(f.photo.repinCount>1?" Repins":" Repin");
-		//boardLabel.text = f.photo.board;
-		boardLabel.text=f.photo.id; //show test information 2012.3.27
+		boardLabel.text = f.photo.board;
+		//boardLabel.text=f.photo.id; //show test information 2012.3.27
 		boardLabel.bid= f.photo.boardId;
 		//userInfo missing user.id
 		boardLabel.userInfo={avater:f.source.avatar,lastName:f.source.lastName,firstName:f.source.firstName};

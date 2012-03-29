@@ -38,7 +38,7 @@ var BottomToolBar=function(topValue,photo){
 	userService.getLikes(userService.user.id,0,function(e){
 		var datas=e;
 		for (var i=0;i<datas.length;i++) {
-			if (datas[i].id==photo.id) {
+			if (datas[i].id==self.image.photo.id) {
 				Ti.API.info('they are the same');
 				likeBtn.backgroundImage="images/unlike_button.png";
 				//likeBtn.action='delete';
@@ -104,6 +104,10 @@ var BottomToolBar=function(topValue,photo){
 		if (e.photoId!=self.image.photo.id){
 			return;
 		}
+		/*if (self.image.photo.hasLiked){
+			likeBtn.backgroundImage="images/unlike_button.png";
+		}*/
+		
 		var userService = require("services/UserService");
 		if (userService.user.id==e.photoUserId){
 			likeBtn.backgroundImage ="images/delete_button.png";
