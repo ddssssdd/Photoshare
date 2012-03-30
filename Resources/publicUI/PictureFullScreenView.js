@@ -71,7 +71,8 @@ var PictureFullScreenView=function(photoid,list,tab){
 		b.image = imageComing;
 		b.fireEvent("bottom:update.photo",{photoUserId:f.userId,photoId:f.photo.id});
 		imageBg.add(imageComing);
-		imageComing.addEventListener("load",function(e){			
+		
+		var processLoad=function(e){			
 			if (imageComing.photo.id==imageBg.photoid){
 				if (image){
 					imageBg.remove(image);
@@ -84,12 +85,24 @@ var PictureFullScreenView=function(photoid,list,tab){
 				});
 				image = imageComing;			
 			}else{
-				imageComming=null;
+				imageComing=null;
 			}
-		});
-		imageComing.addEventListener("error",function(e){			
-			Ti.UI.info("load image error");
-		})
+			imageComing.removeEventListener("load",processLoad);
+			imageComing.removeEventListener("error",processError);
+		};
+		
+		
+		var processError=function(e){			
+			imageComing.removeEventListener("load",processLoad);
+			imageComing.removeEventListener("error",processError);
+			Ti.API.info("load image error");
+			imageComing.image = "images/clear.png"
+			self.close();
+			
+		}
+		imageComing.addEventListener("load",processLoad);
+		imageComing.addEventListener("error",processError);
+		
 		
 		//picture zoomin or zoomout 2012.3.28
 		var lastScale=1.0;

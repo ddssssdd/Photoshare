@@ -1,4 +1,4 @@
-#Fri Mar 16 16:49:49 CST 2012
+#Mon Mar 26 21:00:09 CST 2012
 eclipse.preferences.version=1
 provisioning_profiles/development/543095B0-7BA5-4A72-A77C-8E3C2D76FEEC/appid=com.pinspire.Pinspire
 provisioning_profiles/development/543095B0-7BA5-4A72-A77C-8E3C2D76FEEC/filepath=/Users/steven/Downloads/profile_development_Pinspire.mobileprovision
@@ -8,6 +8,10 @@ provisioning_profiles/development/547FDD05-4258-4B26-B4CC-33AEE6E87D3C/appid=com
 provisioning_profiles/development/547FDD05-4258-4B26-B4CC-33AEE6E87D3C/filepath=/Users/steven/Desktop/photoshare/profile_development_Pinspire.mobileprovision
 provisioning_profiles/development/547FDD05-4258-4B26-B4CC-33AEE6E87D3C/name=profile_development_Pinspire
 provisioning_profiles/development/547FDD05-4258-4B26-B4CC-33AEE6E87D3C/uuid=547FDD05-4258-4B26-B4CC-33AEE6E87D3C
+provisioning_profiles/development/733A15B5-D8D4-4B06-9607-F808735A3EF4/appid=com.pinspire.Pinspire
+provisioning_profiles/development/733A15B5-D8D4-4B06-9607-F808735A3EF4/filepath=/Users/sfu/Desktop/Yingnai/profile_development_Pinspire.mobileprovision
+provisioning_profiles/development/733A15B5-D8D4-4B06-9607-F808735A3EF4/name=profile_development_Pinspire
+provisioning_profiles/development/733A15B5-D8D4-4B06-9607-F808735A3EF4/uuid=733A15B5-D8D4-4B06-9607-F808735A3EF4
 provisioning_profiles/development/7478540F-E663-4D92-9FC4-13423B83D6AE/appid=com.pinspire.Pinspire
 provisioning_profiles/development/7478540F-E663-4D92-9FC4-13423B83D6AE/filepath=/Users/steven/Desktop/photoshare/profile_adhoc_Pinspire.mobileprovision
 provisioning_profiles/development/7478540F-E663-4D92-9FC4-13423B83D6AE/name=profile_adhoc_Pinspire

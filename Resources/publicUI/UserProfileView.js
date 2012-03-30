@@ -291,7 +291,7 @@ var UserProfileView=function(user,tabName){
 	}
 	
 	createContent();
-	userService.getPins(userId,loadPins);
+	userService.getPins(userId,0,loadPins);
 	return bgView;
 }
 
