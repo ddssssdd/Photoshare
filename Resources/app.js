@@ -8,7 +8,7 @@ var llist = null;
 var getLanguage = function() {
 	var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "language/strings_" + countryCode + ".xml");
 	var fcontent = f.read().toString();
-	Ti.API.info(fcontent);
+	//Ti.API.info(fcontent);
 
 	if(fcontent) {
 		var xml = Ti.XML.parseString(fcontent);

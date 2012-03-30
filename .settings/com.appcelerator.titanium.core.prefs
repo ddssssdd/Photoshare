@@ -1,4 +1,4 @@
-#Mon Mar 26 21:00:09 CST 2012
+#Fri Mar 30 11:41:11 CST 2012
 eclipse.preferences.version=1
 provisioning_profiles/development/543095B0-7BA5-4A72-A77C-8E3C2D76FEEC/appid=com.pinspire.Pinspire
 provisioning_profiles/development/543095B0-7BA5-4A72-A77C-8E3C2D76FEEC/filepath=/Users/steven/Downloads/profile_development_Pinspire.mobileprovision
@@ -16,6 +16,10 @@ provisioning_profiles/development/7478540F-E663-4D92-9FC4-13423B83D6AE/appid=com
 provisioning_profiles/development/7478540F-E663-4D92-9FC4-13423B83D6AE/filepath=/Users/steven/Desktop/photoshare/profile_adhoc_Pinspire.mobileprovision
 provisioning_profiles/development/7478540F-E663-4D92-9FC4-13423B83D6AE/name=profile_adhoc_Pinspire
 provisioning_profiles/development/7478540F-E663-4D92-9FC4-13423B83D6AE/uuid=7478540F-E663-4D92-9FC4-13423B83D6AE
+provisioning_profiles/development/91D7C0E9-7A8F-48BF-98FC-248CD5CAFBB0/appid=com.pinspire.Pinspire
+provisioning_profiles/development/91D7C0E9-7A8F-48BF-98FC-248CD5CAFBB0/filepath=/Users/steven/Desktop/icon/profile_development_Pinspire-1.mobileprovision
+provisioning_profiles/development/91D7C0E9-7A8F-48BF-98FC-248CD5CAFBB0/name=profile_development_Pinspire
+provisioning_profiles/development/91D7C0E9-7A8F-48BF-98FC-248CD5CAFBB0/uuid=91D7C0E9-7A8F-48BF-98FC-248CD5CAFBB0
 provisioning_profiles/development/D3D6CA71-2DDF-45BC-AC8A-010799ECDE6A/appid=com.pinspire.Pinspire
 provisioning_profiles/development/D3D6CA71-2DDF-45BC-AC8A-010799ECDE6A/filepath=/Users/steven/Downloads/profile_development_Pinspire-1.mobileprovision
 provisioning_profiles/development/D3D6CA71-2DDF-45BC-AC8A-010799ECDE6A/name=profile_development_Pinspire
