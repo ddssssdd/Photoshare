@@ -29,18 +29,18 @@ var BottomToolBar=function(topValue,photo){
 		left:10,
 		height:31,
 		width:77,
-		backgroundImage:"images/repin_button.png"
+		backgroundImage:"images/"+settings.countryCode+"/repin_button.png"
 	})
 	
 	
 	/*************show like or unlike *******************/
 	var userService = require("services/UserService");
-	userService.getLikes(userService.user.id,0,function(e){
+	userService.getLikes(userService.user().id,0,function(e){
 		var datas=e;
 		for (var i=0;i<datas.length;i++) {
 			if (datas[i].id==self.image.photo.id) {
 				Ti.API.info('they are the same');
-				likeBtn.backgroundImage="images/unlike_button.png";
+				likeBtn.backgroundImage="images/"+settings.countryCode+"/unlike_button.png";
 				//likeBtn.action='delete';
 				break;
 			}
@@ -52,14 +52,14 @@ var BottomToolBar=function(topValue,photo){
 		left:100,
 		height:31,
 		width:65,
-		backgroundImage:"images/like_button.png",
+		backgroundImage:"images/"+settings.countryCode+"/like_button.png",
 		action:"like"
 	});
 	var moreBtn = Ti.UI.createButton({
 		right:10,
 		height:31,
 		width:61,
-		backgroundImage:"images/more_button.png"
+		backgroundImage:"images/"+settings.countryCode+"/more_button.png"
 	});
 	self.add(repinBtn);
 	self.add(likeBtn);
@@ -87,12 +87,12 @@ var BottomToolBar=function(topValue,photo){
 					Ti.App.fireEvent('app:updateProfile',{like:((isUnlike) ? -1 :1) });
 					
 					Ti.App.fireEvent("app:message", {
-						text : (isUnlike)? L('unlike_success') : L('like_success')
+						text : (isUnlike)? LL('unlike_success') : LL('like_success')
 					});
-					likeBtn.backgroundImage = "images/" + e.text + "_button.png";
+					likeBtn.backgroundImage = "images/"+settings.countryCode+"/" + e.text + "_button.png";
 				} else {
 					Ti.App.fireEvent("app:message", {
-						text : L('like_failure') + e.memo
+						text : LL('like_failure') + e.memo
 					});
 				}
 
@@ -109,8 +109,8 @@ var BottomToolBar=function(topValue,photo){
 		}*/
 		
 		var userService = require("services/UserService");
-		if (userService.user.id==e.photoUserId){
-			likeBtn.backgroundImage ="images/delete_button.png";
+		if (userService.user().id==e.photoUserId){
+			likeBtn.backgroundImage ="images/"+settings.countryCode+"/delete_button.png";
 			likeBtn.action="delete";
 			likeBtn.rowindex= e.rowIndex;
 		}
@@ -118,7 +118,7 @@ var BottomToolBar=function(topValue,photo){
 	moreBtn.addEventListener("click",function(e){
 
 		var moreOption = Ti.UI.createOptionDialog({
-			options : [L('comment'), L('email_pin'), L('save_to_camera'), L('cancel')],
+			options : [LL('comment'), LL('email_pin'), LL('save_to_camera'), LL('cancel')],
 			cancel : 3,
 			destructive:3
 		});
@@ -141,22 +141,22 @@ var BottomToolBar=function(topValue,photo){
 				var emailDialog = Titanium.UI.createEmailDialog();
 				if(!emailDialog.isSupported()) {
 					Ti.UI.createAlertDialog({
-						title : L('error'),
-						message : L('email_not_available')
+						title : LL('error'),
+						message : LL('email_not_available')
 					}).show();
 					return;
 				}
-				emailDialog.setSubject(L('from_pinspire'));
+				emailDialog.setSubject(LL('from_pinspire'));
 				emailDialog.setToRecipients(['']);
 				emailDialog.setCcRecipients(['']);
 				//emailDialog.setBccRecipients(['']);
 
 				if(Ti.Platform.name == 'iPhone OS') {
-					emailDialog.setMessageBody('<b>'+L('pin_from_pinspire')+'</b>');
+					emailDialog.setMessageBody('<b>'+LL('pin_from_pinspire')+'</b>');
 					emailDialog.setHtml(true);
 					emailDialog.setBarColor('#336699');
 				} else {
-					emailDialog.setMessageBody(L('pin_from_pinspire'));
+					emailDialog.setMessageBody(LL('pin_from_pinspire'));
 				}
 
 				// attach a blob
@@ -167,11 +167,11 @@ var BottomToolBar=function(topValue,photo){
 				emailDialog.addEventListener('complete', function(e) {
 					if(e.result == emailDialog.SENT) {
 						if(Ti.Platform.osname != 'android') {
-							Ti.App.fireEvent("app:message",{text:L('message_was_sent')});
+							Ti.App.fireEvent("app:message",{text:LL('message_was_sent')});
 							
 						}
 					} else {
-						Ti.App.fireEvent("app:message",{text:L('message_was_not_sent')});
+						Ti.App.fireEvent("app:message",{text:LL('message_was_not_sent')});
 						
 					}
 				});
@@ -182,7 +182,7 @@ var BottomToolBar=function(topValue,photo){
 			if(e.index == 2) {
 				Titanium.Media.saveToPhotoGallery(self.image.toBlob());
 				Ti.App.fireEvent("app:message", {
-					text : L('save_image_to_photo_gallery')
+					text : LL('save_image_to_photo_gallery')
 				});
 			}
 		});

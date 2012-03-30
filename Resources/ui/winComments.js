@@ -31,7 +31,7 @@ var winComments = function(photo){
 	});
 	self.add(tableview);
 	var data=[];
-	data[0] = Ti.UI.createTableViewSection({headerTitle:L('comment')});
+	data[0] = Ti.UI.createTableViewSection({headerTitle:LL('comment')});
 	
 	var row = Titanium.UI.createTableViewRow({height:'150'});
 	

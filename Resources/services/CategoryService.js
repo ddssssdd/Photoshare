@@ -1,11 +1,11 @@
 var serverUrl2 = settings.serverUrl;
-var userService = require("services/UserService");
-var userid = userService.user.id;
+var UserService = require("services/UserService");
+var userid = UserService.user().id;
 
 exports.getList=function(callBackFunction){
 	var Category = require("model/Category");
 	var UserService = require("services/UserService");
-	var user = UserService.user;
+	var user = UserService.user();
 	var url = serverUrl2 + "categoryList?currentLoginUserId="+user.id;
 	if (UserService.isLogin()) {
 		url += '&countryId='+user.source.country.id;
@@ -25,8 +25,9 @@ exports.getList=function(callBackFunction){
 					var category = new Category(tag.id, tag.code, tag.title, tag);
 					datas.push(category);
 				}
-				userService.user.categoryList = datas;
-				Ti.App.Properties.setString("User",JSON.stringify(userService.user));
+				var user = 	UserService.user();
+				user.categoryList = datas;
+				Ti.App.Properties.setString("User",JSON.stringify(user));
 				callBackFunction.call(this, datas);
 
 	
@@ -45,7 +46,7 @@ exports.getList=function(callBackFunction){
 exports.getCategory=function(cid,offset,callBackFunction){
 	//var url = serverUrl + "/forIOS/getPinsByCategory4IOS?categoryId=" +cid+  "&max=27&offset="+offset;
 	var UserService = require("services/UserService");
-	var user = UserService.user;
+	var user = UserService.user();
 	var url = serverUrl2;
 	if (cid==0){
 		url = url + "getHotPins?max=27&offset="+offset+"&currentLoginUserId="+(user.id?user.id:0);
@@ -94,7 +95,7 @@ exports.getCategory=function(cid,offset,callBackFunction){
 exports.searchByKey=function(key,offset,callBackFunction){
 	//var url = serverUrl + "/forIOS/getPinsByCategory4IOS?categoryId=" +cid+  "&max=27&offset="+offset;
 	var UserService = require("services/UserService");
-	var user = UserService.user;
+	var user = UserService.user();
 	var url =  serverUrl2 + "query?key=" +key+  "&max=27&offset="+offset+"&currentLoginUserId="+user.id;
 	
 	var xhr = Ti.Network.createHTTPClient({
@@ -130,7 +131,7 @@ exports.searchByKey=function(key,offset,callBackFunction){
 
 exports.getFollowingLatest=function(offset,callBackFunciton){
 	var UserService = require("services/UserService");
-	var user = UserService.user;
+	var user = UserService.user();
 	
 	//var url = serverUrl +"/forIOS/getFollowings4IOS?userId="+userid+"&max=3&offset=1";
 	var url = serverUrl2 +"getFollowingLatest?userId="+user.id+"&max=10&offset="+offset;
@@ -171,7 +172,7 @@ exports.getFollowingLatest=function(offset,callBackFunciton){
 }
 exports.getFollowings=function(offset,callBackFunciton){
 	var UserService = require("services/UserService");
-	var user = UserService.user;
+	var user = UserService.user();
 	
 	//var url = serverUrl +"/forIOS/getFollowings4IOS?userId="+userid+"&max=3&offset=1";
 	var url = serverUrl2 +"getFollowings?userId="+user.id+"&max=20&offset="+offset;
@@ -200,7 +201,7 @@ exports.getFollowings=function(offset,callBackFunciton){
 
 exports.getActivities=function(callBackFunciton){
 	var UserService = require("services/UserService");
-	var user = UserService.user;
+	var user = UserService.user();
 	//var url = serverUrl +"/forIOS/getActivity4IOS?userId="+user.id;
 	var url = serverUrl2 +"getActivities?userId="+user.id
 	var xhr = Ti.Network.createHTTPClient({
@@ -235,7 +236,7 @@ exports.getActivities=function(callBackFunciton){
 }
 exports.getActivityList=function(callBackFunciton){
 	var UserService = require("services/UserService");
-	var user = UserService.user;
+	var user = UserService.user();
 	
 	var url = serverUrl2 +"getActivityList?userId="+user.id
 	var xhr = Ti.Network.createHTTPClient({
@@ -274,7 +275,7 @@ exports.getActivityList=function(callBackFunciton){
 
 exports.getActivityList2=function(callBackFunciton){
 	var UserService = require("services/UserService");
-	var user = UserService.user;
+	var user = UserService.user();
 	
 	var url = serverUrl2 +"getActivityList2?userId="+user.id
 	var xhr = Ti.Network.createHTTPClient({
@@ -314,7 +315,7 @@ exports.getActivityList2=function(callBackFunciton){
 
 exports.getPin=function(pinId,callBackFunciton){
 	var UserService = require("services/UserService");
-	var user = UserService.user;
+	var user = UserService.user();
 	if (user.id){
 		var url = serverUrl2 +"getPin?pinId="+pinId+"&userId="+user.id;	
 	}else{

@@ -38,7 +38,7 @@ var winRegister = function(param){
 		left:0,
 		width:320,
 		height:600,
-		backgroundImage:'images/register_bg.png'
+		backgroundImage:'images/'+settings.countryCode+'/register_bg.png'
 	});
 	row.add(contentView);
 	tableview.data=[row];
@@ -48,7 +48,7 @@ var winRegister = function(param){
 		left:14,
 		height:50,
 		width:292,
-		backgroundImage:'images/login_facebook.png'
+		backgroundImage:'images/'+settings.countryCode+'/login_facebook.png'
 	});
 	facebookButton.addEventListener("click",function(e){
 		Ti.Facebook.authorize();
@@ -59,7 +59,7 @@ var winRegister = function(param){
 		left:14,
 		height:50,
 		width:292,
-		backgroundImage:'images/login_twitter.png'
+		backgroundImage:'images/'+settings.countryCode+'/login_twitter.png'
 	});
 	contentView.add(twitterButton);
 	
@@ -99,7 +99,7 @@ var winRegister = function(param){
 	
 	var emailText = Titanium.UI.createTextField({
 		id:'txtEmail',
-		hintText : L('your_email_address'),
+		hintText : LL('your_email_address'),
 		height : 50,
 		top : 195,		
 		paddingLeft : 10,
@@ -123,7 +123,7 @@ var winRegister = function(param){
 	contentView.add(emailText);
 	var firstnameText = Titanium.UI.createTextField({
 		id:'txtFirstName',
-		hintText : L('first_name'),
+		hintText : LL('first_name'),
 		height : 50,
 		top : 245,
 		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
@@ -146,7 +146,7 @@ var winRegister = function(param){
 	contentView.add(firstnameText);	
 	var lastnameText = Titanium.UI.createTextField({
 		id:'txtLastName',
-		hintText : L('last_name'),
+		hintText : LL('last_name'),
 		height : 50,
 		top : 245,
 		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
@@ -169,7 +169,7 @@ var winRegister = function(param){
 	contentView.add(lastnameText);
 	var passwordText = Titanium.UI.createTextField({
 		id:'txtPwd',
-		hintText : L('password'),
+		hintText : LL('password'),
 		height : 50,
 		top : 292,
 		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
@@ -204,7 +204,7 @@ var winRegister = function(param){
 		left: 14,
 		width:290,
 		height: 47,
-		backgroundImage:'images/register_signup.png'
+		backgroundImage:'images/'+settings.countryCode+'/register_signup.png'
 	});
 	contentView.add(registerButton);
 	
@@ -217,23 +217,23 @@ var winRegister = function(param){
 			password:passwordText.value})
 		*/
 		if (!emailText.value){
-			Ti.App.fireEvent("app:message",{text:L('email_cannot_be_empty')});
+			Ti.App.fireEvent("app:message",{text:LL('email_cannot_be_empty')});
 			emailText.focus();
 			return;
 		}
 		if (!firstnameText.value){
-			Ti.App.fireEvent("app:message",{text:L('firstname_cannot_be_empty')});
+			Ti.App.fireEvent("app:message",{text:LL('firstname_cannot_be_empty')});
 			firstnameText.focus();
 			return;
 		}
 		
 		if (!lastnameText.value){
-			Ti.App.fireEvent("app:message",{text:L('lastname_cannot_be_empty')});
+			Ti.App.fireEvent("app:message",{text:LL('lastname_cannot_be_empty')});
 			lastnameText.focus();
 			return;
 		}
 		if (!passwordText.value){
-			Ti.App.fireEvent("app:message",{text:L('password_cannot_be_empty')});
+			Ti.App.fireEvent("app:message",{text:LL('password_cannot_be_empty')});
 			passwordText.focus();
 			return;
 		}

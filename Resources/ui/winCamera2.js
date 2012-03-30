@@ -31,7 +31,7 @@ var winCamera2=function(imageobj){
 	Ti.App.addEventListener("app:select.board",function(e){		
 		var userService= require("services/UserService");
 		userService.createPin(imageView.image,e.boardId,e.description,function(e){
-			Ti.App.fireEvent("app:message",{text:L('create_pin_success')});			
+			Ti.App.fireEvent("app:message",{text:LL('create_pin_success')});			
 			self.close();				
 		});	
 	});

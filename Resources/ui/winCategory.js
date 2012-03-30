@@ -27,7 +27,7 @@ var winCategory=function(){
 		width:320,
 		height:45,
 		barColor:'#d1d1d1',
-		text : L('search')
+		text : LL('search')
 	});
 	searchBar.addEventListener('focus',function(e){
 		searchBar.showCancel=true;
@@ -57,7 +57,7 @@ var winCategory=function(){
 		top:90,
 		left:0,
 		width:320,
-		data:[L('loading_data')]
+		data:[LL('loading_data')]
 		//search:searchTag	
 	});
 	self.add(tableView);
@@ -67,8 +67,8 @@ var winCategory=function(){
 		
 		var tbl_data = [];
 		var row = Ti.UI.createTableViewRow();
-		row.title = L('what_is_hot');
-		row.category = {id:0,title:L('what_is_hot')}
+		row.title = LL('what_is_hot');
+		row.category = {id:0,title:LL('what_is_hot')}
 		row.hasChild = true;
 		tbl_data.push(row);
 		for(var i = 0; i < datas.length; i++) {

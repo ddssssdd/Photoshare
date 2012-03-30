@@ -15,30 +15,31 @@ var winRepin = function(photo,imageObj){
 	var cancelButton=Titanium.UI.createButton({
 		width:62,
 		height:28,
-		backgroundImage:'images/cancel.png'
+		backgroundImage:'images/'+settings.countryCode+'/cancel.png'
 	});
 	self.leftNavButton = cancelButton;
 	cancelButton.addEventListener("click",function(e){
 		self.close();
 	});
 	var saveButton = Titanium.UI.createButton({
-		backgroundImage:'images/pinit.png',
+		backgroundImage:'images/'+settings.countryCode+'/pinit.png',
 		width : 62,
 		height: 28
 	});
 	self.rightNavButton = saveButton;
 	var saveProcess=function(e){
+		if (rowBoard.cid==0) {
+			Ti.App.fireEvent('app:message',{text:'board cannot be empty!'});
+			return;
+		}
 		var userService = require("services/UserService");
 		if (photo){
-			if (rowBoard.cid==0) {
-				Ti.App.fireEvent('app:message',{text:'board cannot be empty!'});
-				return;
-			}
+			
 			userService.repin(rowBoard.cid, textDescription.value, photo.id, function(e) {
 				//alert(e);
 				if(e.status == 'success') {
 					Ti.App.fireEvent("app:message", {
-						text : L("repin_success")
+						text : LL("repin_success")
 					});
 					
 					//update profile pins count 2012.3.28
@@ -57,7 +58,7 @@ var winRepin = function(photo,imageObj){
 			*/
 			var userService= require("services/UserService");
 			userService.createPin(imageObj,rowBoard.cid,textDescription.value,function(e){
-			Ti.App.fireEvent("app:message",{text:L('create_pin_success')});	
+			Ti.App.fireEvent("app:message",{text:LL('create_pin_success')});	
 			self.close();	
 			
 			//show + 2012.3.29
@@ -72,10 +73,10 @@ var winRepin = function(photo,imageObj){
 	
 	
 	var data = [];
-	data[0] = Ti.UI.createTableViewSection({headerTitle:photo?L('repin'):L('create_pin')});
+	data[0] = Ti.UI.createTableViewSection({headerTitle:photo?LL('repin'):LL('create_pin')});
 	
 	var userService = require("services/UserService");
-	var list = userService.user.boardList;
+	var list = userService.user().boardList;
 	
 	var rowBoard = Ti.UI.createTableViewRow();
 	if ((list) && (list.length>0)){
@@ -83,7 +84,7 @@ var winRepin = function(photo,imageObj){
 		rowBoard.cid = list[0].id;
 		rowBoard.hasChild = true;
 	}else{
-		rowBoard.title = L('select_board');
+		rowBoard.title = LL('select_board');
 		rowBoard.cid = 0;
 		rowBoard.hasChild = true;	
 	}

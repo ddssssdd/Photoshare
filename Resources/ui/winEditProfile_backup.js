@@ -10,7 +10,7 @@ var winEditProfile = function(){
 	var BackNavButton = require("publicUI/BackNavButton");
 	new BackNavButton(self);
 	var userService = require("services/UserService");
-	var user = userService.user;
+	var user = userService.user();
 	var data = [];
 	data[0] = Ti.UI.createTableViewSection({headerTitle:'Edit Profile'});
 	var addInfo=function(lbl,v,index){

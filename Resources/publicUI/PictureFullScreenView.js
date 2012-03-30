@@ -249,7 +249,7 @@ var PictureFullScreenView=function(photoid,list,tab){
 					
 			}else{
 				index = list.length-1;
-				Ti.App.fireEvent("app:message",{text:L('no_more_pictures')});
+				Ti.App.fireEvent("app:message",{text:LL('no_more_pictures')});
 			}
 		}else if (e.direction=="right"){
 			isLeft=false;
@@ -260,7 +260,7 @@ var PictureFullScreenView=function(photoid,list,tab){
 				
 			}else{
 				index = 0;
-				Ti.App.fireEvent("app:message",{text:L('no_more_pictures')});
+				Ti.App.fireEvent("app:message",{text:LL('no_more_pictures')});
 			}
 		}
 	})
@@ -330,7 +330,7 @@ var PictureFullScreenView=function(photoid,list,tab){
 		//alert(e);
 		if (e.pin.status=="success"){
 			
-			infoLabelright.text = e.pin.likeCount+L('likes')+ " "+e.pin.repinCount+L('repins');	
+			infoLabelright.text = e.pin.likeCount+LL('likes')+ " "+e.pin.repinCount+LL('repins');	
 		}
 		
 	});

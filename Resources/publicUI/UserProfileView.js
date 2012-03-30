@@ -97,7 +97,7 @@ var UserProfileView=function(user,tabName){
 		height:30,
 		font:{fontSize:14},
 		//backgroundImage:"images/follow_bg_left.png",
-		text:(user.followed_count>1? L('followers') : L('follower') )
+		text:(user.followed_count>1? LL('followers') : LL('follower') )
 	});
 	self.add(followersLabel);
 	
@@ -118,7 +118,7 @@ var UserProfileView=function(user,tabName){
 		height:30,
 		font:{fontSize:14},
 		//backgroundImage:"images/follow_bg_left.png",
-		text:(user.folowing_count>1? L('followings') : L('following') )
+		text:(user.folowing_count>1? LL('followings') : LL('following') )
 	});
 	self.add(followingsLabel);
 	
@@ -146,7 +146,7 @@ var UserProfileView=function(user,tabName){
 			left:0
 		});
 		if (toolBar){
-			toolBar.labels[0]= datas.length+(datas.length>1? L('collections') : L('collection') );
+			toolBar.labels[0]= datas.length+(datas.length>1? LL('collections') : LL('collection') );
 		}
 		bottomView.add(tableView);
 		var tbl_data = [];
@@ -165,7 +165,7 @@ var UserProfileView=function(user,tabName){
 			});
 			row.board = item;
 			row.add(label);
-			var info =item.pins+(item.pins>1? L('pins') : L('pin') )+" "+item.followers+(item.followers>1? L('followers') : L('follower') );
+			var info =item.pins+(item.pins>1? LL('pins') : LL('pin') )+" "+item.followers+(item.followers>1? LL('followers') : LL('follower') );
 			var label2 = Ti.UI.createLabel({
 				text:info,
 				top:15,
@@ -195,7 +195,7 @@ var UserProfileView=function(user,tabName){
 	
 	var loadPins=function(datas){
 		if (toolBar){
-			toolBar.labels[1]= datas.length+ (datas.length>1? L('pins') : L('pin') );
+			toolBar.labels[1]= datas.length+ (datas.length>1? LL('pins') : LL('pin') );
 		}
 		loadDataAndChangeScrollHeight(datas);
 		/*var sv= new ScrollViewFill(datas,bottomView,tabName);
@@ -204,7 +204,7 @@ var UserProfileView=function(user,tabName){
 	}
 	var loadLikes=function(datas){
 		if (toolBar){
-			toolBar.labels[2]= datas.length+(datas.length>1? L('likes') : L('like') );
+			toolBar.labels[2]= datas.length+(datas.length>1? LL('likes') : LL('like') );
 		}
 		
 		loadDataAndChangeScrollHeight(datas);
@@ -238,9 +238,9 @@ var UserProfileView=function(user,tabName){
 				left : 10,
 				width : 300,
 				height : 25,
-				labels : [collectioncount+ (collectioncount>1? L('collections') : L('collection') ),
-						 pincount+(pincount>1? L('pins') : L('pin') ), 
-						 likecount+(likecount>1? L('likes') : L('like'))],
+				labels : [collectioncount+ (collectioncount>1? LL('collections') : LL('collection') ),
+						 pincount+(pincount>1? LL('pins') : LL('pin') ), 
+						 likecount+(likecount>1? LL('likes') : LL('like'))],
 				backgroundColor : "#cfcfcf",// 'maroon',
 				style : Titanium.UI.iPhone.SystemButtonStyle.BAR,
 				index : 1,			

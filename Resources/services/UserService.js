@@ -1,6 +1,3 @@
-var User = require("model/User");
-var saved = Ti.App.Properties.getString("User");
-var user = (saved)?JSON.parse(saved):new User();
 
 
 var serverUrl2 = settings.serverUrl;
@@ -8,9 +5,16 @@ exports.saveUserToLocal=function(user){
 	Ti.App.Properties.setString("User",JSON.stringify(user));	
 }
 
-exports.user = user;
+exports.user = function(){
+	var User = require("model/User");
+	var saved = Ti.App.Properties.getString("User");
+	var user = (saved)?JSON.parse(saved):new User();
+
+	return user;
+}
 
 exports.isLogin=function(){
+	var User = require("model/User");
 	var saved1 = Ti.App.Properties.getString("User");
 	var user1 = (saved1)?JSON.parse(saved1):new User();
 	
@@ -22,6 +26,8 @@ exports.login=function(userName,password){
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var json = JSON.parse(this.responseText);
+			var User = require("model/User");
+			var user = new User();
 			if (json.status=="success"){					
 				user.userName = json.user.email;
 				user.password = json.user.password;
@@ -58,7 +64,7 @@ exports.getProfile=function(uid,callBackFunction){
 		onload : function() {
 			var json = JSON.parse(this.responseText);
 			if (json.status=="success"){			
-				var u = new User();		
+				//var u = new User();		
 				/*
 				 "avatar":"771184.995893536483566E7.JPEG",
       "firstName":"yu",
@@ -85,8 +91,6 @@ exports.getProfile=function(uid,callBackFunction){
 	xhr.send();
 }
 exports.logout=function(){
-	exports.user.login=false;
-	exports.user = {};
 	Ti.App.Properties.setString("User",JSON.stringify({}));
 	Ti.App.fireEvent("app:logout");
 }
@@ -105,9 +109,9 @@ exports.getBoards=function(userId,callBackFunction){
 					var item = json.list[i];
 					datas.push(item);
 				}
-				if (userId=user.id){
-					user.boardList=datas;
-					Ti.App.Properties.setString("User",JSON.stringify(user));	
+				if (userId=exports.user().id){
+					exports.user().boardList=datas;
+					Ti.App.Properties.setString("User",JSON.stringify(exports.user()));	
 				}				
 				if (callBackFunction){
 					callBackFunction.call(this,datas);	
@@ -156,7 +160,7 @@ exports.getPins=function(userId,offset,callBackFunction){
 exports.getBoardPins=function(bid,callBackFunction){
 	
 	//var url =serverUrl +"/forIOS/getPinsByUserId4IOS?userId="+userId;
-	var url =serverUrl2 +"getBoardPins?boardId="+bid+"&userId="+user.id;
+	var url =serverUrl2 +"getBoardPins?boardId="+bid+"&userId="+exports.user().id;
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var datas=[];
@@ -211,7 +215,7 @@ exports.getLikes=function(userId,offset,callBackFunction){
 exports.like=function(pinId,callBackFunction){
 	
 	//var url =serverUrl +"/forIOS/getLikesByUserId4IOS?userId="+userId;
-	var url =serverUrl2 +"favourite?pinId="+pinId+"&currentLoginUserId="+user.id;
+	var url =serverUrl2 +"favourite?pinId="+pinId+"&currentLoginUserId="+exports.user().id;
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var datas=[];
@@ -230,7 +234,7 @@ exports.like=function(pinId,callBackFunction){
 }
 exports.deletePin=function(pinId,callBackFunction){	
 	
-	var url =serverUrl2 +"deletePin?pinId="+pinId+"&currentLoginUserId="+user.id;
+	var url =serverUrl2 +"deletePin?pinId="+pinId+"&currentLoginUserId="+exports.user().id;
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var datas=[];
@@ -284,7 +288,7 @@ exports.register=function(email,password,firstname,lastname,callBackFunction){
 }
 //http://localhost:8080/IOS/doComment?pinId=1019001&content=sososo&currentLoginUserId=701
 exports.comment=function(pinId,comment,callBackFunction){
-	var url =serverUrl2 +"doComment?pinId="+pinId+"&content="+comment+"&currentLoginUserId="+user.id;
+	var url =serverUrl2 +"doComment?pinId="+pinId+"&content="+comment+"&currentLoginUserId="+exports.user().id;
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var datas=[];
@@ -302,13 +306,13 @@ exports.comment=function(pinId,comment,callBackFunction){
 }
 // http://localhost:8080/IOS/createBoard?title=test111&category=10&currentLoginUserId=701
 exports.createBoard=function(title,cid,callBackFunction){
-	var url =serverUrl2 +"createBoard?title="+title+"&category="+cid+"&currentLoginUserId="+user.id;
+	var url =serverUrl2 +"createBoard?title="+title+"&category="+cid+"&currentLoginUserId="+exports.user().id;
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var datas=[];
 			var json = JSON.parse(this.responseText);			
 			callBackFunction.call(this,json);
-			exports.getBoards(user.id);
+			exports.getBoards(exports.user().id);
 		},
 		onerror : function(e) {
 			Ti.App.fireEvent("app:message",{text:settings.noneInternet});
@@ -321,7 +325,7 @@ exports.createBoard=function(title,cid,callBackFunction){
 
 //http://localhost:8080/IOS/followBoard?boardId=274004&userId=169091&currentLoginUserId=701
 exports.followBoard=function(boardId,userId,callBackFunction){
-	var url =serverUrl2 +"followBoard?boardId="+boardId+"&userId="+userId+"&currentLoginUserId="+user.id;
+	var url =serverUrl2 +"followBoard?boardId="+boardId+"&userId="+userId+"&currentLoginUserId="+exports.user().id;
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var datas=[];
@@ -343,7 +347,7 @@ exports.followAllBoard=function(userId,action,callBackFunction){
 	/*
 	 action = followall, unfollowall
 	 */
-	var url =serverUrl2 +"followAllBoard?userId="+userId+"&alltag="+action+"&currentLoginUserId="+user.id;
+	var url =serverUrl2 +"followAllBoard?userId="+userId+"&alltag="+action+"&currentLoginUserId="+exports.user().id;
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var datas=[];
@@ -363,7 +367,7 @@ exports.followAllBoard=function(userId,action,callBackFunction){
 //http://localhost:8080/IOS/repin?board.id=689495&title=great+spacesaver!&parent.id=555769&currentLoginUserId=702
 
 exports.repin=function(boardId,title,pinId,callBackFunction){
-	var url =serverUrl2 +"repin?board.id="+boardId+"&title="+title+"&parent.id="+pinId+"&currentLoginUserId="+user.id;
+	var url =serverUrl2 +"repin?board.id="+boardId+"&title="+title+"&parent.id="+pinId+"&currentLoginUserId="+exports.user().id;
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var datas=[];
@@ -397,5 +401,5 @@ exports.createPin=function(image,boardId,title,callBackFunction){
 	xhr.timeout = settings.timeOut;
 	xhr.open("POST", url);
 	xhr.send({myfile:image,imgWebUrl:null,source:"upload",prefix:null,
-				url:"uploadfile",facebook:false,title:title,currentLoginUserId:user.id});
+				url:"uploadfile",facebook:false,title:title,currentLoginUserId:exports.user().id});
 }

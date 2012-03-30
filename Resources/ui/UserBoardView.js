@@ -88,14 +88,14 @@ var UserBoardView = function(user,tabName,bid){
 		var rightButton = Ti.UI.createButton({
 			height : 28,
 			width : hasFollowed?69:62,
-			backgroundImage : hasFollowed?"images/unfollow.png":"images/follow.png",
+			backgroundImage : hasFollowed?"images/"+settings.countryCode+"/unfollow.png":"images/"+settings.countryCode+"/follow.png",
 			isFollowed:hasFollowed
 		});
 		self.rightNavButton = rightButton;
 		rightButton.addEventListener("click",function(e){
 			var userService= require("services/UserService");
 			userService.followBoard(bid,user.id,function(e){
-				rightButton.backgroundImage = "images/"+e.text+".png";
+				rightButton.backgroundImage = "images/"+settings.countryCode+"/"+e.text+".png";
 				rightButton.width = (e.text=="follow")?62:69;
 				//Ti.App.fireEvent("app:message",{text:e.memo});
 				self.close();

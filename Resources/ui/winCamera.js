@@ -71,7 +71,7 @@ var winCamera=function(){
 	function initShow(){
 		
 		var moreOption = Ti.UI.createOptionDialog({
-			options : [L('open_camera'), L('open_photo_gallery'), L('cancel')],
+			options : [LL('open_camera'), LL('open_photo_gallery'), LL('cancel')],
 			cancel : 2,
 			destructive:2
 		});
@@ -133,7 +133,7 @@ var winCamera=function(){
 		} else {
 			//alert("got the wrong type back =" + event.mediaType);
 			Ti.App.fireEvent("app:message", {
-				text : L('got_the_wrong_type_back')+ event.mediaType
+				text : LL('got_the_wrong_type_back')+ event.mediaType
 			});
 		} 
 	}

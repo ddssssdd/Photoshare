@@ -8,7 +8,7 @@ var winProfile=function(){
 	});
 	Ti.App.fireEvent("app:tabgroup",{visible:true});
 	var buttonLeft = Ti.UI.createButton({
-		backgroundImage:'images/account.png',
+		backgroundImage:'images/'+settings.countryCode+'/account.png',
 		width: 74,
 		height: 28
 	});
@@ -66,7 +66,7 @@ var winProfile=function(){
 		//hasDone=false;
 		if (!hasDone){
 			var userService = require("services/UserService");
-			var user = userService.user;
+			var user = userService.user();
 			if ((user) && (user.id)){
 				userService.getProfile(user.id,createProfileView);	
 			}

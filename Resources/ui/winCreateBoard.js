@@ -43,18 +43,16 @@ var winCreateBoard=function(e){
 	}
 	saveButton.addEventListener("click",createProcess);
 	var tableview = Ti.UI.createTableView({
-		data:[L('loading')],
+		data:[LL('loading')],
 		style: Titanium.UI.iPhone.TableViewStyle.GROUPED,
 		backgroundColor:'#fff'
 	});
 	self.add(tableview);
-	var userService = require("services/UserService");
-	var list = userService.user.categoryList;
 	
 	var data = [];
-	data[0] = Ti.UI.createTableViewSection({headerTitle:L('collection_title')});
+	data[0] = Ti.UI.createTableViewSection({headerTitle:LL('collection_title')});
 	var titleText = Titanium.UI.createTextField({
-		hintText : L('new_collection_name'),  //old value: Collection title
+		hintText : LL('new_collection_name'),  //old value: Collection title
 		height : 32,
 		left: 0,		
 		paddingLeft : 10,		
@@ -72,29 +70,48 @@ var winCreateBoard=function(e){
 	row1.add(titleText);
 	data[0].add(row1);
 	var row2  = Ti.UI.createTableViewRow();
-	row2.title = list[0].title;	
-	row2.cid = list[0].id;
+	
 	data[0].add(row2);
 	
 	
-	data[1] = Ti.UI.createTableViewSection({headerTitle:L('select_category')});
-	for(var i=0;i<list.length;i++){
-		var row = Ti.UI.createTableViewRow();
-		row.title = list[i].title;
-		data[1].add(row);
-	}
-	tableview.data = data;
-	tableview.addEventListener("click",function(e){
-		//alert(list[e.index-2]);
-		if (e.index>1){
-			row2.title = list[e.index-2].title;
-			row2.cid = list[e.index-2].id;	
-			tableview.scrollToTop(0);
+	data[1] = Ti.UI.createTableViewSection({headerTitle:LL('select_category')});
+	
+	
+	
+	var processData = function (){
+		row2.title = list[0].title;	
+		row2.cid = list[0].id;
+		for(var i = 0; i < list.length; i++) {
+			var row = Ti.UI.createTableViewRow();
+			row.title = list[i].title;
+			
+			data[1].add(row);
 		}
+		tableview.data = data;
+		tableview.addEventListener("click", function(e) {
+			//alert(list[e.index-2]);
+			if(e.index > 1) {
+				row2.title = list[e.index - 2].title;
+				row2.cid = list[e.index - 2].id;
+				tableview.scrollToTop(0);
+			}
+
+		});
+
+
+	}
+	var userService = require("services/UserService");
+	var list = userService.user().categoryList;
+	if (!((list) && (list.length>0))){
+		var CategoryService = require("services/CategoryService");
+		CategoryService.getList(function(datas){
+			list = datas;
+			processData();
+		});
 		
-	});
-	
-	
+	}else{
+		processData();
+	}
 	return self;
 }
 module.exports = winCreateBoard;

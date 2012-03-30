@@ -27,7 +27,7 @@ var winCountry=function(){
 		left:0,
 		search:searchBar,
 		hideSearchOnSelection:true,
-		data:[L('loading')]
+		data:[LL('loading')]
 	});
 	self.add(tableView);
 	
@@ -43,24 +43,28 @@ var winCountry=function(){
 				if (Ti.App.Properties.getInt('countryId') && data.showCountryId==Ti.App.Properties.getInt('countryId')) {
 					_hascheck=true;
 				}
-				var rowData={title:data.title,countryId:data.showCountryId,hasChild:false,hasCheck:_hascheck};
-				/*var row=Ti.UI.createTableViewRow({
-					title:data.title,
-					countryId:data.countryId,
-					hasCheck:false
-				});*/
+				//var rowData={title:data.title,countryId:data.id,countryCode:data.domain,hasChild:false,hasCheck:_hascheck};
 				
-				tbl_data.push(rowData);
+				var row=Ti.UI.createTableViewRow({
+					title:data.title,
+					obj:{title:data.title,countryId:data.id,countryCode:data.domain},
+					hasCheck:_hascheck
+				});
+				row.leftImage = "images/flags/country_"+data.domain+".png";
+				
+				tbl_data.push(row);
 			}//end for
 			tableView.setData(tbl_data);
 			
 			//add tableview click evnet
 			tableView.addEventListener('click',function(e){
-				var countryid=e.source.countryId;
-				var countryname=e.source.title;
+				var countryid=e.row.obj.countryId;
+				var countryname=e.row.obj.title;
+				var countryCode = e.row.obj.countryCode;
 				//save countryid
 				Ti.App.Properties.setInt('countryId',countryid);
 				Ti.App.Properties.setString('countryName',countryname);
+				Ti.App.Properties.setString("countryCode",countryCode)
 				self.close();
 				
 				//refresh Picturelistview according to countryid

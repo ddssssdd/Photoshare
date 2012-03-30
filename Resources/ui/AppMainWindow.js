@@ -160,7 +160,7 @@ var AppMainWindow=function(){
 	Ti.App.addEventListener("app:takePhoto",function(e){
 		currentIndex=e.index;
 		var moreOption = Ti.UI.createOptionDialog({
-			options : [ L('open_camera'), L('open_photo_gallery'), L('cancel')],
+			options : [ LL('open_camera'), LL('open_photo_gallery'), L('cancel')],
 			cancel : 2,
 			destructive:2
 		});
@@ -207,7 +207,7 @@ var AppMainWindow=function(){
 		} else {
 			//alert("got the wrong type back =" + event.mediaType);
 			Ti.App.fireEvent("app:message", {
-				text : L('got_the_wrong_type_back') + event.mediaType
+				text : LL('got_the_wrong_type_back') + event.mediaType
 			});
 		}
 	}
@@ -264,7 +264,7 @@ var AppMainWindow=function(){
 	function showHotWin(){
 		var PictureListView = require("ui/PictureListView");
 		var pview = new PictureListView(false);
-		pview.showData({id:0,title:L('what_is_hot')});
+		pview.showData({id:0,title:LL('what_is_hot')});
 		pview.open({modal:true,fullscreen:false});
 	}
 	var userService = require("services/UserService");

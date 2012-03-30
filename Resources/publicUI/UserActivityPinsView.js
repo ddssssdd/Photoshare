@@ -73,50 +73,63 @@ var UserActivityPinsView = function(activity){
 		font:{fontFamily:'Arial',fontSize:12,fontWeight:"bold"}
 	})
 	viewTop.add(labelMemo);
-	
-	var listView = Ti.UI.createView({
-		top:55,
-		left:0,
-		width:320,
-		height:66		
-	});
-	self.add(listView)
-	var addPictures=function(datas){
-		for(var i=0;i<datas.length && i<5;i++){
-			var p = datas[i];
-			if (!p.imgWidth){
-				p.imgWidth=56;
+	if ((activity.pinsList) && (activity.pinsList.length>0)){
+		
+		var listView = Ti.UI.createView({
+			top : 55,
+			left : 0,
+			width : 320,
+			height : 66
+		});
+		self.add(listView)
+		var addPictures = function(datas) {
+			for(var i = 0; i < datas.length && i < 5; i++) {
+				var p = datas[i];
+				if(!p.imgWidth) {
+					p.imgWidth = 56;
+				}
+				if(!p.imgHeight) {
+					p.imgHeight = 56;
+				}
+				var h2 = p.imgHeight * (56 / p.imgWidth);
+				var h = (h2 > 56) ? 56 : h2;
+				var t = (h >= 56) ? 0 : (56 - h) / 2;
+				var imageBg = Ti.UI.createView({
+					top : 0, //t,
+					left : [10,71,132,193,254][i],
+					width : 56,
+					height : 56, //h,
+					backgroundColor : settings.defaultImageColor
+				});
+				var image = Ti.UI.createImageView({
+					top : 0, //t,
+					left : [10,71,132,193,254][i],
+					width : 56,
+					height : 56, //h,
+					image : p.imgUrl,
+					photoObj : {
+						id : p.id,
+						pin : p.imgUrl,
+						width : p.imgWidth,
+						height : p.imgHeight
+					},
+					defaultImage : 'images/clear.png'
+				});
+				image.addEventListener("click", function(e) {
+					Ti.App.fireEvent("app:imageClick", {
+						id : e.source.photoObj.id,
+						list : datas,
+						tab : "tabActivity"
+					});
+				});
+				listView.add(imageBg);
+				listView.add(image);
 			}
-			if (!p.imgHeight){
-				p.imgHeight=56;
-			}
-			var h2 =p.imgHeight * (56 / p.imgWidth);
-			var h = (h2>56)?56:h2;
-			var t= (h>=56)?0:(56-h) / 2;
-			var imageBg = Ti.UI.createView({
-				top:0,//t,
-				left:[10,71,132,193,254][i],
-				width: 56,
-				height: 56,//h,
-				backgroundColor:settings.defaultImageColor
-			});
-			var image = Ti.UI.createImageView({
-				top:0,//t,
-				left:[10,71,132,193,254][i],
-				width: 56,
-				height:56,//h,
-				image:p.imgUrl,
-				photoObj:{id:p.id,pin:p.imgUrl,width:p.imgWidth,height:p.imgHeight},
-				defaultImage:'images/clear.png'
-			});
-			image.addEventListener("click", function(e) {				
-				Ti.App.fireEvent("app:imageClick",{id:e.source.photoObj.id,list:datas,tab:"tabActivity"});
-			});
-			listView.add(imageBg);
-			listView.add(image);
 		}
+		addPictures(activity.pinsList)
+	
 	}
-	addPictures(activity.pinsList)
+	
 	
 	return self;
 }

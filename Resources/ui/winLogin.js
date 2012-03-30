@@ -34,7 +34,7 @@ var winLogin= function(){
 		left:0,
 		width:320,
 		height:600,
-		backgroundImage:'images/login_bg.png'
+		backgroundImage:'images/'+settings.countryCode+'/login_bg.png'
 	});
 	row.add(contentView);
 	tableview.data=[row];
@@ -44,7 +44,7 @@ var winLogin= function(){
 		left:14,
 		height:50,
 		width:292,
-		backgroundImage:'images/login_facebook.png'
+		backgroundImage:'images/'+settings.countryCode+'/login_facebook.png'
 	});
 	facebookButton.addEventListener("click",function(e){
 		Ti.Facebook.authorize();
@@ -55,7 +55,7 @@ var winLogin= function(){
 		left:14,
 		height:50,
 		width:292,
-		backgroundImage:'images/login_twitter.png'
+		backgroundImage:'images/'+settings.countryCode+'/login_twitter.png'
 	});
 	contentView.add(twitterButton);
 	
@@ -64,7 +64,7 @@ var winLogin= function(){
 		left:14,
 		height:47,
 		width:292,
-		backgroundImage:'images/login_login.png'
+		backgroundImage:'images/'+settings.countryCode+'/login_login.png'
 	});
 	contentView.add(loginButton);
 	loginButton.addEventListener('click',function(e){
@@ -84,7 +84,7 @@ var winLogin= function(){
 		
 	var emailText = Titanium.UI.createTextField({
 		id:'txtEmail',
-		hintText : L('your_email_address'),
+		hintText : LL('your_email_address'),
 		height : 50,
 		paddingLeft : 10,
 		top:210,
@@ -137,7 +137,7 @@ var winLogin= function(){
 	contentView.add(emailText);
 	var passwordText = Titanium.UI.createTextField({
 		id:'txtPwd',
-		hintText : L('password'),
+		hintText : LL('password'),
 		height : 50,
 		top:260,
 		

@@ -13,7 +13,7 @@ var winUserBoard = function(){
 	var addButton = Titanium.UI.createButton({		
 		width : 125,
 		height: 28,
-		backgroundImage:'images/addboard.png'
+		backgroundImage:'images/'+settings.countryCode+'/addboard.png'
 	});
 	self.rightNavButton = addButton;
 	addButton.addEventListener("click",function(e){
@@ -40,7 +40,7 @@ var winUserBoard = function(){
 	self.add(tableview);
 	
 	var data=[];
-	data[0] = Ti.UI.createTableViewSection({headerTitle:L('select_collection')})   //old value: Board List
+	data[0] = Ti.UI.createTableViewSection({headerTitle:LL('select_collection')})   //old value: Board List
 	
 	var processData=function(datas){
 		
@@ -54,7 +54,7 @@ var winUserBoard = function(){
 		tableview.data = data;
 	}
 	var userService = require("services/UserService");
-	var user = userService.user;
+	var user = userService.user();
 	if ((user.boardList) && (user.boardList.length>0)){
 		processData(user.boardList);
 	}else{

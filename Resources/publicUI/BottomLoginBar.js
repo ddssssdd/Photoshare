@@ -14,7 +14,7 @@ var BottomLoginBar = function(){
 		width : 115,
 		height : 31,
 		style : Ti.UI.iPhone.SystemButtonStyle.BORDERED,
-		backgroundImage : 'images/signup.png'
+		backgroundImage : 'images/'+settings.countryCode+'/signup.png'
 	});
 	registerButton.addEventListener("click", function(e) {
 		
@@ -30,7 +30,7 @@ var BottomLoginBar = function(){
 		width : 70,
 		height : 31,
 		style : Ti.UI.iPhone.SystemButtonStyle.BORDERED,
-		backgroundImage : 'images/login.png'
+		backgroundImage : 'images/'+settings.countryCode+'/login.png'
 
 	});
 	loginButton.addEventListener("click", function(e) {

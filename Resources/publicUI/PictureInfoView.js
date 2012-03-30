@@ -50,7 +50,7 @@ var PictureInfoView=function(photo){
 	contentView.add(likeButton);
 	
 	var moreButton = Ti.UI.createButton({
-		title:L('more'),
+		title:LL('more'),
 		top: 105,
 		right: 20,
 		width: 80,
