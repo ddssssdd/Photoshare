@@ -135,7 +135,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 				duration : 180
 			});
 			statusLabel.text = LL('pull_down_to_refresh');
-		}
+		}		
 	});
 
 	tableView.addEventListener('scrollEnd', function(e) {

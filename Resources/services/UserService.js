@@ -20,7 +20,43 @@ exports.isLogin=function(){
 	
 	return user1.login;
 }
-
+exports.loginWithFacebook=function(fid,token){
+	var url =  serverUrl2 +"facebookWithoutInvite?openId="+fid+"&accessToken="+token;
+	var xhr = Ti.Network.createHTTPClient({
+		onload : function() {
+			var json = JSON.parse(this.responseText);
+			var User = require("model/User");
+			var user = new User();
+			if (json.status=="success"){					
+				user.userName = json.user.email;
+				user.password = json.user.password;
+				user.firstname = json.user.firstname;
+				user.lastname = json.user.lastname;
+				user.id = json.user.id;
+				user.nickname = json.user.nickname;
+				user.source = json.user;
+				user.login = true;
+				exports.saveUserToLocal(user);
+				Ti.App.fireEvent("app:loginSuccess", {
+					user : user
+				});
+				
+				//show + 2012.3.29
+				Ti.App.fireEvent('app:pinInfo',{text:json.thisOperPoint});
+				
+			}else{
+				Ti.App.fireEvent("app:message",{text:json.memo});
+			}
+		
+		},
+		onerror : function(e) {
+			Ti.App.fireEvent("app:message",{text:settings.noneInternet});
+		}
+	});
+	xhr.timeout = settings.timeOut;
+	xhr.open("GET", url);
+	xhr.send();
+}
 exports.login=function(userName,password){
 	var url =  serverUrl2 +"login?email="+userName+"&password="+password;
 	var xhr = Ti.Network.createHTTPClient({
@@ -251,6 +287,43 @@ exports.deletePin=function(pinId,callBackFunction){
 	xhr.send();
 	
 }
+//facebookWithoutInvite?openId=901745857&email=13&firstName=&lastName=&gender=ads&accessToken=AAABdgjbZCDBoBAKEAU4ZAcByzk0FrBoX7PmQ7nw2PuS4b2ImDsOBZCJZC5FUcuoxb9gQgvba2n8ZCzBZCTzkye3IyeD6NflsIZD
+exports.registerWithFacebook=function(fid,token,email,gender,firstname,lastname,callBackFunction){
+	
+	//var url =serverUrl +"doRegisterWithoutInvite?email="+email""&password=2&firstname=111&lastname=asdf;
+	var url =serverUrl2 +"facebookWithoutInvite?openId="+fid+"&email="+email+"&firstName="+firstname+"&lastName="+lastname+"&gender="+gender+"&accessToken="+token;
+	var xhr = Ti.Network.createHTTPClient({
+		onload : function() {
+			var datas=[];
+			var json = JSON.parse(this.responseText);
+			if (json.status=="success"){		
+				var User = require("model/User");
+				var user = new User();			
+				user.userName = json.user.email;
+				user.password = json.user.password;
+				user.firstname = json.user.firstName;
+				user.lastname = json.user.lastName;
+				user.id = json.user.id;
+				user.nickname = json.user.nickName;
+				user.source = json.user;
+				user.login = true;
+				exports.saveUserToLocal(user);
+				Ti.App.fireEvent("app:loginSuccess", {
+					user : user
+				});
+			}
+			callBackFunction.call(this,json);
+			
+		},
+		onerror : function(e) {
+			Ti.App.fireEvent("app:message",{text:settings.noneInternet});
+		}
+	});
+	xhr.timeout = settings.timeOut;
+	xhr.open("GET", url);
+	xhr.send();
+	
+}
 // http://localhost:8080/IOS/doRegisterWithoutInvite?email=1&password=2&firstname=111&lastname=asdf
 exports.register=function(email,password,firstname,lastname,callBackFunction){
 	
@@ -260,7 +333,9 @@ exports.register=function(email,password,firstname,lastname,callBackFunction){
 		onload : function() {
 			var datas=[];
 			var json = JSON.parse(this.responseText);
-			if (json.status=="success"){					
+			if (json.status=="success"){	
+				var User = require("model/User");
+				var user = new User();				
 				user.userName = json.user.email;
 				user.password = json.user.password;
 				user.firstname = json.user.firstName;

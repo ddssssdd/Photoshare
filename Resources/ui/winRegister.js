@@ -8,30 +8,61 @@ var winRegister = function(param){
 	var t = new TopBarView();
 	self.add(t);
 	t.addBackButton(function(e){
+		Ti.Facebook.removeEventListener("login",loginSuccess);
 		self.close();
 	})
 	t.addBackButton(function(e){
+		Ti.Facebook.removeEventListener("login",loginSuccess);
 		self.close();
 	});
+	
+	
+	
 	
 	//show topbarview 2012.3.27
 	t.showTop(true,true);
 	
-	Ti.Facebook.appid ="192953927448564";// "144454838961780";
-	Ti.Facebook.permissions = ['publish_stream'];
-	Ti.Facebook.addEventListener('login',function(e){
+	
+	var loginSuccess=function(e){
 		if (e.success){
-			firstnameText.value = e.data.first_name;
-			lastnameText.value = e.data.last_name;
-			emailText.value = e.data.email;
-			passwordText.focus();
+			Ti.Facebook.removeEventListener("login",loginSuccess);
+			var userService = require("services/UserService");
+			userService.registerWithFacebook(Ti.Facebook.uid,
+				Ti.Facebook.accessToken,
+				 e.data.email,
+				 e.data.gender,
+				 e.data.first_name,
+				 e.data.last_name, function(r) {
+				if(r.status != "success") {
+					//alert(r.memo);
+					Ti.App.fireEvent("app:message", {
+						text : r.memo
+					});
+				} else {
+
+					//show + 2012.3.29
+					if(r.thisOperPoint) {
+						Ti.App.fireEvent('app:pinInfo', {
+							text : r.thisOperPoint
+						});
+					}
+					self.close();
+				}
+			});
+
 
 		}
-	});
+	};
+	
+	Ti.Facebook.appid ="192953927448564";// "144454838961780";
+	Ti.Facebook.permissions = ['publish_stream'];
+	Ti.Facebook.addEventListener('login',loginSuccess);
 	var tableview = Titanium.UI.createTableView();
 	tableview.scrollable=false;
 	self.add(tableview);
-	var row = Titanium.UI.createTableViewRow({height:480});
+	var row = Titanium.UI.createTableViewRow({height:'auto'});
+	
+	
 	
 	var contentView = Titanium.UI.createView({
 		top:40,
@@ -51,17 +82,23 @@ var winRegister = function(param){
 		backgroundImage:'images/'+settings.countryCode+'/login_facebook.png'
 	});
 	facebookButton.addEventListener("click",function(e){
+		if (Ti.Facebook.loggedIn){
+			Ti.Facebook.logout();
+		}
 		Ti.Facebook.authorize();
 	});
+	function facebookRegister(){
+		
+	}
 	contentView.add(facebookButton);
-	var twitterButton = Ti.UI.createButton({
+	/*var twitterButton = Ti.UI.createButton({
 		top:100,
 		left:14,
 		height:50,
 		width:292,
 		backgroundImage:'images/'+settings.countryCode+'/login_twitter.png'
 	});
-	contentView.add(twitterButton);
+	contentView.add(twitterButton);*/
 	
 	var showUp=function(arg) {
 		contentView.animate({top:-110,duration:500},function(e){
@@ -96,12 +133,12 @@ var winRegister = function(param){
 	};
 	
 	
-	
+	var adjustHeight= 60;
 	var emailText = Titanium.UI.createTextField({
 		id:'txtEmail',
 		hintText : LL('your_email_address'),
 		height : 50,
-		top : 195,		
+		top : 195+adjustHeight,		
 		paddingLeft : 10,
 		left : 20,
 		width : 290,
@@ -125,7 +162,7 @@ var winRegister = function(param){
 		id:'txtFirstName',
 		hintText : LL('first_name'),
 		height : 50,
-		top : 245,
+		top : 245+adjustHeight,
 		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
 		paddingLeft : 10,
 		left : 20,
@@ -148,7 +185,7 @@ var winRegister = function(param){
 		id:'txtLastName',
 		hintText : LL('last_name'),
 		height : 50,
-		top : 245,
+		top : 245+adjustHeight,
 		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
 		paddingLeft : 10,
 		left : 165,
@@ -171,7 +208,7 @@ var winRegister = function(param){
 		id:'txtPwd',
 		hintText : LL('password'),
 		height : 50,
-		top : 292,
+		top : 292+adjustHeight,
 		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
 		paddingLeft : 10,
 		left : 20,
@@ -199,8 +236,54 @@ var winRegister = function(param){
 		firstnameText.text = param.firstname;
 		lastnameText.text = param.lastname;
 	}
+	
+	/********create pickerview 2012.3.30********/
+	var transformPicker=Ti.UI.create2DMatrix();
+	transformPicker=transformPicker.scale(0.5);
+	var picker=Ti.UI.createPicker({
+		top:75,
+		width:570,
+		height:10,
+		transform:transformPicker
+	});
+	picker.selectionIndicator=true;
+	contentView.add(picker);
+	
+	var pickerRow=Ti.UI.createPickerRow({title:LL('loading_data'),countryId:0,countryCode:''});
+	picker.add(pickerRow);
+	//remove all pickerRow 
+	var removeAllPickerRows=function(picker) {
+		var _col=picker.columns[0];
+		var len=_col.rowCount;
+		for (var x=len-1; x>=0; x--) {
+			var _row=_col.rows[x];
+			_col.removeRow(_row);
+		}
+		picker.reloadColumn(_col);
+	}
+	
+	//process picker data
+	var processData=function(datas) {		
+		if (datas && datas.length>0){
+			removeAllPickerRows(picker);
+			for (var i=0;i<datas.length;i++) {
+				var data=datas[i];
+					var row=Ti.UI.createPickerRow({
+					title:data.title,
+					obj:{title:data.title,countryId:data.id,countryCode:data.domain}
+				});
+				picker.add(row);
+			}//end for
+			//picker.add(picker_data);
+
+		}//end if
+	}
+	
+	var categoryService=require("services/CategoryService");
+	categoryService.getCountryList(processData);
+
 	var registerButton = Ti.UI.createButton({		
-		top:355,
+		top:420,
 		left: 14,
 		width:290,
 		height: 47,
@@ -258,6 +341,13 @@ var winRegister = function(param){
 		register();
 	});
 	
+	
+	tableview.addEventListener("click",function(e){
+		emailText.blur();
+		firstnameText.blur();
+		lastnameText.blur();
+		passwordText.blur();
+	});
 	
 	return self;
 }

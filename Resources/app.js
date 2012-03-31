@@ -4,11 +4,12 @@ if (!countryCode){
 	countryCode = 'en'
 }
 countryCode = 'cn'
-var llist = null;
+var llist = null; //language list
+var clist=null; //country list
 var getLanguage = function() {
 	var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "language/strings_" + countryCode + ".xml");
 	var fcontent = f.read().toString();
-	//Ti.API.info(fcontent);
+	Ti.API.info(fcontent);
 
 	if(fcontent) {
 		var xml = Ti.XML.parseString(fcontent);
@@ -30,13 +31,14 @@ var LL = function(key) {
 	return llist[key];
 }
 
+
 var settings={showAnimation:false,
 	serverUrl:"http://beta.pinspire.com/ios/",
 	defaultImageColor:'#eee',
 	timeOut:20000,
 	noneInternet:LL('no_access'),
 	lanuageCode:Ti.Locale.currentLanguage,
-	countryCode:countryCode,		
+	countryCode:countryCode,	
 	getImageFile:function(filename){
 		return "images/"+countryCode+"/"+filename;
 	}}

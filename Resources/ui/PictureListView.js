@@ -19,7 +19,8 @@ var PictureListView=function(isLogin){
 		/***********add two button*************/
 		var leftButton=Ti.UI.createButton({
 			title:'Category',
-			width:90
+			width:28,
+			backgroundImage:'images/category.png'
 		});
 		v.addLeftNavButton(leftButton,function(e){
 			var winCategory=require('ui/winCategory');
@@ -27,7 +28,8 @@ var PictureListView=function(isLogin){
 		})
 		var rightButton=Ti.UI.createButton({
 			title:'Select Country',
-			width:110
+			width:28,
+			backgroundImage:'images/country.png'
 		});
 		v.addRightNavButton(rightButton,function(e){
 			//TODO
@@ -54,23 +56,73 @@ var PictureListView=function(isLogin){
 	var list=[];
 	var currentid=0;
 	var key=""
-	var scrollView = Ti.UI.createScrollView({
-		contentWidth:'auto',
-		contentHeight:'auto',		
-		top:isLogin?0:44,
-		showVerticalScrollIndicator:true,
-		verticalBounce :true
-	});
-	self.add(scrollView);
+	
+	/************create tableview ***********************/
+	var tbl_data=[];
+	var CustomTableView = require("publicUI/CustomTableView");
+	var tableView = new CustomTableView(self);
+	if (isLogin){
+		tableView.top=0;
+	}else{
+		tableView.top=44;	
+	}
+	
+	self.add(tableView);
+	tableView.addScrollListener();
+	
+	var isRefresh=false;
+	/***********pull refresh component*******************/
+	var tableHeader=require('publicUI/TableViewPullRefresh');
+	new tableHeader(tableView,function(e){
+		page = 0;
+		ypos=[5,5,5];
+		list=[];
+		Ti.API.info('pull refresh load data');
+		isRefresh=true; //flag
+		tableView.deleteRow(0);
+		tableView.data =[];
+		view = Ti.UI.createView({
+			top : 0,
+			left : 0,
+			width : 320,
+			height : 600
+		})
 
+		//add the scrollview to tableview first row 2012.3.30
+		//tableView.height = maxHeight;
+		newrow = Ti.UI.createTableViewRow({
+			height : 'auto'
+		});
+		newrow.add(view);
+		tableView.data = [newrow];
+
+
+		self.loadData();
+	});
+	
+	
+	self.loadData=function(){
+		self.showData();
+	}
+	
+	
+	
 	var view = Ti.UI.createView({
 		top:0,
 		left:0,
 		width:320,
-		height:8000
+		height:600
 	})
-	scrollView.add(view);
 	
+	//add the scrollview to tableview first row 2012.3.30
+	//tableView.height = maxHeight;
+	var newrow = Ti.UI.createTableViewRow({
+		height : 'auto'
+	});
+	newrow.add(view);
+	tableView.data = [newrow];
+		//add empty row
+
 	var lasty=0;			
 	var isLoading=false;
 	var isShow=true;
@@ -134,15 +186,18 @@ var PictureListView=function(isLogin){
 	self.bottomGet=function(e){		
 		if(e.y >= view.height /2) {
 			//Ti.API.log("INFO", "i am in bottom");
-			scrollView.removeEventListener("scroll", self.bottomGet);
+			//scrollView.removeEventListener("scroll", self.bottomGet);
 			if (page<=pages){
-				self.showData();	
+				//self.showData();	
 			}
 		}
 	}
 	var starty=0;
 	var endy=0;
+	
 	self.showData=function(category,searchKey){
+		//tableView.addScrollListener();
+		tableView.removeScrollListener();
 		if (category){				
 			categoryId = category.id;
 			key = searchKey;
@@ -151,7 +206,7 @@ var PictureListView=function(isLogin){
 		isLoading =true;
 		var categoryService = require("services/CategoryService");
 		var processData = function(datas,isGet){
-			scrollView.removeEventListener("scroll",scrollProcess);			
+			//scrollView.removeEventListener("scroll",scrollProcess);			
 			var xpos=[5,110,215];
 			list=list.concat(datas);
 			for(var i=0;i<datas.length;i++){				
@@ -206,23 +261,27 @@ var PictureListView=function(isLogin){
 					max = item;
 			}
 			view.height = max;
+			newrow.height = max;
 			maxHeight = max;
-			scrollView.addEventListener("scroll", self.bottomGet);
+			//scrollView.addEventListener("scroll", self.bottomGet);
 			isLoading = false;
 			if (isGet){
 				page++;
 			}
-			scrollView.addEventListener("scroll",scrollProcess);
-		};
+			tableView.addScrollListener();
+			
+		};//end processData
 		var offset = page*27+1;
 		if (categoryId>-1){
 			categoryService.getCategory(categoryId,offset,processData);	
 		}else{
 			categoryService.searchByKey(key,offset,processData);
 		}
-				
-	};
 	
+	};//end showdata
+	
+	
+
 	return self;
 };
 module.exports = PictureListView;

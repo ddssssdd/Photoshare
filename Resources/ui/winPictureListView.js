@@ -33,6 +33,30 @@ var winPictureListView=function(){
 	var list=[];
 	var currentid=0;
 	var key=""
+	
+	/************create tableview ***********************/
+	var tbl_data=[];
+	var CustomTableView = require("publicUI/CustomTableView");
+	var tableView = new CustomTableView(self);
+	tableView.top=44;
+	self.add(tableView);
+	
+	var isRefresh=false;
+	/***********pull refresh component*******************/
+	var tableHeader=require('publicUI/TableViewPullRefresh');
+	new tableHeader(tableView,function(e){
+		Ti.API.info('pull refresh load data');
+		isRefresh=true; //flag
+		tableView.data=[];
+		self.loadData();
+	});
+	
+	
+	var loadData=function(){
+		showData("");
+	}
+	
+	
 	var scrollView = Ti.UI.createScrollView({
 		contentWidth:'auto',
 		contentHeight:'auto',		
@@ -40,7 +64,7 @@ var winPictureListView=function(){
 		showVerticalScrollIndicator:true,
 		verticalBounce :true
 	});
-	self.add(scrollView);
+	//self.add(scrollView);
 
 	var view = Ti.UI.createView({
 		top:0,
@@ -192,6 +216,13 @@ var winPictureListView=function(){
 				page++;
 			}
 			scrollView.addEventListener("scroll",scrollProcess);
+			
+			//add the scrollview to tableview first row 2012.3.30
+			tableView.height=maxHeight;
+			var newrow=Ti.UI.createTableViewRow({height:maxHeight});
+			newrow.add(scrollView);
+			tableView.appendRow(newrow);
+			tableView.appendRow(Ti.UI.createTableViewRow()); //add empty row
 		};
 		var offset = page*27+1;
 		if (categoryId>-1){

@@ -9,21 +9,23 @@ var winLogin= function(){
 	self.add(t);
 	
 	t.addBackButton(function(e){
+		Ti.Facebook.removeEventListener("login",loginSuccess);
 		self.close();
 	});
 	
 	//show topbarview 2012.3.27
 	t.showTop(true,true);
 		
+	
+	var loginSuccess=function(e){
+		if (e.success){
+			facebookLogin();			
+		}
+		
+	}
 	Ti.Facebook.appid ="192953927448564";// "144454838961780";
 	Ti.Facebook.permissions = ['publish_stream'];
-	Ti.Facebook.addEventListener('login',function(e){
-		if (e.success){			
-			Ti.App.fireEvent("app:registerr",{email:e.data.email,firstname:e.data.first_name,lastname:e.data.last_name});
-			self.close();
-
-		}
-	});
+	Ti.Facebook.addEventListener('login',loginSuccess);
 	var tableview = Titanium.UI.createTableView();
 	tableview.scrollable=false;
 	self.add(tableview);
@@ -46,18 +48,34 @@ var winLogin= function(){
 		width:292,
 		backgroundImage:'images/'+settings.countryCode+'/login_facebook.png'
 	});
+	function facebookLogin(){
+		Ti.Facebook.removeEventListener("login",loginSuccess);
+		var userService = require("services/UserService");
+		userService.loginWithFacebook(Ti.Facebook.getUid(),Ti.Facebook.accessToken);
+		self.close();
+		
+		//send the message to tell other window close 2012.3.29
+		Ti.App.fireEvent('app:closeWindow',{});
+	}
 	facebookButton.addEventListener("click",function(e){
-		Ti.Facebook.authorize();
+		if (Ti.Facebook.loggedIn){
+			//Ti.API.info(Ti.Facebook.getUid());
+			//Ti.API.info(Ti.Facebook.accessToken);
+			facebookLogin();
+		}else{
+			Ti.Facebook.authorize();	
+		}
+		
 	});
 	contentView.add(facebookButton);
-	var twitterButton = Ti.UI.createButton({
+	/*var twitterButton = Ti.UI.createButton({
 		top:100,
 		left:14,
 		height:50,
 		width:292,
 		backgroundImage:'images/'+settings.countryCode+'/login_twitter.png'
 	});
-	contentView.add(twitterButton);
+	contentView.add(twitterButton);*/
 	
 	var loginButton = Ti.UI.createButton({
 		top:325,
