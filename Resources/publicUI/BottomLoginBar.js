@@ -8,6 +8,15 @@ var BottomLoginBar = function(){
 		zIndex:11		
 	});
 	
+	Ti.App.addEventListener("app:reload", function() {
+		setTimeout(function(){
+			registerButton.backgroundImage = 'images/'+settings.countryCode+'/signup.png';
+			loginButton.backgroundImage ='images/'+settings.countryCode+'/login.png';	
+		},1000);
+		
+	});
+
+
 	var registerButton = Ti.UI.createButton({		
 		top : 8,
 		left : 10,

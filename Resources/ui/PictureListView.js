@@ -285,6 +285,26 @@ var PictureListView=function(isLogin){
 	Ti.App.addEventListener('app:reload',function(e){
 		page = 0;
 		ypos=[5,5,5];
+		list=[];
+		Ti.API.info('pull refresh load data');
+		isRefresh=true; //flag
+		tableView.deleteRow(0);
+		tableView.data =[];
+		view = Ti.UI.createView({
+			top : 0,
+			left : 0,
+			width : 320,
+			height : 600
+		})
+
+		//add the scrollview to tableview first row 2012.3.30
+		//tableView.height = maxHeight;
+		newrow = Ti.UI.createTableViewRow({
+			height : 'auto'
+		});
+		newrow.add(view);
+		tableView.data = [newrow];
+		
 		self.loadData();
 	});
 

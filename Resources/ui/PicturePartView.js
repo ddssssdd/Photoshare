@@ -256,8 +256,8 @@ var PicturePartView = function(f,photo,index){
 				Ti.App.fireEvent("app:pinInfo",{text:e.pin.thisOperPoint});
 			}
 			
-			lblRepin.text = e.pin.repinCount+(e.pin.repinCount>1?" Repins":" Repin");
-			lblLike.text = e.pin.likeCount + (e.pin.likeCount>1?' Likes':' Like');
+			lblRepin.text = e.pin.repinCount+(e.pin.repinCount>1? LL('email.daily.repin.title') : LL('pin.repin.repin'));
+			lblLike.text = e.pin.likeCount + (e.pin.likeCount>1? LL('user.likes') : LL('app.like'));
 			
 			if (e.pin.commentsList.length>0) {
 				createComments(e.pin.commentsList,true);

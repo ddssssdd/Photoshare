@@ -25,6 +25,14 @@ var getLanguage = function() {
 	}
 
 }
+Ti.App.addEventListener("app:reload",function(){
+	countryCode = Ti.App.Properties.getString('countryCode');
+	if (!countryCode){
+		countryCode = 'en'
+	}
+	llist=null;
+	settings.countryCode=countryCode;
+});
 
 var LL = function(key) {
 	if(!llist) {
@@ -36,7 +44,7 @@ var LL = function(key) {
 
 
 var settings={showAnimation:false,
-	serverUrl:"http://beta.pinspire.com/ios/",
+	serverUrl:"http://www.pinspire.com/ios/",
 	defaultImageColor:'#eee',
 	defaultCountry:'usa',
 	timeOut:20000,

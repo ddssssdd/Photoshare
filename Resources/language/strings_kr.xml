@@ -24,7 +24,7 @@
   <string name="global.banner.me.likes"><![CDATA[<img src=\'http://www.pinspire.co.kr/images/btn_kr/global.banner.me.likes.png\' />]]></string>
   <string name="global.banner.me.mentions">@멘션</string>
   <string name="global.banner.me.settings"><![CDATA[<img src=\'http://www.pinspire.co.kr/images/btn_kr/global.banner.me.settings.png\' />]]></string>
-  <string name="global.banner.me.logout"><![CDATA[<img src=\'http://www.pinspire.co.kr/images/btn_kr/global.banner.me.logout.png\' />]]></string>
+  <string name="global.banner.me.logout">Logout</string>
   <string name="global.banner.pinners">팔로잉</string>
   <string name="global.pin.repin_button">Repin</string>
   <string name="global.pin.like_button">좋아요</string>

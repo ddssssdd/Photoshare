@@ -92,7 +92,7 @@ var BottomToolBar=function(topValue,photo){
 					Ti.App.fireEvent("app:message", {
 						text : (isUnlike)? LL('app.unlike_success') : LL('app.like_success')
 					});
-					likeBtn.backgroundImage = "images/"+settings.countryCode+"/" + e.text + "_button.png";
+					likeBtn.backgroundImage = "images/" + e.text + "_button.png";
 				} else {
 					Ti.App.fireEvent("app:message", {
 						text : LL('app.like_failure') + e.memo
