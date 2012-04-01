@@ -5,7 +5,7 @@ var BackNavButton=function(win,callBackFunction){
 		left : 10,
 		height : 28,
 		width : 62,
-		backgroundImage :settings.getImageFile('back.png')
+		backgroundImage :'images/back.png'
 	});
 	win.leftNavButton = self;
 	self.addEventListener("click", function(e) {

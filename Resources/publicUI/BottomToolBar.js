@@ -29,7 +29,7 @@ var BottomToolBar=function(topValue,photo){
 		left:10,
 		height:31,
 		width:77,
-		backgroundImage:"images/"+settings.countryCode+"/repin_button.png"
+		backgroundImage:"images/repin_button.png"
 	})
 	
 	
@@ -55,7 +55,7 @@ var BottomToolBar=function(topValue,photo){
 		left:100,
 		height:31,
 		width:65,
-		backgroundImage:"images/"+settings.countryCode+"/like_button.png",
+		backgroundImage:"images/like_button.png",
 		action:"like"
 	});
 	var moreBtn = Ti.UI.createButton({
@@ -113,7 +113,7 @@ var BottomToolBar=function(topValue,photo){
 		
 		var userService = require("services/UserService");
 		if (userService.user().id==e.photoUserId){
-			likeBtn.backgroundImage ="images/"+settings.countryCode+"/delete_button.png";
+			likeBtn.backgroundImage ="images/delete_button.png";
 			likeBtn.action="delete";
 			likeBtn.rowindex= e.rowIndex;
 		}

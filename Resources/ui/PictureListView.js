@@ -66,7 +66,7 @@ var PictureListView=function(isLogin){
 	}else{
 		tableView.top=44;	
 	}
-	
+	tableView.selectionStyle=Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;	
 	self.add(tableView);
 	tableView.addScrollListener();
 	
@@ -281,6 +281,12 @@ var PictureListView=function(isLogin){
 	};//end showdata
 	
 	
+	
+	Ti.App.addEventListener('app:reload',function(e){
+		page = 0;
+		ypos=[5,5,5];
+		self.loadData();
+	});
 
 	return self;
 };

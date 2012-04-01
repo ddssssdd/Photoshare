@@ -41,7 +41,9 @@ var winCountry=function(){
 			for (var i=0;i<datas.length;i++) {
 				var data=datas[i];
 				var _hascheck=false;
-				if (Ti.App.Properties.getInt('countryId') && data.showCountryId==Ti.App.Properties.getInt('countryId')) {
+				if (Ti.App.Properties.getInt('countryId') && 
+							data.showCountryId==Ti.App.Properties.getInt('countryId') &&
+							data.domain==Ti.App.Properties.getString('countryCode')) {
 					_hascheck=true;
 				}
 				//var rowData={title:data.title,countryId:data.id,countryCode:data.domain,hasChild:false,hasCheck:_hascheck};
@@ -68,6 +70,7 @@ var winCountry=function(){
 				Ti.App.Properties.setString("countryCode",countryCode)
 				self.close();
 				
+				Ti.App.fireEvent('app:reload',{});
 				//refresh Picturelistview according to countryid
 				
 				

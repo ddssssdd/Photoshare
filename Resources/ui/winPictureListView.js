@@ -34,46 +34,68 @@ var winPictureListView=function(){
 	var currentid=0;
 	var key=""
 	
+	
 	/************create tableview ***********************/
 	var tbl_data=[];
 	var CustomTableView = require("publicUI/CustomTableView");
 	var tableView = new CustomTableView(self);
 	tableView.top=44;
+	tableView.selectionStyle=Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;	
 	self.add(tableView);
+	tableView.addScrollListener();
 	
 	var isRefresh=false;
 	/***********pull refresh component*******************/
 	var tableHeader=require('publicUI/TableViewPullRefresh');
 	new tableHeader(tableView,function(e){
+		page = 0;
+		ypos=[5,5,5];
+		list=[];
 		Ti.API.info('pull refresh load data');
 		isRefresh=true; //flag
-		tableView.data=[];
+		tableView.deleteRow(0);
+		tableView.data =[];
+		view = Ti.UI.createView({
+			top : 0,
+			left : 0,
+			width : 320,
+			height : 600
+		})
+
+		//add the scrollview to tableview first row 2012.3.30
+		//tableView.height = maxHeight;
+		newrow = Ti.UI.createTableViewRow({
+			height : 'auto'
+		});
+		newrow.add(view);
+		tableView.data = [newrow];
+
+
 		self.loadData();
 	});
 	
 	
-	var loadData=function(){
-		showData("");
+	self.loadData=function(){
+		self.showData();
 	}
 	
-	
-	var scrollView = Ti.UI.createScrollView({
-		contentWidth:'auto',
-		contentHeight:'auto',		
-		top:44,
-		showVerticalScrollIndicator:true,
-		verticalBounce :true
-	});
-	//self.add(scrollView);
 
 	var view = Ti.UI.createView({
 		top:0,
 		left:0,
 		width:320,
-		height:8000
+		height:600
 	})
-	scrollView.add(view);
 	
+	//add the scrollview to tableview first row 2012.3.30
+	//tableView.height = maxHeight;
+	var newrow = Ti.UI.createTableViewRow({
+		height : 'auto'
+	});
+	newrow.add(view);
+	tableView.data = [newrow];
+		//add empty row
+
 	var lasty=0;			
 	var isLoading=false;
 	var isShow=true;
@@ -137,15 +159,18 @@ var winPictureListView=function(){
 	self.bottomGet=function(e){		
 		if(e.y >= view.height /2) {
 			//Ti.API.log("INFO", "i am in bottom");
-			scrollView.removeEventListener("scroll", self.bottomGet);
+			//scrollView.removeEventListener("scroll", self.bottomGet);
 			if (page<=pages){
-				self.showData();	
+				//self.showData();	
 			}
 		}
 	}
 	var starty=0;
 	var endy=0;
+	
 	self.showData=function(category,searchKey){
+		//tableView.addScrollListener();
+		tableView.removeScrollListener();
 		if (category){				
 			categoryId = category.id;
 			key = searchKey;
@@ -154,7 +179,7 @@ var winPictureListView=function(){
 		isLoading =true;
 		var categoryService = require("services/CategoryService");
 		var processData = function(datas,isGet){
-			scrollView.removeEventListener("scroll",scrollProcess);			
+			//scrollView.removeEventListener("scroll",scrollProcess);			
 			var xpos=[5,110,215];
 			list=list.concat(datas);
 			for(var i=0;i<datas.length;i++){				
@@ -209,29 +234,25 @@ var winPictureListView=function(){
 					max = item;
 			}
 			view.height = max;
+			newrow.height = max;
 			maxHeight = max;
-			scrollView.addEventListener("scroll", self.bottomGet);
+			//scrollView.addEventListener("scroll", self.bottomGet);
 			isLoading = false;
 			if (isGet){
 				page++;
 			}
-			scrollView.addEventListener("scroll",scrollProcess);
+			tableView.addScrollListener();
 			
-			//add the scrollview to tableview first row 2012.3.30
-			tableView.height=maxHeight;
-			var newrow=Ti.UI.createTableViewRow({height:maxHeight});
-			newrow.add(scrollView);
-			tableView.appendRow(newrow);
-			tableView.appendRow(Ti.UI.createTableViewRow()); //add empty row
-		};
+		};//end processData
 		var offset = page*27+1;
 		if (categoryId>-1){
 			categoryService.getCategory(categoryId,offset,processData);	
 		}else{
 			categoryService.searchByKey(key,offset,processData);
 		}
-				
-	};
+	
+	};//end showdata
+	
 	
 	//when received the closewindow App listener then close  2012.3.29 
 	Ti.App.addEventListener('app:closeWindow',function(e){
@@ -239,6 +260,7 @@ var winPictureListView=function(){
 		//Ti.App.removeEventListener('app:closeWindow'); //remove App listener
 	});
 	
+
 	return self;
 };
 module.exports = winPictureListView;

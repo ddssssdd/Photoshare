@@ -15,7 +15,7 @@ var winRepin = function(photo,imageObj){
 	var cancelButton=Titanium.UI.createButton({
 		width:62,
 		height:28,
-		backgroundImage:'images/'+settings.countryCode+'/cancel.png'
+		backgroundImage:'images/cancel.png'
 	});
 	self.leftNavButton = cancelButton;
 	cancelButton.addEventListener("click",function(e){

@@ -13,6 +13,7 @@ CustomTabBar = function(settings) {
 	};
 	var setHighlightBar=function(index){		
 		resetTabs();
+		tabCurrent = index;
 		tabBarItems[index].image = settings.imagePath + settings.items[index].selected;
 		//tabItem.fireEvent('click',{});
 	}

@@ -9,6 +9,7 @@ var winActivity2=function(){
 	Ti.App.fireEvent("app:tabgroup",{visible:true});
 	var CustomTableView = require("publicUI/CustomTableView");
 	var tableView = new CustomTableView(self);
+	tableView.selectionStyle=Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 	self.add(tableView);
 	
 	

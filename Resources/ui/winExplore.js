@@ -7,7 +7,7 @@ var winExplore=function(){
 		fullscreen:false		
 	});
 
-	var coverView=null,toolView=null,toolbar=null;
+	/*var coverView=null,toolView=null,toolbar=null;
 	var createCoverView=function() {
 	
 		coverView=Ti.UI.createView({
@@ -54,7 +54,7 @@ var winExplore=function(){
 				}
 			});
 			
-	}
+	}*/
 	
 	
 	var searchTag = Ti.UI.createSearchBar({
@@ -70,7 +70,7 @@ var winExplore=function(){
 	searchTag.addEventListener("focus",function(e){
 		searchTag.showCancel = true;
 		//hide navbar and tabbar
-		self.hideNavBar();
+		/*self.hideNavBar();
 		customTabGroup.hide();
 		
 		//show cover view
@@ -88,18 +88,18 @@ var winExplore=function(){
 			toolView=null,toolbar=null;
 		}
 		createToolBar();
-		self.add(toolView);
+		self.add(toolView);*/
 		//toolbar.show();
 	});
 	searchTag.addEventListener("blur",function(e){
 		searchTag.showCancel = false;
 		
 		//show navbar, tabbar
-		self.showNavBar();
+		/*self.showNavBar();
 		customTabGroup.show();
 		coverView.animate({duration:300,opacity:0});
 		
-		toolbar.hide();
+		toolbar.hide();*/
 	});
 	
 	searchTag.addEventListener("return",function(e){
@@ -110,9 +110,9 @@ var winExplore=function(){
 	searchTag.addEventListener("cancel",function(e){
 		searchTag.blur();
 		searchTag.value="";
-		if (toolView) {
+		/*if (toolView) {
 			self.remove(toolView);
-		}
+		}*/
 	});
 	
 	

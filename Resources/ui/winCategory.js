@@ -86,7 +86,7 @@ var winCategory=function(){
 		
 		//add click event
 		tableView.addEventListener("click", function(e) {
-			searchBar.blur();
+			//searchBar.blur();
 			if (e.rowData.category){
 				var winPictureListView = require("ui/winPictureListView");
 				var pview = new winPictureListView();

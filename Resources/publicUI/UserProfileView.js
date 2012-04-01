@@ -104,7 +104,7 @@ var UserProfileView=function(user,tabName){
 	
 	var followingsCount = Ti.UI.createLabel({
 		top:50,
-		left: followersLabel.left+followersLabel.width+15,
+		left: followersLabel.left+followersLabel.width+10,
 		width:'auto',
 		height:30,
 		font:{fontSize:12,fontWeight:"bold"},
@@ -125,18 +125,18 @@ var UserProfileView=function(user,tabName){
 	
 	var pinpointsCount = Ti.UI.createLabel({
 		top:50,
-		left: followingsLabel.left+followingsLabel.width+15,
+		left: followingsLabel.left+followingsLabel.width+10,
 		width:'auto',
 		height:30,
 		font:{fontSize:12,fontWeight:"bold"},
 		//backgroundImage:"images/follow_number_bg_left.png",
-		text: user.following_count
+		text: user.userPoints
 	});
 	self.add(pinpointsCount);
 	
 	var pinpointsLabel = Ti.UI.createLabel({
 		top:50,
-		left:pinpointsCount.left+pinpointsCount.width+5,
+		left:pinpointsCount.left+pinpointsCount.width,
 		width:'auto',
 		height:30,
 		font:{fontSize:14},
@@ -222,7 +222,7 @@ var UserProfileView=function(user,tabName){
 		this.max=view.height+25+sv.max+48; 
 		self.height=this.max;
 		if (self.parent){
-			self.parent.height = this.max+500;
+			self.parent.height = this.max+380;
 		}
 	}
 	

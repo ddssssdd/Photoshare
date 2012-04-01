@@ -160,7 +160,7 @@ var AppMainWindow=function(){
 	Ti.App.addEventListener("app:takePhoto",function(e){
 		currentIndex=e.index;
 		var moreOption = Ti.UI.createOptionDialog({
-			options : [ LL('app.open_camera'), LL('app.open_photo_gallery'), L('$app.cancel')],
+			options : [ LL('app.open_camera'), LL('app.open_photo_gallery'), LL('app.cancel')],
 			cancel : 2,
 			destructive:2
 		});

@@ -8,7 +8,7 @@ var winProfile=function(){
 	});
 	Ti.App.fireEvent("app:tabgroup",{visible:true});
 	var buttonLeft = Ti.UI.createButton({
-		backgroundImage:'images/'+settings.countryCode+'/account.png',
+		backgroundImage:'images/account.png',
 		width: 74,
 		height: 28
 	});
@@ -38,6 +38,7 @@ var winProfile=function(){
 	});
 	var row=Ti.UI.createTableViewRow({height:'auto'});
 	tableView.data=[row];
+	tableView.selectionStyle=Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 	self.add(tableView);
 	var isRefresh=false;
 	/***********pull refresh component*******************/

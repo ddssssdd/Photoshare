@@ -3,11 +3,14 @@ var countryCode = Ti.App.Properties.getString('countryCode');
 if (!countryCode){
 	countryCode = 'en'
 }
-countryCode = 'cn'
+//countryCode = 'cn'
 var llist = null; //language list
 var clist=null; //country list
 var getLanguage = function() {
 	var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "language/strings_" + countryCode + ".xml");
+	if (!f.exists()){
+		f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "language/strings_en.xml");
+	}
 	var fcontent = f.read().toString();
 	Ti.API.info(fcontent);
 
@@ -58,11 +61,11 @@ var customTabGroup = new CustomTabBar({
     width: 64,
     height: 47,
     items: [
-        { image: countryCode+'/'+'home.png', selected: countryCode+'/'+'home_on.png' },
-        { image: countryCode+'/'+'explore.png', selected: countryCode+'/'+'explore_on.png' },
+        { image: 'home.png', selected: 'home_on.png' },
+        { image: 'explore.png', selected: 'explore_on.png' },
         { image: 'spot.png', selected: 'spot.png' },
-        { image: countryCode+'/'+'activity.png', selected: countryCode+'/'+'activity_on.png' },
-        { image: countryCode+'/'+'profile.png', selected: countryCode+'/'+'profile_on.png' }
+        { image: 'activity.png', selected: 'activity_on.png' },
+        { image: 'profile.png', selected: 'profile_on.png' }
     ]
 });
 
