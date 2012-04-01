@@ -155,7 +155,7 @@ var PicturePartView = function(f,photo,index){
 			//top : baseTop + 10,
 			left : 35,
 			height : 'auto',
-			text : photo.repinCount + (photo.repinCount > 1 ? LL('repins') : LL('repin')),
+			text : photo.repinCount + (photo.repinCount > 1 ? LL('email.daily.repin.title') : LL('pin.repin.repin')),
 			font : {
 				fontSize : 12,
 				fontWeight : 'bold'
@@ -197,7 +197,7 @@ var PicturePartView = function(f,photo,index){
 			top : b.top + 41 + 40,
 			left : 35,
 			height : "auto",
-			text : photo.likeCount + (photo.likeCount > 1 ? LL('likes') : LL('like')),
+			text : photo.likeCount + (photo.likeCount > 1 ? LL('user.likes') : LL('app.like')),
 			font : {
 				fontSize : 12,
 				fontWeight : 'bold'

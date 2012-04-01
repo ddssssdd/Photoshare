@@ -35,8 +35,9 @@ var LL = function(key) {
 var settings={showAnimation:false,
 	serverUrl:"http://beta.pinspire.com/ios/",
 	defaultImageColor:'#eee',
+	defaultCountry:'usa',
 	timeOut:20000,
-	noneInternet:LL('no_access'),
+	noneInternet:LL('app.no_access'),
 	lanuageCode:Ti.Locale.currentLanguage,
 	countryCode:countryCode,	
 	getImageFile:function(filename){

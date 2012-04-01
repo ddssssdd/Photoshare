@@ -170,7 +170,7 @@ exports.getPins=function(userId,offset,callBackFunction){
 	
 	//var url =serverUrl +"/forIOS/getPinsByUserId4IOS?userId="+userId;
 	//var url =serverUrl2 +"getUserPins?userId="+userId
-	var url =serverUrl2 +"getUserPins?userId="+userId+"&max=27&offset="+(offset?offset:1);
+	var url =serverUrl2 +"getUserPins?userId="+userId+"&max=50&offset="+(offset?offset:1);
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var datas=[];
@@ -224,7 +224,7 @@ exports.getBoardPins=function(bid,callBackFunction){
 exports.getLikes=function(userId,offset,callBackFunction){
 	
 	//var url =serverUrl +"/forIOS/getLikesByUserId4IOS?userId="+userId;
-	var url =serverUrl2 +"getUserLikes?userId="+userId+"&max=27&offset="+(offset?offset:1);
+	var url =serverUrl2 +"getUserLikes?userId="+userId+"&max=100&offset="+(offset?offset:1);
 	//var url =serverUrl2 +"getUserLikes?userId="+userId;
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
@@ -325,10 +325,10 @@ exports.registerWithFacebook=function(fid,token,email,gender,firstname,lastname,
 	
 }
 // http://localhost:8080/IOS/doRegisterWithoutInvite?email=1&password=2&firstname=111&lastname=asdf
-exports.register=function(email,password,firstname,lastname,callBackFunction){
+exports.register=function(email,password,firstname,lastname,countryid,callBackFunction){
 	
 	//var url =serverUrl +"doRegisterWithoutInvite?email="+email""&password=2&firstname=111&lastname=asdf;
-	var url =serverUrl2 +"doRegisterWithoutInvite?email="+email+"&password="+password+"&firstname="+firstname+"&lastname="+lastname;
+	var url =serverUrl2 +"doRegisterWithoutInvite?email="+email+"&password="+password+"&firstname="+firstname+"&lastname="+lastname+"&countryid="+countryid;
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var datas=[];

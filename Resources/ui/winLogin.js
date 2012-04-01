@@ -20,6 +20,8 @@ var winLogin= function(){
 	var loginSuccess=function(e){
 		if (e.success){
 			facebookLogin();			
+		}else{
+			Ti.App.fireEvent("app:message",{text:LL("app.no_access")});
 		}
 		
 	}
@@ -102,7 +104,7 @@ var winLogin= function(){
 		
 	var emailText = Titanium.UI.createTextField({
 		id:'txtEmail',
-		hintText : LL('your_email_address'),
+		hintText : LL('app.your_email_address'),
 		height : 50,
 		paddingLeft : 10,
 		top:210,
@@ -155,7 +157,7 @@ var winLogin= function(){
 	contentView.add(emailText);
 	var passwordText = Titanium.UI.createTextField({
 		id:'txtPwd',
-		hintText : LL('password'),
+		hintText : LL('profile.password'),
 		height : 50,
 		top:260,
 		

@@ -16,21 +16,20 @@ var UserProfileView=function(user,tabName){
 				 * */
 	this.user = user;
 	this.tabName = tabName;
-	this.max=0;
 	var userId = user.id;
-	/*var bgView = Ti.UI.createScrollView({
+	var bgView = Ti.UI.createScrollView({
 		top:0,
 		left:0,
 		width:320,
 		contentHeight:'auto'
-	});*/
+	});
 	var self = Ti.UI.createView({
 		top:0,
 		left:0,
 		width:320,
 		height:'auto'
 	});
-	//bgView.add(self);
+	bgView.add(self);
 	
 	
 	
@@ -119,31 +118,10 @@ var UserProfileView=function(user,tabName){
 		height:30,
 		font:{fontSize:14},
 		//backgroundImage:"images/follow_bg_left.png",
-		text:(user.following_count>1? LL('app.followings') : LL('userhome.following') )
+		text:(user.folowing_count>1? LL('app.followings') : LL('userhome.following') )
 	});
 	self.add(followingsLabel);
 	
-	var pinpointsCount = Ti.UI.createLabel({
-		top:50,
-		left: followingsLabel.left+followingsLabel.width+15,
-		width:'auto',
-		height:30,
-		font:{fontSize:12,fontWeight:"bold"},
-		//backgroundImage:"images/follow_number_bg_left.png",
-		text: user.following_count
-	});
-	self.add(pinpointsCount);
-	
-	var pinpointsLabel = Ti.UI.createLabel({
-		top:50,
-		left:pinpointsCount.left+pinpointsCount.width+5,
-		width:'auto',
-		height:30,
-		font:{fontSize:14},
-		//backgroundImage:"images/follow_bg_left.png",
-		text:LL('about.community.pinpoints')
-	});
-	self.add(pinpointsLabel);
 	
 	
 	
@@ -198,7 +176,6 @@ var UserProfileView=function(user,tabName){
 			
 			tbl_data.push(row);
 		}
-		tbl_data.push(Ti.UI.createTableViewRow({height:50}));
 		tableView.data = tbl_data;
 		tableView.addEventListener("click",function(e){
 		
@@ -206,24 +183,14 @@ var UserProfileView=function(user,tabName){
 			//win.open();
 		});
 		
-		//bgView.contentHeight=135+tbl_data.length*50; //h is the tableview all rows height
-		this.max=135+tbl_data.length*50;
-		self.height=this.max;
-		if (self.parent){
-			self.parent.height = this.max+300;
-		}
+		bgView.contentHeight=135+tbl_data.length*50; //h is the tableview all rows height
 	}
 	var ScrollViewFill = require("publicUI/ScrollPictureView");
 	
 	/**********reset the scrollview height**********/
 	var loadDataAndChangeScrollHeight=function(datas) {
 		var sv= new ScrollViewFill(datas,bottomView,tabName);
-		//bgView.contentHeight=view.height+25+sv.max+48;  //top(90) + toolbar(25) + bottom (dynamic height) + tabbar
-		this.max=view.height+25+sv.max+48; 
-		self.height=this.max;
-		if (self.parent){
-			self.parent.height = this.max+500;
-		}
+		bgView.contentHeight=view.height+25+sv.max+48;  //top(90) + toolbar(25) + bottom (dynamic height) + tabbar
 	}
 	
 	var loadPins=function(datas){
@@ -231,7 +198,9 @@ var UserProfileView=function(user,tabName){
 			toolBar.labels[1]= datas.length+ (datas.length>1? LL('user.pins') : LL('user.pin') );
 		}
 		loadDataAndChangeScrollHeight(datas);
-
+		/*var sv= new ScrollViewFill(datas,bottomView,tabName);
+		  bgView.contentHeight=view.height+25+sv.max+48;  //top(90) + toolbar(25) + bottom (dynamic height) + tabbar
+		*/
 	}
 	var loadLikes=function(datas){
 		if (toolBar){
@@ -239,7 +208,9 @@ var UserProfileView=function(user,tabName){
 		}
 		
 		loadDataAndChangeScrollHeight(datas);
-
+		/*var sv=new ScrollViewFill(datas,bottomView,tabName);
+		bgView.contentHeight=view.height+25+sv.max+48;  //top(90) + toolbar(25) + bottom (dynamic height) + tabbar
+		*/
 	}
 	var userService= require("services/UserService");
 	
@@ -282,10 +253,10 @@ var UserProfileView=function(user,tabName){
 					userService.getBoards(userId, loadBoards);
 				} else if(e.index == 1) {
 					//pins
-					userService.getPins(userId, 0,loadPins);
+					userService.getPins(userId, loadPins);
 				} else {
 					//likes;
-					userService.getLikes(userId, 0, loadLikes);
+					userService.getLikes(userId, 1, loadLikes);
 				}
 			});
 		}
@@ -321,8 +292,7 @@ var UserProfileView=function(user,tabName){
 	
 	createContent();
 	userService.getPins(userId,0,loadPins);
-	//return bgView;
-	return self;
+	return bgView;
 }
 
 module.exports = UserProfileView;

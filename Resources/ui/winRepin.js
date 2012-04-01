@@ -39,7 +39,7 @@ var winRepin = function(photo,imageObj){
 				//alert(e);
 				if(e.status == 'success') {
 					Ti.App.fireEvent("app:message", {
-						text : LL("repin_success")
+						text : LL("app.repin_success")
 					});
 					
 					//update profile pins count 2012.3.28
@@ -58,7 +58,7 @@ var winRepin = function(photo,imageObj){
 			*/
 			var userService= require("services/UserService");
 			userService.createPin(imageObj,rowBoard.cid,textDescription.value,function(e){
-			Ti.App.fireEvent("app:message",{text:LL('create_pin_success')});	
+			Ti.App.fireEvent("app:message",{text:LL('app.create_pin_success')});	
 			self.close();	
 			
 			//show + 2012.3.29
@@ -73,7 +73,7 @@ var winRepin = function(photo,imageObj){
 	
 	
 	var data = [];
-	data[0] = Ti.UI.createTableViewSection({headerTitle:photo?LL('repin'):LL('create_pin')});
+	data[0] = Ti.UI.createTableViewSection({headerTitle:photo?LL('pin.repin.repin'):LL('app.create_pin')});
 	
 	var userService = require("services/UserService");
 	var list = userService.user().boardList;
@@ -84,7 +84,7 @@ var winRepin = function(photo,imageObj){
 		rowBoard.cid = list[0].id;
 		rowBoard.hasChild = true;
 	}else{
-		rowBoard.title = LL('select_board');
+		rowBoard.title = LL('app.select_board');
 		rowBoard.cid = 0;
 		rowBoard.hasChild = true;	
 	}

@@ -21,13 +21,14 @@ var winCategory=function(){
 	t.addBackButton(function(e){self.close();});
 	
 	//create searchbar
+	/*
 	var searchBar=Ti.UI.createSearchBar({
 		showCancel:false,
 		top:45,
 		width:320,
 		height:45,
 		barColor:'#d1d1d1',
-		text : LL('search')
+		text : LL('global.banner.search')
 	});
 	searchBar.addEventListener('focus',function(e){
 		searchBar.showCancel=true;
@@ -50,14 +51,14 @@ var winCategory=function(){
 	});
 	self.add(searchBar);
 	
-	
+	*/
 	
 	//create tableview
 	var tableView = Ti.UI.createTableView({
-		top:90,
+		top:50,
 		left:0,
 		width:320,
-		data:[LL('loading_data')]
+		data:[LL('app.loading_data')]
 		//search:searchTag	
 	});
 	self.add(tableView);
@@ -67,8 +68,8 @@ var winCategory=function(){
 		
 		var tbl_data = [];
 		var row = Ti.UI.createTableViewRow();
-		row.title = LL('what_is_hot');
-		row.category = {id:0,title:LL('what_is_hot')}
+		row.title = LL('global.banner.discussions');
+		row.category = {id:0,title:LL('global.banner.discussions')}
 		row.hasChild = true;
 		tbl_data.push(row);
 		for(var i = 0; i < datas.length; i++) {

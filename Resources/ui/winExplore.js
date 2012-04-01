@@ -64,7 +64,7 @@ var winExplore=function(){
 		height:45,		
 		barColor:'#d1d1d1',
 		//borderColor:'#aaa',
-		text : LL('search')
+		text : LL('global.banner.search')
 	});
 	self.add(searchTag);
 	searchTag.addEventListener("focus",function(e){
@@ -120,7 +120,7 @@ var winExplore=function(){
 		top:45,
 		left:0,
 		width:320,
-		data:[LL('loading_data')]
+		data:[LL('app.loading_data')]
 		//search:searchTag	
 	});
 	self.add(tableView);
@@ -129,8 +129,8 @@ var winExplore=function(){
 		
 		var tbl_data = [];
 		var row = Ti.UI.createTableViewRow();
-		row.title = LL('what_is_hot');
-		row.category = {id:0,title:LL('what_is_hot')}
+		row.title = LL('global.banner.discussions');
+		row.category = {id:0,title:LL('global.banner.discussions')}
 		row.hasChild = true;
 		tbl_data.push(row);
 		for(var i = 0; i < datas.length; i++) {

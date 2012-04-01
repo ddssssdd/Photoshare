@@ -14,20 +14,21 @@ var winCountry=function(){
 		self.close();
 	});
 	
+	/*
 	//create search bar
 	var searchBar=Ti.UI.createSearchBar({
 		showCancel:false,
 		barColor:'#d1d1d1',
 		borderColor:'#aaa'
 	});
-	
+	*/
 	//create tableview
 	var tableView=Ti.UI.createTableView({
 		top:44,
 		left:0,
-		search:searchBar,
+		//search:searchBar,
 		hideSearchOnSelection:true,
-		data:[LL('loading')]
+		data:[LL('global.pins.loading')]
 	});
 	self.add(tableView);
 	

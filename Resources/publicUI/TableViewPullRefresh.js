@@ -3,9 +3,9 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 		var date = new Date();
 		var datestr = date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear();
 		if(date.getHours() >= 12) {
-			datestr += ' ' + (date.getHours() == 12 ? date.getHours() : date.getHours() - 12) + ':' + date.getMinutes() + LL('pm');
+			datestr += ' ' + (date.getHours() == 12 ? date.getHours() : date.getHours() - 12) + ':' + date.getMinutes() + LL('app.pm');
 		} else {
-			datestr += ' ' + date.getHours() + ':' + date.getMinutes() + LL('am');
+			datestr += ' ' + date.getHours() + ':' + date.getMinutes() + LL('app.am');
 		}
 		return datestr;
 	}
@@ -35,7 +35,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 	});
 
 	var statusLabel = Ti.UI.createLabel({
-		text : LL('pull_to_reload'),
+		text : LL('app.pull_to_reload'),
 		left : 55,
 		width : 200,
 		bottom : 30,
@@ -54,7 +54,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 	});
 
 	var lastUpdatedLabel = Ti.UI.createLabel({
-		text : LL('last_update') + formatDate(),
+		text : LL('app.last_update') + formatDate(),
 		left : 55,
 		width : 200,
 		bottom : 15,
@@ -109,8 +109,8 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 			animated : true
 		});
 		reloading = false;
-		lastUpdatedLabel.text = LL('last_update') + formatDate();
-		statusLabel.text = LL('pull_down_to_refresh');
+		lastUpdatedLabel.text = LL('app.last_update') + formatDate();
+		statusLabel.text = LL('app.pull_down_to_refresh');
 		actInd.hide();
 		arrow.show();
 	}
@@ -126,7 +126,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 				transform : t,
 				duration : 180
 			});
-			statusLabel.text = LL('release_to_refresh');
+			statusLabel.text = LL('app.release_to_refresh');
 		} else if(pulling && offset > -65.0 && offset < 0) {
 			pulling = false;
 			var t = Ti.UI.create2DMatrix();
@@ -134,7 +134,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 				transform : t,
 				duration : 180
 			});
-			statusLabel.text = LL('pull_down_to_refresh');
+			statusLabel.text = LL('app.pull_down_to_refresh');
 		}		
 	});
 
@@ -145,7 +145,7 @@ var TableViewPullRefresh=function(tableView,callBackFunction){
 			pulling = false;
 			arrow.hide();
 			actInd.show();
-			statusLabel.text = LL('reloading');
+			statusLabel.text = LL('app.reloading');
 			tableView.setContentInsets({
 				top : 60
 			}, {

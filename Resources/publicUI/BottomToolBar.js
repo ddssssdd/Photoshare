@@ -34,9 +34,12 @@ var BottomToolBar=function(topValue,photo){
 	
 	
 	/*************show like or unlike *******************/
+	/*
 	var userService = require("services/UserService");
 	userService.getLikes(userService.user().id,0,function(e){
+		
 		var datas=e;
+		
 		for (var i=0;i<datas.length;i++) {
 			if (datas[i].id==self.image.photo.id) {
 				Ti.API.info('they are the same');
@@ -46,7 +49,7 @@ var BottomToolBar=function(topValue,photo){
 			}
 		}
 	});
-	
+	*/
 	
 	var likeBtn = Ti.UI.createButton({
 		left:100,
@@ -87,12 +90,12 @@ var BottomToolBar=function(topValue,photo){
 					Ti.App.fireEvent('app:updateProfile',{like:((isUnlike) ? -1 :1) });
 					
 					Ti.App.fireEvent("app:message", {
-						text : (isUnlike)? LL('unlike_success') : LL('like_success')
+						text : (isUnlike)? LL('app.unlike_success') : LL('app.like_success')
 					});
 					likeBtn.backgroundImage = "images/"+settings.countryCode+"/" + e.text + "_button.png";
 				} else {
 					Ti.App.fireEvent("app:message", {
-						text : LL('like_failure') + e.memo
+						text : LL('app.like_failure') + e.memo
 					});
 				}
 
@@ -118,7 +121,7 @@ var BottomToolBar=function(topValue,photo){
 	moreBtn.addEventListener("click",function(e){
 
 		var moreOption = Ti.UI.createOptionDialog({
-			options : [LL('comment'), LL('email_pin'), LL('save_to_camera'), LL('cancel')],
+			options : [LL('global.pin.comment_button'), LL('app.email_pin'), LL('app.save_to_camera'), LL('app.cancel')],
 			cancel : 3,
 			destructive:3
 		});
@@ -141,22 +144,22 @@ var BottomToolBar=function(topValue,photo){
 				var emailDialog = Titanium.UI.createEmailDialog();
 				if(!emailDialog.isSupported()) {
 					Ti.UI.createAlertDialog({
-						title : LL('error'),
-						message : LL('email_not_available')
+						title : LL('app.error'),
+						message : LL('app.email_not_available')
 					}).show();
 					return;
 				}
-				emailDialog.setSubject(LL('from_pinspire'));
+				emailDialog.setSubject(LL('app.from_pinspire'));
 				emailDialog.setToRecipients(['']);
 				emailDialog.setCcRecipients(['']);
 				//emailDialog.setBccRecipients(['']);
 
 				if(Ti.Platform.name == 'iPhone OS') {
-					emailDialog.setMessageBody('<b>'+LL('pin_from_pinspire')+'</b>');
+					emailDialog.setMessageBody('<b>'+LL('app.pin_from_pinspire')+'</b>');
 					emailDialog.setHtml(true);
 					emailDialog.setBarColor('#336699');
 				} else {
-					emailDialog.setMessageBody(LL('pin_from_pinspire'));
+					emailDialog.setMessageBody(LL('app.pin_from_pinspire'));
 				}
 
 				// attach a blob
@@ -167,11 +170,11 @@ var BottomToolBar=function(topValue,photo){
 				emailDialog.addEventListener('complete', function(e) {
 					if(e.result == emailDialog.SENT) {
 						if(Ti.Platform.osname != 'android') {
-							Ti.App.fireEvent("app:message",{text:LL('message_was_sent')});
+							Ti.App.fireEvent("app:message",{text:LL('app.message_was_sent')});
 							
 						}
 					} else {
-						Ti.App.fireEvent("app:message",{text:LL('message_was_not_sent')});
+						Ti.App.fireEvent("app:message",{text:LL('app.message_was_not_sent')});
 						
 					}
 				});
@@ -182,7 +185,7 @@ var BottomToolBar=function(topValue,photo){
 			if(e.index == 2) {
 				Titanium.Media.saveToPhotoGallery(self.image.toBlob());
 				Ti.App.fireEvent("app:message", {
-					text : LL('save_image_to_photo_gallery')
+					text : LL('app.save_image_to_photo_gallery')
 				});
 			}
 		});

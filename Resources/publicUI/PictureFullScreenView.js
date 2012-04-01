@@ -104,11 +104,10 @@ var PictureFullScreenView=function(photoid,list,tab){
 		imageComing.addEventListener("error",processError);
 		
 		
+		
 		//picture zoomin or zoomout 2012.3.28
-		var lastScale=1.0;
+		/*var lastScale=1.0;
 		var currentScale=1.0;
-		//imageComing.maxZoomScale=3.0;
-		//imageComing.minZoomScale=1.0;
 		imageComing.addEventListener('pinch',function(e){
 			currentScale=e.scale;
 			image.transform=Ti.UI.create2DMatrix()
@@ -119,7 +118,7 @@ var PictureFullScreenView=function(photoid,list,tab){
 		imageComing.addEventListener('pinchend',function(e){
 			lastScale=lastScale*currentScale;
 			currentScale=1.0;
-		});
+		});*/
 		
 		
 		infoLabel2.text = f.firstname+" "+f.lastname;
@@ -249,7 +248,7 @@ var PictureFullScreenView=function(photoid,list,tab){
 					
 			}else{
 				index = list.length-1;
-				Ti.App.fireEvent("app:message",{text:LL('no_more_pictures')});
+				Ti.App.fireEvent("app:message",{text:LL('global.bottom.no_more_pins')});
 			}
 		}else if (e.direction=="right"){
 			isLeft=false;
@@ -260,7 +259,7 @@ var PictureFullScreenView=function(photoid,list,tab){
 				
 			}else{
 				index = 0;
-				Ti.App.fireEvent("app:message",{text:LL('no_more_pictures')});
+				Ti.App.fireEvent("app:message",{text:LL('global.bottom.no_more_pins')});
 			}
 		}
 	})
@@ -330,7 +329,7 @@ var PictureFullScreenView=function(photoid,list,tab){
 		//alert(e);
 		if (e.pin.status=="success"){
 			
-			infoLabelright.text = e.pin.likeCount+LL('likes')+ " "+e.pin.repinCount+LL('repins');	
+			infoLabelright.text = e.pin.likeCount+LL('user.likes')+ " "+e.pin.repinCount+LL('email.daily.repin.title');	
 		}
 		
 	});

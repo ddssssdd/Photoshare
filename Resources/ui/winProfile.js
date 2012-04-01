@@ -16,7 +16,7 @@ var winProfile=function(){
 	buttonLeft.addEventListener("click",function(e){
 		
 		var logoutOption = Ti.UI.createOptionDialog({
-			options : [L('logout'), L('cancel')],
+			options : [LL('global.banner.me.logout'), LL('app.cancel')],
 			cancel : 1,
 			destructive:1
 		});
@@ -32,6 +32,68 @@ var winProfile=function(){
 		});
 
 	});
+	var tableView=Ti.UI.createTableView({
+		top:0,
+		height:1000
+	});
+	var row=Ti.UI.createTableViewRow({height:'auto'});
+	tableView.data=[row];
+	self.add(tableView);
+	var isRefresh=false;
+	/***********pull refresh component*******************/
+	var tableHeader=require('publicUI/TableViewPullRefresh');
+	new tableHeader(tableView,function(e){
+		page = 0;
+		isRefresh=true; //flag
+		tableView.deleteRow(0);
+		tableView.data =[];
+		//add the scrollview to tableview first row 2012.3.30
+		//tableView.height = maxHeight;
+		row = Ti.UI.createTableViewRow({
+			height : 'auto'
+		});
+		tableView.data = [row];
+		self.loadData();
+	});
+
+	
+	var isLogin = true;
+	var hasDone = false;
+	var userView=null;
+	self.loadData=function(){
+		
+		var createProfileView = function(u) {
+			/*if((self.children) && (self.children.length > 0)) {
+				self.remove(self.children[0]);
+			}*/
+			tableView.deleteRow(0);
+			tableView.data=[];	
+			row=Ti.UI.createTableViewRow({height:'auto'});
+			
+			var UserProfileView = require("publicUI/UserProfileView");
+			userView = new UserProfileView(u, "tabProfile");
+			//row.height = userView.height;
+			row.add(userView); //add profileview to first row
+			tableView.data=[row,Ti.UI.createTableViewRow({height:200})];
+			
+			hasDone = true;
+		}//end function
+		
+		
+		//hasDone=false;
+		if(!hasDone || isRefresh) {
+			//load data
+			var userService = require("services/UserService");
+			var user = userService.user();
+			if((user) && (user.id)) {
+				userService.getProfile(user.id, createProfileView);
+			}
+
+		}//end if
+
+	}
+	
+	
 	/*
 	var buttonRight = Ti.UI.createButton({
 		backgroundImage:'images/edit.png',
@@ -43,36 +105,17 @@ var winProfile=function(){
 		
 		Ti.App.fireEvent("app:openWindow",{tab:"winProfile",url:"editProfile"});
 	});
-	*/
-	var isLogin = true;
-	var hasDone = false;
-	var createProfileView = function(u){
-		if ((self.children) && (self.children.length>0)){
-			self.remove(self.children[0]);
-		}
-		var UserProfileView = require("publicUI/UserProfileView");
-		var userView = new UserProfileView(u,"tabProfile");
-		self.add(userView);
-		hasDone = true;
-	}
-		
+	*/		
 	Ti.App.addEventListener("app:loginSuccess",function(e){
 		isLogin=true;
-	});	
+	});
+	
+	//when page focus fireEvent
 	self.addEventListener("focus",function(e){
 		if (isLogin==false){
 			return;
 		}
-		//hasDone=false;
-		if (!hasDone){
-			var userService = require("services/UserService");
-			var user = userService.user();
-			if ((user) && (user.id)){
-				userService.getProfile(user.id,createProfileView);	
-			}
-				
-		}
-		
+		self.loadData();
 		Ti.App.fireEvent("app:tabgroup",{visible:true});
 	});
 

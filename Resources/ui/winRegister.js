@@ -101,8 +101,8 @@ var winRegister = function(param){
 	contentView.add(twitterButton);*/
 	
 	var showUp=function(arg) {
-		contentView.animate({top:-110,duration:500},function(e){
-				contentView.top=-110;
+		contentView.animate({top:-200,duration:500},function(e){
+				contentView.top=-200;
 				switch(arg.id){
 					case 'txtEmail':
 						emailText.focus();
@@ -126,7 +126,7 @@ var winRegister = function(param){
 		});
 	}
 	var setFocus=function(e) {
-		if (contentView.top==-110) {
+		if (contentView.top==-200) {
 			return;
 		}
 		showUp({id:e.source.id});
@@ -136,7 +136,7 @@ var winRegister = function(param){
 	var adjustHeight= 60;
 	var emailText = Titanium.UI.createTextField({
 		id:'txtEmail',
-		hintText : LL('your_email_address'),
+		hintText : LL('app.your_email_address'),
 		height : 50,
 		top : 195+adjustHeight,		
 		paddingLeft : 10,
@@ -160,7 +160,7 @@ var winRegister = function(param){
 	contentView.add(emailText);
 	var firstnameText = Titanium.UI.createTextField({
 		id:'txtFirstName',
-		hintText : LL('first_name'),
+		hintText : LL('profile.first_name'),
 		height : 50,
 		top : 245+adjustHeight,
 		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
@@ -183,7 +183,7 @@ var winRegister = function(param){
 	contentView.add(firstnameText);	
 	var lastnameText = Titanium.UI.createTextField({
 		id:'txtLastName',
-		hintText : LL('last_name'),
+		hintText : LL('profile.last_name'),
 		height : 50,
 		top : 245+adjustHeight,
 		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
@@ -206,7 +206,7 @@ var winRegister = function(param){
 	contentView.add(lastnameText);
 	var passwordText = Titanium.UI.createTextField({
 		id:'txtPwd',
-		hintText : LL('password'),
+		hintText : LL('profile.password'),
 		height : 50,
 		top : 292+adjustHeight,
 		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
@@ -249,7 +249,7 @@ var winRegister = function(param){
 	picker.selectionIndicator=true;
 	contentView.add(picker);
 	
-	var pickerRow=Ti.UI.createPickerRow({title:LL('loading_data'),countryId:0,countryCode:''});
+	var pickerRow=Ti.UI.createPickerRow({title:LL('app.loading_data'),countryId:0,countryCode:''});
 	picker.add(pickerRow);
 	//remove all pickerRow 
 	var removeAllPickerRows=function(picker) {
@@ -263,6 +263,7 @@ var winRegister = function(param){
 	}
 	
 	//process picker data
+	var defaultSelectedIndex=0;
 	var processData=function(datas) {		
 		if (datas && datas.length>0){
 			removeAllPickerRows(picker);
@@ -270,12 +271,23 @@ var winRegister = function(param){
 				var data=datas[i];
 					var row=Ti.UI.createPickerRow({
 					title:data.title,
+					countryId:data.id,
 					obj:{title:data.title,countryId:data.id,countryCode:data.domain}
 				});
 				picker.add(row);
+				//set default selectedIndex
+				if (Ti.App.Properties.getString("countryCode")){
+					if (Ti.App.Properties.getString("countryCode")==data.domain) {
+						defaultSelectedIndex=i;
+					}
+				}else if (settings.defaultCountry==data.domain){
+					defaultSelectedIndex=i;
+				}
+				
+				
 			}//end for
 			//picker.add(picker_data);
-
+			picker.setSelectedRow(0,defaultSelectedIndex,false);
 		}//end if
 	}
 	
@@ -283,7 +295,7 @@ var winRegister = function(param){
 	categoryService.getCountryList(processData);
 
 	var registerButton = Ti.UI.createButton({		
-		top:420,
+		top:410,
 		left: 14,
 		width:290,
 		height: 47,
@@ -299,30 +311,39 @@ var winRegister = function(param){
 			lastname:lastnameText.value,
 			password:passwordText.value})
 		*/
+		var pickerValue=picker.getSelectedRow(0).countryId;
+		//alert(pickerValue);
+		if (pickerValue<=0){
+			Ti.App.fireEvent("app:message",{text:LL('app.country_cannot_be_empty')});
+			return;
+		}
+		
 		if (!emailText.value){
-			Ti.App.fireEvent("app:message",{text:LL('email_cannot_be_empty')});
+			Ti.App.fireEvent("app:message",{text:LL('app.email_cannot_be_empty')});
 			emailText.focus();
 			return;
 		}
 		if (!firstnameText.value){
-			Ti.App.fireEvent("app:message",{text:LL('firstname_cannot_be_empty')});
+			Ti.App.fireEvent("app:message",{text:LL('app.firstname_cannot_be_empty')});
 			firstnameText.focus();
 			return;
 		}
 		
 		if (!lastnameText.value){
-			Ti.App.fireEvent("app:message",{text:LL('lastname_cannot_be_empty')});
+			Ti.App.fireEvent("app:message",{text:LL('app.lastname_cannot_be_empty')});
 			lastnameText.focus();
 			return;
 		}
 		if (!passwordText.value){
-			Ti.App.fireEvent("app:message",{text:LL('password_cannot_be_empty')});
+			Ti.App.fireEvent("app:message",{text:LL('app.password_cannot_be_empty')});
 			passwordText.focus();
 			return;
 		}
 		
+		
+		
 		var userService = require("services/UserService");
-		userService.register(emailText.value,passwordText.value,firstnameText.value,lastnameText.value,function(r){
+		userService.register(emailText.value,passwordText.value,firstnameText.value,lastnameText.value,pickerValue,function(r){
 			if (r.status!="success"){
 				//alert(r.memo);
 				Ti.App.fireEvent("app:message",{text:r.memo});
@@ -347,6 +368,7 @@ var winRegister = function(param){
 		firstnameText.blur();
 		lastnameText.blur();
 		passwordText.blur();
+		showDown();
 	});
 	
 	return self;

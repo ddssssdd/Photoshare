@@ -5,7 +5,7 @@ var winHot=function(){
 	});
 		
 	var registerButton = Ti.UI.createButton({
-		title : LL('register'),
+		title : LL('app.register'),
 		top : 10,
 		left : 10,
 		width : 100,

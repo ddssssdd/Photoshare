@@ -29,12 +29,12 @@ var winEditProfile = function(){
 	});
 	self.add(tableview);
 	var data = [];
-	data[0] = Ti.UI.createTableViewSection({headerTitle:LL('edit_profile')});
+	data[0] = Ti.UI.createTableViewSection({headerTitle:LL('userhome.edit_profile_button')});
 	var row = Titanium.UI.createTableViewRow({height:'auto'});
 		
 	var h=35;
 	var emailText = Titanium.UI.createTextField({
-		hintText : LL('email_address'),
+		hintText : LL('app.your_email_address'),
 		height : h,		
 		top:10,
 		left:20,
@@ -92,7 +92,7 @@ var winEditProfile = function(){
 	
 	
 	var saveButton = Ti.UI.createButton({
-		title:LL('save_profile'),
+		title:LL('profile.save_button'),
 		left:80,
 		height:40,
 		width:120

@@ -19,7 +19,7 @@ var LoginView = function(){
 	self.add(contentView);
 	
 	var labelInfo = Ti.UI.createLabel({
-		text : LL('must_have_an_account'),
+		text : LL('app.must_have_an_account'),
 		top : 10,
 		left :50,
 		width : 150,
@@ -72,7 +72,7 @@ var LoginView = function(){
 	var rowUserName = Ti.UI.createTableViewRow();
 	
 	var emailText = Titanium.UI.createTextField({
-		hintText : LL('your_email_address'),
+		hintText : LL('app.your_email_address'),
 		height : 32,
 		
 		backgroundImage : 'images/inputfield.png',
@@ -110,7 +110,7 @@ var LoginView = function(){
 	
 	var rowPassword = Ti.UI.createTableViewRow();
 	var passwordText = Titanium.UI.createTextField({
-		hintText : LL('password'),
+		hintText : LL('profile.password'),
 		height : 32,
 		
 		backgroundImage : 'images/inputfield.png',

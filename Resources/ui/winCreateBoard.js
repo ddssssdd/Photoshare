@@ -43,16 +43,16 @@ var winCreateBoard=function(e){
 	}
 	saveButton.addEventListener("click",createProcess);
 	var tableview = Ti.UI.createTableView({
-		data:[LL('loading')],
+		data:[LL('global.pins.loading')],
 		style: Titanium.UI.iPhone.TableViewStyle.GROUPED,
 		backgroundColor:'#fff'
 	});
 	self.add(tableview);
 	
 	var data = [];
-	data[0] = Ti.UI.createTableViewSection({headerTitle:LL('collection_title')});
+	data[0] = Ti.UI.createTableViewSection({headerTitle:LL('app.collection_title')});
 	var titleText = Titanium.UI.createTextField({
-		hintText : LL('new_collection_name'),  //old value: Collection title
+		hintText : LL('app.new_collection_name'),  //old value: Collection title
 		height : 32,
 		left: 0,		
 		paddingLeft : 10,		
@@ -74,7 +74,7 @@ var winCreateBoard=function(e){
 	data[0].add(row2);
 	
 	
-	data[1] = Ti.UI.createTableViewSection({headerTitle:LL('select_category')});
+	data[1] = Ti.UI.createTableViewSection({headerTitle:LL('app.select_category')});
 	
 	
 	
