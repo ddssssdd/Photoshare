@@ -130,7 +130,7 @@ var UserProfileView=function(user,tabName){
 		height:30,
 		font:{fontSize:12,fontWeight:"bold"},
 		//backgroundImage:"images/follow_number_bg_left.png",
-		text: user.userPoints
+		text: (user.userPoints?user.userPoints:0)
 	});
 	self.add(pinpointsCount);
 	
