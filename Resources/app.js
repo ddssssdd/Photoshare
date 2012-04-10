@@ -44,7 +44,7 @@ var LL = function(key) {
 
 
 var settings={showAnimation:false,
-	serverUrl:"http://beta.pinspire.com/ios/",
+	serverUrl:"http://www.pinspire.com/ios/",
 	defaultImageColor:'#eee',
 	defaultCountry:'usa',
 	timeOut:20000,
